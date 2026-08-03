@@ -23,8 +23,8 @@ export default function Home() {
 
   return (
     <div className="relative flex h-screen h-[100dvh] w-full flex-col items-center justify-center overflow-hidden bg-[#faf7f2] font-press-start select-none">
-      <div 
-        className="pointer-events-none absolute inset-0 opacity-40" 
+      <div
+        className="pointer-events-none absolute inset-0 opacity-40"
         style={{
           backgroundImage: `radial-gradient(#bae1ff 1.5px, transparent 1.5px), radial-gradient(#ffb3ba 1.5px, #faf7f2 1.5px)`,
           backgroundSize: `36px 36px`,
@@ -33,10 +33,9 @@ export default function Home() {
       />
 
       <div className="relative z-10 flex h-full max-h-screen max-h-[100dvh] w-full max-w-md flex-col items-center justify-between overflow-hidden border-x-4 border-[#2d2d2d] bg-[#8cd0f5] shadow-[0_0_20px_rgba(0,0,0,0.08)] pb-6">
-        <div 
-          className={`pointer-events-none absolute inset-0 z-[60] bg-black transition-opacity duration-350 ${
-            isTransitioning ? "opacity-100" : "opacity-0"
-          }`} 
+        <div
+          className={`pointer-events-none absolute inset-0 z-[60] bg-black transition-opacity duration-350 ${isTransitioning ? "opacity-100" : "opacity-0"
+            }`}
         />
 
         {currentView === "prologue" ? (
@@ -44,14 +43,14 @@ export default function Home() {
         ) : (
           <>
             <img
-              src="/asset/gedung.PNG"
+              src="/asset/gedung2.PNG"
               alt="Building Background"
               className="pointer-events-none absolute bottom-0 left-0 w-full object-cover object-bottom"
             />
 
-            <div className="relative z-10 mt-12 sm:mt-8 flex flex-col items-center w-full px-4">
+            <div className="relative z-10 mt-20 sm:mt-8 flex flex-col items-center w-full px-4">
               <div className="w-full max-w-[260px] flex justify-start pl-2">
-                <span 
+                <span
                   className="animate-float inline-block border-3 border-[#2d2d2d] bg-[#ffb3ba] px-4 py-1.5 font-press-start text-lg sm:text-xl font-bold text-[#2d2d2d] shadow-[4px_4px_0px_0px_#2d2d2d] -rotate-4 hover:rotate-0 transition-transform"
                   style={{ animationDelay: "0s", animationDuration: "3s" }}
                 >
@@ -60,7 +59,7 @@ export default function Home() {
               </div>
 
               <div className="relative z-20 w-full max-w-[260px] flex justify-end pr-2 -mt-10">
-                <span 
+                <span
                   className="animate-float inline-block border-3 border-[#2d2d2d] bg-[#ffffba] px-4 py-1.5 font-press-start text-lg sm:text-xl font-bold text-[#2d2d2d] shadow-[4px_4px_0px_0px_#2d2d2d] rotate-4 hover:rotate-0 transition-transform"
                   style={{ animationDelay: "0.6s", animationDuration: "3.4s" }}
                 >
@@ -69,13 +68,17 @@ export default function Home() {
               </div>
 
               <div className="relative z-10 w-full max-w-[260px] flex justify-center pl-1 mt-1">
-                <span 
+                <span
                   className="animate-float inline-block border-3 border-[#2d2d2d] bg-[#bae1ff] px-5 py-2 font-press-start text-xl sm:text-2xl font-bold text-[#2d2d2d] shadow-[4px_4px_0px_0px_#2d2d2d] -rotate-2 hover:rotate-0 transition-transform"
                   style={{ animationDelay: "1.2s", animationDuration: "2.8s" }}
                 >
                   Kibo
                 </span>
               </div>
+
+              <p className="mt-14 sm:mt-10 w-full max-w-[300px] sm:max-w-[320px] text-center font-press-start text-[9px] sm:text-[10px] leading-relaxed text-[#2d2d2d]">
+                Maaf aku telat ngasihnya.. but i made this special for u! hopefully u like it :D
+              </p>
             </div>
 
             <div className="relative z-20 w-full max-w-[280px] px-2 mt-auto">

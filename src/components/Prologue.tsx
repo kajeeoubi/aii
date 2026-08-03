@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/pixelact-ui/button";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
 const prologueStoryText =
-  "Hari itu, Aii memutuskan mengunjungi sebuah art gallery yang sedang ramai dibicarakan. Dia hanya ingin melihat-lihat dan menghabiskan waktu. Di situlah cerita ini dimulai..";
+  "Alkisah, seorang anak manusia yang nyebelin bernama Aii pergi jalan-jalan ke sebuah art gallery, dia niatnya cuma pengen liat liat aja terus pulang.\n\nnamun, sesuatu yang ga disangka terjadi tempat itu dan disitulah cerita ini berawal..";
 
 interface PrologueProps {
   onBackToMenu: () => void;
@@ -72,7 +72,7 @@ export function Prologue({ onBackToMenu }: PrologueProps) {
         }`}
       />
       <div className="my-auto w-full max-w-xs flex flex-col items-center justify-center">
-        <p className="font-press-start text-xs sm:text-sm leading-relaxed text-[#2d2d2d]">
+        <p className="font-press-start text-xs sm:text-sm leading-relaxed text-[#2d2d2d] whitespace-pre-line">
           {displayedText}
           {!isTypingComplete && (
             <span className="inline-block w-2 h-3.5 bg-[#2d2d2d] ml-1 animate-pulse align-middle">
