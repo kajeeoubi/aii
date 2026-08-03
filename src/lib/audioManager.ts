@@ -1,3 +1,5 @@
+let bgmAudio: HTMLAudioElement | null = null;
+
 export function isSoundEnabled(): boolean {
   if (typeof window === "undefined") return true;
   const saved = localStorage.getItem("soundEnabled");
@@ -32,6 +34,49 @@ export function playButtonSound() {
     audio.currentTime = 0;
     audio.play().catch(() => {});
   } catch {
-    // ignore playback restrictions
+  }
+}
+
+export function initBGM() {
+  if (typeof window === "undefined") return;
+  if (!bgmAudio) {
+    bgmAudio = new Audio("/audio/bgm/stars.mp3");
+    bgmAudio.loop = true;
+    bgmAudio.volume = 0.5;
+  }
+}
+
+export function playBGM() {
+  if (typeof window === "undefined") return;
+  initBGM();
+  if (bgmAudio && isMusicEnabled()) {
+    bgmAudio.volume = 0.5;
+    bgmAudio.play().catch(() => {
+      const handleUserGesture = () => {
+        if (bgmAudio && isMusicEnabled()) {
+          bgmAudio.play().catch(() => {});
+        }
+        window.removeEventListener("click", handleUserGesture);
+        window.removeEventListener("keydown", handleUserGesture);
+      };
+      window.addEventListener("click", handleUserGesture);
+      window.addEventListener("keydown", handleUserGesture);
+    });
+  }
+}
+
+export function pauseBGM() {
+  if (typeof window === "undefined") return;
+  if (bgmAudio) {
+    bgmAudio.pause();
+  }
+}
+
+export function toggleBGM(enabled: boolean) {
+  setMusicEnabledStorage(enabled);
+  if (enabled) {
+    playBGM();
+  } else {
+    pauseBGM();
   }
 }

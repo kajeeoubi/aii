@@ -39,27 +39,27 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "AII",
-    text: "yah.. masa aku jauh jauh kesini gabisa masuk, aku uda effort loh mas..",
+    text: "Yah.. masa aku jauh-jauh kesini gabisa masuk, aku uda effort loh mas..",
     expression: "/char/aii/sedih.PNG",
   },
   {
     speaker: "PETUGAS LOKET",
-    text: "maaf ya kak.. tapi tetep gabisa..",
+    text: "Maaf ya kak.. tapi tetep gabisa..",
     expression: "/char/petugas/petugas.png",
   },
   {
     speaker: "AII",
-    text: "gimana sih mas!! kalo gallery ditutup harusnya ada pemberitahuan dong.. kalo kek gini kan aku yang repot!! aku uda capek niat buat mandi, buat makeup, buat panas panasan ke sini!!",
+    text: "Gimana sih mas!! kalo gallery ditutup harusnya ada pemberitahuan dong.. kalo kek gini kan aku yang repot!! aku uda capek niat buat mandi, buat makeup, buat panas panasan ke sini!!",
     expression: "/char/aii/marah.PNG",
   },
   {
     speaker: "PETUGAS LOKET",
-    text: "sekali lagi maaf ya kak..",
+    text: "Sekali lagi maaf ya kak..",
     expression: "/char/petugas/petugas.png",
   },
   {
     speaker: "AII",
-    text: "bodo amat, poko-",
+    text: "Bodo amat, poko-",
     expression: "/char/aii/marah.PNG",
   },
   {

@@ -11,7 +11,8 @@ import {
   isSoundEnabled,
   setSoundEnabledStorage,
   isMusicEnabled,
-  setMusicEnabledStorage,
+  playBGM,
+  toggleBGM,
 } from "@/lib/audioManager";
 
 export default function Home() {
@@ -22,7 +23,11 @@ export default function Home() {
 
   useEffect(() => {
     setSoundEnabledState(isSoundEnabled());
-    setMusicEnabledState(isMusicEnabled());
+    const musicOn = isMusicEnabled();
+    setMusicEnabledState(musicOn);
+    if (musicOn) {
+      playBGM();
+    }
   }, []);
 
   const handleSetSoundEnabled = (enabled: boolean) => {
@@ -32,7 +37,7 @@ export default function Home() {
 
   const handleSetMusicEnabled = (enabled: boolean) => {
     setMusicEnabledState(enabled);
-    setMusicEnabledStorage(enabled);
+    toggleBGM(enabled);
   };
 
   const handleStartTour = () => {
