@@ -5,10 +5,11 @@ import { Play, Gear } from "@pxlkit/ui";
 import { Button } from "@/components/ui/pixelact-ui/button";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { Prologue } from "@/components/Prologue";
+import { TicketScene } from "@/components/TicketScene";
 import { Settings } from "@/components/Settings";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "settings">("menu");
+  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "settings">("menu");
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [musicEnabled, setMusicEnabled] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -32,18 +33,25 @@ export default function Home() {
         }}
       />
 
-      <div className="relative z-10 flex h-full max-h-screen max-h-[100dvh] w-full max-w-md flex-col items-center justify-between overflow-hidden border-x-4 border-[#2d2d2d] bg-[#8cd0f5] shadow-[0_0_20px_rgba(0,0,0,0.08)] pb-6">
+      <div className={`relative z-10 flex h-full max-h-screen max-h-[100dvh] w-full max-w-md flex-col items-center justify-between overflow-hidden border-x-4 border-[#2d2d2d] bg-[#8cd0f5] shadow-[0_0_20px_rgba(0,0,0,0.08)] ${currentView === "menu" ? "pb-6" : ""}`}>
         <div
           className={`pointer-events-none absolute inset-0 z-[60] bg-black transition-opacity duration-350 ${isTransitioning ? "opacity-100" : "opacity-0"
             }`}
         />
 
         {currentView === "prologue" ? (
-          <Prologue onBackToMenu={() => setCurrentView("menu")} />
+          <Prologue
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextToTicket={() => setCurrentView("ticket")}
+          />
+        ) : currentView === "ticket" ? (
+          <TicketScene
+            onBackToMenu={() => setCurrentView("menu")}
+          />
         ) : (
           <>
             <img
-              src="/asset/gedung2.PNG"
+              src="/asset/gedung.PNG"
               alt="Building Background"
               className="pointer-events-none absolute bottom-0 left-0 w-full object-cover object-bottom"
             />

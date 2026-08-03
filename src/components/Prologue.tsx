@@ -1,18 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Home as HomeIcon } from "@pxlkit/ui";
-import { Button } from "@/components/ui/pixelact-ui/button";
-import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
+
+interface PrologueProps {
+  onBackToMenu: () => void;
+  onNextToTicket?: () => void;
+}
 
 const prologueStoryText =
   "Alkisah, seorang anak manusia yang nyebelin bernama Aii pergi jalan-jalan ke sebuah art gallery, dia niatnya cuma pengen liat liat aja terus pulang.\n\nnamun, sesuatu yang ga disangka terjadi tempat itu dan disitulah cerita ini berawal..";
 
-interface PrologueProps {
-  onBackToMenu: () => void;
-}
-
-export function Prologue({ onBackToMenu }: PrologueProps) {
+export function Prologue({ onBackToMenu, onNextToTicket }: PrologueProps) {
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
@@ -44,26 +42,29 @@ export function Prologue({ onBackToMenu }: PrologueProps) {
     };
   }, []);
 
-  const handleSkipTyping = () => {
-    if (timerRef) {
-      clearInterval(timerRef);
-    }
-    setDisplayedText(prologueStoryText);
-    setIsTypingComplete(true);
-  };
-
-  const handleBackToMenu = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleScreenClick = () => {
     if (isExiting) return;
-    setIsExiting(true);
-    setTimeout(() => {
-      onBackToMenu();
-    }, 400);
+    if (!isTypingComplete) {
+      if (timerRef) {
+        clearInterval(timerRef);
+      }
+      setDisplayedText(prologueStoryText);
+      setIsTypingComplete(true);
+    } else {
+      setIsExiting(true);
+      setTimeout(() => {
+        if (onNextToTicket) {
+          onNextToTicket();
+        } else {
+          onBackToMenu();
+        }
+      }, 400);
+    }
   };
 
   return (
     <div
-      onClick={handleSkipTyping}
+      onClick={handleScreenClick}
       className="absolute inset-0 z-50 flex flex-col items-center justify-between bg-white p-6 pb-8 text-center cursor-pointer select-none"
     >
       <div
@@ -82,23 +83,9 @@ export function Prologue({ onBackToMenu }: PrologueProps) {
         </p>
       </div>
 
-      {isTypingComplete ? (
-        <div className="w-full max-w-xs sm:max-w-sm absolute bottom-6 left-1/2 -translate-x-1/2 px-4 sm:px-6">
-          <Button
-            variant="yellow"
-            size="lg"
-            onClick={handleBackToMenu}
-            className="group w-full h-12 text-[9px] sm:text-[10px]"
-          >
-            <PxlIcon icon={HomeIcon as unknown as PxlKitIconData} className="h-4 w-4 shrink-0 transition-transform group-hover:scale-125" />
-            <span>BALIK KE MENU</span>
-          </Button>
-        </div>
-      ) : (
-        <p className="absolute bottom-6 left-0 right-0 text-[9px] text-[#999999] font-press-start text-center">
-          [Klik layar buat skip]
-        </p>
-      )}
+      <p className="absolute bottom-6 left-0 right-0 text-[9px] text-[#999999] font-press-start text-center">
+        [Klik dimana aja buat lanjut]
+      </p>
     </div>
   );
 }
