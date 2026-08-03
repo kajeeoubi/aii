@@ -1,18 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Play, Gear } from "@pxlkit/ui";
 import { Button } from "@/components/ui/pixelact-ui/button";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { Prologue } from "@/components/Prologue";
 import { TicketScene } from "@/components/TicketScene";
 import { Settings } from "@/components/Settings";
+import {
+  isSoundEnabled,
+  setSoundEnabledStorage,
+  isMusicEnabled,
+  setMusicEnabledStorage,
+} from "@/lib/audioManager";
 
 export default function Home() {
   const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "settings">("menu");
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [musicEnabled, setMusicEnabled] = useState(true);
+  const [soundEnabled, setSoundEnabledState] = useState(true);
+  const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    setSoundEnabledState(isSoundEnabled());
+    setMusicEnabledState(isMusicEnabled());
+  }, []);
+
+  const handleSetSoundEnabled = (enabled: boolean) => {
+    setSoundEnabledState(enabled);
+    setSoundEnabledStorage(enabled);
+  };
+
+  const handleSetMusicEnabled = (enabled: boolean) => {
+    setMusicEnabledState(enabled);
+    setMusicEnabledStorage(enabled);
+  };
 
   const handleStartTour = () => {
     setIsTransitioning(true);
@@ -117,9 +138,9 @@ export default function Home() {
               {currentView === "settings" && (
                 <Settings
                   soundEnabled={soundEnabled}
-                  setSoundEnabled={setSoundEnabled}
+                  setSoundEnabled={handleSetSoundEnabled}
                   musicEnabled={musicEnabled}
-                  setMusicEnabled={setMusicEnabled}
+                  setMusicEnabled={handleSetMusicEnabled}
                   onBackToMenu={() => setCurrentView("menu")}
                 />
               )}

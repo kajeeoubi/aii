@@ -41,11 +41,21 @@ export interface PixelButtonProps
   asChild?: boolean;
 }
 
+import { playButtonSound } from "@/lib/audioManager";
+
 const Button = React.forwardRef<HTMLButtonElement, PixelButtonProps>(
-  ({ className, variant, size, ...props }, ref) => {
+  ({ className, variant, size, onClick, ...props }, ref) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      playButtonSound();
+      if (onClick) {
+        onClick(e);
+      }
+    };
+
     return (
       <button
         {...props}
+        onClick={handleClick}
         className={cn(pixelButtonVariants({ variant, size }), className)}
         ref={ref}
       />
@@ -54,4 +64,4 @@ const Button = React.forwardRef<HTMLButtonElement, PixelButtonProps>(
 );
 Button.displayName = "Button";
 
-export { Button, pixelButtonVariants };
+export { Button, pixelButtonVariants, playButtonSound };
