@@ -65,7 +65,7 @@ export function Settings({
             onClick={onBackToMenu}
           >
             <PxlIcon icon={HomeIcon as unknown as PxlKitIconData} className="h-3.5 w-3.5 transition-transform group-hover:scale-125" />
-            <span>KEMBALI KE MENU</span>
+            <span>BALIK KE MENU</span>
           </Button>
         </div>
       </CardContent>

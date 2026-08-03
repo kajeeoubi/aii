@@ -11,6 +11,15 @@ export default function Home() {
   const [currentView, setCurrentView] = useState<"menu" | "prologue" | "settings">("menu");
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [musicEnabled, setMusicEnabled] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const handleStartTour = () => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentView("prologue");
+      setIsTransitioning(false);
+    }, 350);
+  };
 
   return (
     <div className="relative flex h-screen h-[100dvh] w-full flex-col items-center justify-center overflow-hidden bg-[#faf7f2] font-press-start select-none">
@@ -24,6 +33,12 @@ export default function Home() {
       />
 
       <div className="relative z-10 flex h-full max-h-screen max-h-[100dvh] w-full max-w-md flex-col items-center justify-between overflow-hidden border-x-4 border-[#2d2d2d] bg-[#8cd0f5] shadow-[0_0_20px_rgba(0,0,0,0.08)] pb-6">
+        <div 
+          className={`pointer-events-none absolute inset-0 z-[60] bg-black transition-opacity duration-350 ${
+            isTransitioning ? "opacity-100" : "opacity-0"
+          }`} 
+        />
+
         {currentView === "prologue" ? (
           <Prologue onBackToMenu={() => setCurrentView("menu")} />
         ) : (
@@ -40,7 +55,7 @@ export default function Home() {
                   className="animate-float inline-block border-3 border-[#2d2d2d] bg-[#ffb3ba] px-4 py-1.5 font-press-start text-lg sm:text-xl font-bold text-[#2d2d2d] shadow-[4px_4px_0px_0px_#2d2d2d] -rotate-4 hover:rotate-0 transition-transform"
                   style={{ animationDelay: "0s", animationDuration: "3s" }}
                 >
-                  Art
+                  Tour
                 </span>
               </div>
 
@@ -69,11 +84,11 @@ export default function Home() {
                   <Button
                     variant="mint"
                     size="lg"
-                    onClick={() => setCurrentView("prologue")}
+                    onClick={handleStartTour}
                     className="group relative flex h-12 w-full items-center justify-center gap-3"
                   >
                     <PxlIcon icon={Play as unknown as PxlKitIconData} className="h-5 w-5 transition-transform duration-200 group-hover:scale-125 group-hover:rotate-12" />
-                    <span>MULAI TOUR</span>
+                    <span>MULAI TOUR!</span>
                   </Button>
 
                   <Button
