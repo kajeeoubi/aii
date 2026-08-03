@@ -55,9 +55,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${pixelifySans.variable} ${vt323.variable} ${silkscreen.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${pixelifySans.variable} ${vt323.variable} ${silkscreen.variable} h-full overflow-hidden antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="h-full w-full overflow-hidden flex flex-col">{children}</body>
     </html>
   );
 }

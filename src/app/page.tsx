@@ -13,7 +13,7 @@ export default function Home() {
   const [musicEnabled, setMusicEnabled] = useState(true);
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-[#faf7f2] font-press-start select-none">
+    <div className="relative flex h-screen h-[100dvh] w-full flex-col items-center justify-center overflow-hidden bg-[#faf7f2] font-press-start select-none">
       <div 
         className="pointer-events-none absolute inset-0 opacity-40" 
         style={{
@@ -23,7 +23,7 @@ export default function Home() {
         }}
       />
 
-      <div className="relative z-10 flex min-h-screen w-full max-w-md flex-col items-center justify-between overflow-hidden border-x-4 border-[#2d2d2d] bg-[#8cd0f5] shadow-[0_0_20px_rgba(0,0,0,0.08)] pb-6">
+      <div className="relative z-10 flex h-full max-h-screen max-h-[100dvh] w-full max-w-md flex-col items-center justify-between overflow-hidden border-x-4 border-[#2d2d2d] bg-[#8cd0f5] shadow-[0_0_20px_rgba(0,0,0,0.08)] pb-6">
         {currentView === "prologue" ? (
           <Prologue onBackToMenu={() => setCurrentView("menu")} />
         ) : (
@@ -34,7 +34,7 @@ export default function Home() {
               className="pointer-events-none absolute bottom-0 left-0 w-full object-cover object-bottom"
             />
 
-            <div className="relative z-10 mt-20 sm:mt-8 flex flex-col items-center w-full px-4">
+            <div className="relative z-10 mt-12 sm:mt-8 flex flex-col items-center w-full px-4">
               <div className="w-full max-w-[260px] flex justify-start pl-2">
                 <span 
                   className="animate-float inline-block border-3 border-[#2d2d2d] bg-[#ffb3ba] px-4 py-1.5 font-press-start text-lg sm:text-xl font-bold text-[#2d2d2d] shadow-[4px_4px_0px_0px_#2d2d2d] -rotate-4 hover:rotate-0 transition-transform"
