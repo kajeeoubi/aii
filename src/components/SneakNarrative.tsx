@@ -11,7 +11,7 @@ interface SneakNarrativeProps {
 }
 
 const narrativeText =
-  "akhirnya mereka memutuskan untuk diam diam masuk, cie ciee.. ceritanya nyelinap bareng nich yee wkwkwkw";
+  "Akhirnya mereka berdua memutuskan untuk diam diam masuk, cie ciee.. ceritanya nyelinap bareng nich yee wkwkwkw";
 
 export function SneakNarrative({ onBackToMenu, onNextScene }: SneakNarrativeProps) {
   const [displayedText, setDisplayedText] = useState("");

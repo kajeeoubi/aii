@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, BouncingArrow } from "@pxlkit/ui";
-import { playButtonSound } from "@/lib/audioManager";
+import { playButtonSound, playFootstepSound, stopFootstepSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
-import { playFootstepSound, stopFootstepSound } from "@/lib/audioManager";
 
 interface GallerySceneProps {
   onBackToMenu: () => void;
@@ -31,7 +30,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Humm.. Cewe emang gamau disalahin (ucap pelan)",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/bingung.PNG",
   },
   {
     speaker: "AII",
@@ -100,10 +99,15 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
 
     const timer = setInterval(() => {
       if (index < currentDialogue.text.length) {
+        const char = currentDialogue.text[index];
         setDisplayedText(currentDialogue.text.slice(0, index + 1));
+        if (char && char !== " " && char !== "\n") {
+          playTypewriterSound();
+        }
         index++;
       } else {
         setIsTypingComplete(true);
+        playPopSound();
         clearInterval(timer);
       }
     }, 35);
@@ -194,12 +198,14 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
   const isKibo = currentDialogue.speaker === "KIBO";
 
   return (
-    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none">
+    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-white">
       <div
         className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
           isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />
+
+      <div className="pointer-events-none absolute inset-0 bg-white" />
 
       <img
         src="/asset/lorong_gallery.png"

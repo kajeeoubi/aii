@@ -10,6 +10,7 @@ import { Settings } from "@/components/Settings";
 import { SneakNarrative } from "@/components/SneakNarrative";
 import { GalleryScene } from "@/components/GalleryScene";
 import { PaintingRoomScene } from "@/components/PaintingRoomScene";
+import { PaintingMinigameScene } from "@/components/PaintingMinigameScene";
 import { CubitScene } from "@/components/CubitScene";
 import { ChapterSelect } from "@/components/ChapterSelect";
 import {
@@ -21,7 +22,7 @@ import {
 } from "@/lib/audioManager";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "chapterSelect" | "settings">("menu");
+  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "chapterSelect" | "settings">("menu");
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -103,6 +104,11 @@ export default function Home() {
         ) : currentView === "paintingRoomPart2" ? (
           <PaintingRoomScene
             startLineIndex={8}
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("paintingMinigame")}
+          />
+        ) : currentView === "paintingMinigame" ? (
+          <PaintingMinigameScene
             onBackToMenu={() => setCurrentView("menu")}
           />
         ) : (

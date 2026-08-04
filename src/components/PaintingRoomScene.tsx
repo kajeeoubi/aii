@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, BouncingArrow } from "@pxlkit/ui";
-import { playButtonSound } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
 interface PaintingRoomSceneProps {
@@ -56,7 +56,7 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "KIBO",
-    text: "IYAHHH!! Sampe aku pen mainin pipi kamu kek gini.. (Tiba tiba kibo cupit perlahan pipi Aii dengan tangannya)",
+    text: "IYAHHH!! Sampe aku pen mainin pipi kamu kek gini.. (Tiba tiba kibo cubit perlahan pipinya)",
     expression: "/char/kibo/ketawa.PNG",
   },
   {
@@ -121,7 +121,12 @@ const dialogueData: DialogueLine[] = [
   },
 ];
 
-export function PaintingRoomScene({ onBackToMenu, onNextScene, onTriggerCubit, startLineIndex = 0 }: PaintingRoomSceneProps) {
+export function PaintingRoomScene({
+  onBackToMenu,
+  onNextScene,
+  onTriggerCubit,
+  startLineIndex = 0,
+}: PaintingRoomSceneProps) {
   const [currentLineIndex, setCurrentLineIndex] = useState(startLineIndex);
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
@@ -158,10 +163,15 @@ export function PaintingRoomScene({ onBackToMenu, onNextScene, onTriggerCubit, s
 
     const timer = setInterval(() => {
       if (index < currentDialogue.text.length) {
+        const char = currentDialogue.text[index];
         setDisplayedText(currentDialogue.text.slice(0, index + 1));
+        if (char && char !== " " && char !== "\n") {
+          playTypewriterSound();
+        }
         index++;
       } else {
         setIsTypingComplete(true);
+        playPopSound();
         clearInterval(timer);
       }
     }, 35);
@@ -254,12 +264,14 @@ export function PaintingRoomScene({ onBackToMenu, onNextScene, onTriggerCubit, s
   const isKibo = currentDialogue.speaker === "KIBO";
 
   return (
-    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none">
+    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-white">
       <div
         className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
           isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />
+
+      <div className="pointer-events-none absolute inset-0 bg-white" />
 
       <img
         src="/asset/gallery.png"
@@ -284,6 +296,7 @@ export function PaintingRoomScene({ onBackToMenu, onNextScene, onTriggerCubit, s
         </div>
       </div>
 
+      {/* Painting Frame Area */}
       <div className="pointer-events-none absolute top-40 sm:top-20 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center justify-center">
         <div className="relative border-4 border-[#1a0f0a] bg-[#3d2314] p-1.5 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.7)]">
           <div className="border-2 border-[#8c5a35] bg-[#faf7f2] p-1.5">

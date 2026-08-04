@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Home as HomeIcon, ArrowRight, BouncingArrow } from "@pxlkit/ui";
 import { Button, playButtonSound } from "@/components/ui/pixelact-ui/button";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
-import { playFootstepSound, stopFootstepSound } from "@/lib/audioManager";
+import { playFootstepSound, stopFootstepSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 
 interface TicketSceneProps {
   onBackToMenu: () => void;
@@ -181,10 +181,15 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
 
     const timer = setInterval(() => {
       if (index < currentDialogue.text.length) {
+        const char = currentDialogue.text[index];
         setDisplayedText(currentDialogue.text.slice(0, index + 1));
+        if (char && char !== " " && char !== "\n") {
+          playTypewriterSound();
+        }
         index++;
       } else {
         setIsTypingComplete(true);
+        playPopSound();
         clearInterval(timer);
       }
     }, 35);
@@ -281,12 +286,14 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
   const isKibo = currentDialogue.speaker === "KIBO";
 
   return (
-    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none">
+    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-white">
       <div
         className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
           isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />
+
+      <div className="pointer-events-none absolute inset-0 bg-white" />
 
       <img
         src="/asset/lobby.png"

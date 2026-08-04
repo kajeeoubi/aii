@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { playButtonSound } from "@/lib/audioManager";
+import { playButtonSound, playPopSound } from "@/lib/audioManager";
 
 interface CubitSceneProps {
   onBackToMenu?: () => void;
@@ -11,14 +11,21 @@ interface CubitSceneProps {
 export function CubitScene({ onNextScene }: CubitSceneProps) {
   const [isExiting, setIsExiting] = useState(false);
   const [isEntering, setIsEntering] = useState(true);
+  const [isShaking, setIsShaking] = useState(true);
 
   useEffect(() => {
     const enterTimer = setTimeout(() => {
       setIsEntering(false);
+      playPopSound();
     }, 50);
+
+    const shakeTimer = setTimeout(() => {
+      setIsShaking(false);
+    }, 700);
 
     return () => {
       clearTimeout(enterTimer);
+      clearTimeout(shakeTimer);
     };
   }, []);
 
@@ -35,7 +42,9 @@ export function CubitScene({ onNextScene }: CubitSceneProps) {
   return (
     <div
       onClick={handleScreenClick}
-      className="absolute inset-0 z-50 flex flex-col items-center justify-between bg-black p-6 pb-8 text-center cursor-pointer select-none overflow-hidden"
+      className={`absolute inset-0 z-50 flex flex-col items-center justify-between bg-black p-6 pb-8 text-center cursor-pointer select-none overflow-hidden ${
+        isShaking ? "animate-shake" : ""
+      }`}
     >
       <div
         className={`pointer-events-none absolute inset-0 z-[60] bg-black transition-opacity duration-400 ${

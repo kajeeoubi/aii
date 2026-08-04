@@ -112,18 +112,19 @@ export function playTypewriterSound() {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
-    osc.type = "triangle";
-    const freq = 650 + Math.random() * 200;
-    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    osc.type = "square";
+    const baseFreq = 750 + Math.random() * 200;
+    osc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.4, ctx.currentTime + 0.035);
 
-    gain.gain.setValueAtTime(0.04, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.035);
 
     osc.connect(gain);
     gain.connect(ctx.destination);
 
     osc.start();
-    osc.stop(ctx.currentTime + 0.03);
+    osc.stop(ctx.currentTime + 0.035);
   } catch {
     // ignore
   }
@@ -165,7 +166,7 @@ export function playFootstepSound(durationMs = 3200) {
     if (!footstepAudio) {
       footstepAudio = new Audio("/audio/foot_steps.mp3");
     }
-    footstepAudio.volume = 0.5;
+    footstepAudio.volume = 1;
     footstepAudio.currentTime = 0;
     footstepAudio.loop = true;
     footstepAudio.play().catch(() => {});
