@@ -43,8 +43,8 @@ const silkscreen = Silkscreen({
 });
 
 export const metadata: Metadata = {
-  title: "Pixelact UI - Retro Pixel Art Components",
-  description: "Pixel art styled UI components powered by Tailwind CSS",
+  title: "Aii & Kibo",
+  description: "Jalan-jalan Aii dan Kibo di Art Gallery",
 };
 
 export default function RootLayout({
@@ -54,7 +54,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="id"
       className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${pixelifySans.variable} ${vt323.variable} ${silkscreen.variable} h-full overflow-hidden antialiased`}
     >
       <body className="h-full w-full overflow-hidden flex flex-col">{children}</body>
