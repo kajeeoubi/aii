@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Laugh } from "@pxlkit/social";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
-import { playButtonSound } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 
 interface SneakNarrativeProps {
   onBackToMenu: () => void;
@@ -30,10 +30,15 @@ export function SneakNarrative({ onBackToMenu, onNextScene }: SneakNarrativeProp
     let index = 0;
     const timer = setInterval(() => {
       if (index < narrativeText.length) {
+        const char = narrativeText[index];
         setDisplayedText(narrativeText.slice(0, index + 1));
+        if (char && char !== " " && char !== "\n") {
+          playTypewriterSound();
+        }
         index++;
       } else {
         setIsTypingComplete(true);
+        playPopSound();
         clearInterval(timer);
       }
     }, 50);
@@ -44,6 +49,7 @@ export function SneakNarrative({ onBackToMenu, onNextScene }: SneakNarrativeProp
       clearInterval(timer);
     };
   }, []);
+
 
   const handleScreenClick = () => {
     playButtonSound();

@@ -84,6 +84,79 @@ export function toggleBGM(enabled: boolean) {
 let footstepAudio: HTMLAudioElement | null = null;
 let footstepTimeout: NodeJS.Timeout | null = null;
 
+let audioCtx: AudioContext | null = null;
+
+function getAudioContext(): AudioContext | null {
+  if (typeof window === "undefined") return null;
+  const AudioContextClass =
+    window.AudioContext ||
+    (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+  if (!AudioContextClass) return null;
+  if (!audioCtx) {
+    audioCtx = new AudioContextClass();
+  }
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume().catch(() => {});
+  }
+  return audioCtx;
+}
+
+export function playTypewriterSound() {
+  if (typeof window === "undefined") return;
+  if (!isSoundEnabled()) return;
+
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "triangle";
+    const freq = 650 + Math.random() * 200;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+    gain.gain.setValueAtTime(0.04, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.03);
+  } catch {
+    // ignore
+  }
+}
+
+export function playPopSound() {
+  if (typeof window === "undefined") return;
+  if (!isSoundEnabled()) return;
+
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(400, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.08);
+
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.08);
+  } catch {
+    // ignore
+  }
+}
+
 export function playFootstepSound(durationMs = 3200) {
   if (typeof window === "undefined") return;
   if (!isSoundEnabled()) return;
@@ -116,3 +189,4 @@ export function stopFootstepSound() {
     footstepAudio.currentTime = 0;
   }
 }
+

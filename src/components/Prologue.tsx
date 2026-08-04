@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 
 interface PrologueProps {
   onBackToMenu: () => void;
@@ -27,10 +28,15 @@ export function Prologue({ onBackToMenu, onNextToTicket }: PrologueProps) {
     let index = 0;
     const timer = setInterval(() => {
       if (index < prologueStoryText.length) {
+        const char = prologueStoryText[index];
         setDisplayedText(prologueStoryText.slice(0, index + 1));
+        if (char && char !== " " && char !== "\n") {
+          playTypewriterSound();
+        }
         index++;
       } else {
         setIsTypingComplete(true);
+        playPopSound();
         clearInterval(timer);
       }
     }, 60);
@@ -43,6 +49,7 @@ export function Prologue({ onBackToMenu, onNextToTicket }: PrologueProps) {
   }, []);
 
   const handleScreenClick = () => {
+    playButtonSound();
     if (isExiting) return;
     if (!isTypingComplete) {
       if (timerRef) {
@@ -61,6 +68,7 @@ export function Prologue({ onBackToMenu, onNextToTicket }: PrologueProps) {
       }, 400);
     }
   };
+
 
   return (
     <div
