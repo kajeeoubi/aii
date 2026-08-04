@@ -83,7 +83,7 @@ export function Prologue({ onBackToMenu, onNextToTicket }: PrologueProps) {
         </p>
       </div>
 
-      <p className="absolute bottom-6 left-0 right-0 text-[9px] text-[#999999] font-press-start text-center">
+      <p className="absolute bottom-6 left-0 right-0 text-[9px] text-[#999999] font-press-start text-center animate-pulse">
         [Klik dimana aja buat lanjut]
       </p>
     </div>

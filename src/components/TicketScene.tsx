@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Home as HomeIcon, ArrowRight, BouncingArrow } from "@pxlkit/ui";
 import { Button, playButtonSound } from "@/components/ui/pixelact-ui/button";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
+import { playFootstepSound, stopFootstepSound } from "@/lib/audioManager";
 
 interface TicketSceneProps {
   onBackToMenu: () => void;
@@ -74,7 +75,7 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "KIBO",
-    text: "Ya mau nonton pameran lah, emangnya cuma kamu doang yang boleh ke sini? wkwk.",
+    text: "Ya mau nonton pameran lah, emangnya cuma kamu doang yang boleh ke sini? pasti kamu ngikutin aku ya hahah..",
     expression: "/char/kibo/senyum.PNG",
   },
   {
@@ -94,12 +95,12 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "KIBO",
-    text: "Hmmm... tapi berhubung kita udah sama-sama sampai sini...",
+    text: "Hmmm... tapi berhubung kita udah sama-sama sampe sini...",
     expression: "/char/kibo/senyum.PNG",
   },
   {
     speaker: "AII",
-    text: "Kenapa muka kamu kek gitu? Jangan bilang kamu punya ide aneh-aneh ya...",
+    text: "Kenapa muka kamu kek gitu? Pasti kamu punya ide aneh-aneh ya...",
     expression: "/char/aii/bingung.PNG",
   },
   {
@@ -109,12 +110,12 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "AII",
-    text: "HAH?! Menyusup?! Kalo ketahuan sama petugasnya gimana, kamu gila ya?!",
+    text: "HAH?! Tuhkan.. Kalo kepergok sama petugasnya gimana??",
     expression: "/char/aii/kaget.PNG",
   },
   {
     speaker: "KIBO",
-    text: "Mumpung petugasnya lagi ke toilet tuh. Lagian rugi dong udah dandan cantik tapi pulang gitu aja? Berani ga?",
+    text: "Mumpung petugasnya lagi ke toilet tuh. Lagian rugi dong udah dandan cantik gitu masa langsung balik? Berani ga?",
     expression: "/char/kibo/senyum.PNG",
   },
   {
@@ -139,6 +140,7 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
   const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.PNG");
 
   useEffect(() => {
+    playFootstepSound(3200);
     const fadeTimer = setTimeout(() => {
       setIsEnteringScene(false);
     }, 50);
@@ -150,6 +152,7 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(walkTimer);
+      stopFootstepSound();
     };
   }, []);
 
@@ -163,9 +166,10 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
       setLastKiboExpr(currentDialogue.expression);
     }
 
-    if ((currentDialogue.text.includes("bodo amat, pokonya aku ma-") || currentDialogue.speaker === "KIBO") && !hasKiboEntered) {
+    if ((currentDialogue.text.includes("Bodo amat, pokonya aku ma-") || currentDialogue.text.includes("bodo amat, pokonya aku ma-") || currentDialogue.speaker === "KIBO") && !hasKiboEntered) {
       setHasKiboEntered(true);
       setIsKiboWalkingIn(true);
+      playFootstepSound(3200);
       setTimeout(() => {
         setIsKiboWalkingIn(false);
       }, 3200);
@@ -247,10 +251,17 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
 
   const activeKiboExpr = currentDialogue.speaker === "KIBO"
     ? !isTypingComplete
-      ? currentDialogue.expression === "/char/kibo/sedih.PNG" ||
-        currentDialogue.expression === "/char/kibo/marah.PNG" ||
-        currentDialogue.expression === "/char/kibo/ketawa.PNG" ||
-        currentDialogue.expression === "/char/kibo/malu.PNG"
+      ? currentDialogue.expression === "/char/kibo/senyum.PNG"
+        ? "/char/kibo/ngomong_senyum.PNG"
+        : currentDialogue.expression === "/char/kibo/sedih.PNG" ||
+          currentDialogue.expression === "/char/kibo/marah.PNG" ||
+          currentDialogue.expression === "/char/kibo/ketawa.PNG" ||
+          currentDialogue.expression === "/char/kibo/malu.PNG" ||
+          currentDialogue.expression === "/char/kibo/tengil.PNG" ||
+          currentDialogue.expression === "/char/kibo/salting.PNG" ||
+          currentDialogue.expression === "/char/kibo/semangat.PNG" ||
+          currentDialogue.expression === "/char/kibo/bingung.PNG" ||
+          currentDialogue.expression === "/char/kibo/kawatir.PNG"
         ? currentDialogue.expression
         : "/char/kibo/ngomong.PNG"
       : currentDialogue.expression
@@ -316,7 +327,6 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
           </div>
         ) : (
           <div className="relative flex items-end justify-center w-full max-w-sm">
-            {/* AII Sprite */}
             <div
               className={`relative w-40 sm:w-44 transition-all duration-300 ${
                 isAii
@@ -331,7 +341,6 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
               />
             </div>
 
-            {/* KIBO Sprite (Walks in behind AII) */}
             <div
               key={isKiboWalkingIn ? "kibo-walking" : "kibo-idle"}
               className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 ${

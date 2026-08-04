@@ -80,3 +80,39 @@ export function toggleBGM(enabled: boolean) {
     pauseBGM();
   }
 }
+
+let footstepAudio: HTMLAudioElement | null = null;
+let footstepTimeout: NodeJS.Timeout | null = null;
+
+export function playFootstepSound(durationMs = 3200) {
+  if (typeof window === "undefined") return;
+  if (!isSoundEnabled()) return;
+
+  try {
+    if (!footstepAudio) {
+      footstepAudio = new Audio("/audio/foot_steps.mp3");
+    }
+    footstepAudio.volume = 0.5;
+    footstepAudio.currentTime = 0;
+    footstepAudio.loop = true;
+    footstepAudio.play().catch(() => {});
+
+    if (footstepTimeout) clearTimeout(footstepTimeout);
+    footstepTimeout = setTimeout(() => {
+      stopFootstepSound();
+    }, durationMs);
+  } catch {
+    // ignore
+  }
+}
+
+export function stopFootstepSound() {
+  if (footstepTimeout) {
+    clearTimeout(footstepTimeout);
+    footstepTimeout = null;
+  }
+  if (footstepAudio) {
+    footstepAudio.pause();
+    footstepAudio.currentTime = 0;
+  }
+}

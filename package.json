@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
+    "@pxlkit/social": "^1.2.4",
     "@pxlkit/ui": "^1.2.5",
     "@pxlkit/weather": "^1.2.4",
     "class-variance-authority": "^0.7.1",

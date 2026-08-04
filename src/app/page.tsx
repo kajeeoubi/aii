@@ -1,12 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Play, Gear } from "@pxlkit/ui";
+import { Play, Gear, List } from "@pxlkit/ui";
 import { Button } from "@/components/ui/pixelact-ui/button";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { Prologue } from "@/components/Prologue";
 import { TicketScene } from "@/components/TicketScene";
 import { Settings } from "@/components/Settings";
+import { SneakNarrative } from "@/components/SneakNarrative";
+import { GalleryScene } from "@/components/GalleryScene";
+import { PaintingRoomScene } from "@/components/PaintingRoomScene";
+import { CubitScene } from "@/components/CubitScene";
+import { ChapterSelect } from "@/components/ChapterSelect";
 import {
   isSoundEnabled,
   setSoundEnabledStorage,
@@ -16,7 +21,7 @@ import {
 } from "@/lib/audioManager";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "settings">("menu");
+  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "chapterSelect" | "settings">("menu");
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -73,6 +78,32 @@ export default function Home() {
         ) : currentView === "ticket" ? (
           <TicketScene
             onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("sneakNarrative")}
+          />
+        ) : currentView === "sneakNarrative" ? (
+          <SneakNarrative
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("gallery")}
+          />
+        ) : currentView === "gallery" ? (
+          <GalleryScene
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("paintingRoom")}
+          />
+        ) : currentView === "paintingRoom" ? (
+          <PaintingRoomScene
+            startLineIndex={0}
+            onBackToMenu={() => setCurrentView("menu")}
+            onTriggerCubit={() => setCurrentView("cubit")}
+          />
+        ) : currentView === "cubit" ? (
+          <CubitScene
+            onNextScene={() => setCurrentView("paintingRoomPart2")}
+          />
+        ) : currentView === "paintingRoomPart2" ? (
+          <PaintingRoomScene
+            startLineIndex={8}
+            onBackToMenu={() => setCurrentView("menu")}
           />
         ) : (
           <>
@@ -82,7 +113,7 @@ export default function Home() {
               className="pointer-events-none absolute bottom-0 left-0 w-full object-cover object-bottom"
             />
 
-            <div className="relative z-10 mt-20 sm:mt-8 flex flex-col items-center w-full px-4">
+            <div className="relative z-10 mt-14 sm:mt-6 flex flex-col items-center w-full px-4">
               <div className="w-full max-w-[260px] flex justify-start pl-2">
                 <span
                   className="animate-float inline-block border-3 border-[#2d2d2d] bg-[#ffb3ba] px-4 py-1.5 font-press-start text-lg sm:text-xl font-bold text-[#2d2d2d] shadow-[4px_4px_0px_0px_#2d2d2d] -rotate-4 hover:rotate-0 transition-transform"
@@ -110,34 +141,51 @@ export default function Home() {
                 </span>
               </div>
 
-              <p className="mt-14 sm:mt-10 w-full max-w-[300px] sm:max-w-[320px] text-center font-press-start text-[9px] sm:text-[10px] leading-relaxed text-[#2d2d2d]">
+              <p className="mt-8 sm:mt-6 w-full max-w-[300px] sm:max-w-[320px] text-center font-press-start text-[8.5px] sm:text-[9.5px] leading-relaxed text-[#2d2d2d]">
                 Maaf aku telat ngasihnya.. but i made this special for u! hopefully u like it :D
               </p>
             </div>
 
-            <div className="relative z-20 w-full max-w-[280px] px-2 mt-auto">
+            <div className="relative z-20 w-full max-w-[290px] px-2 mt-auto pb-4">
               {currentView === "menu" && (
-                <div className="flex flex-col gap-3.5">
+                <div className="flex flex-col gap-2.5">
                   <Button
                     variant="mint"
                     size="lg"
                     onClick={handleStartTour}
-                    className="group relative flex h-12 w-full items-center justify-center gap-3"
+                    className="group relative flex h-11 w-full items-center justify-center gap-2.5 text-xs"
                   >
-                    <PxlIcon icon={Play as unknown as PxlKitIconData} className="h-5 w-5 transition-transform duration-200 group-hover:scale-125 group-hover:rotate-12" />
+                    <PxlIcon icon={Play as unknown as PxlKitIconData} className="h-4 w-4 transition-transform duration-200 group-hover:scale-125 group-hover:rotate-12" />
                     <span>MULAI TOUR!</span>
+                  </Button>
+
+                  <Button
+                    variant="yellow"
+                    size="lg"
+                    onClick={() => setCurrentView("chapterSelect")}
+                    className="group relative flex h-11 w-full items-center justify-center gap-2.5 text-xs"
+                  >
+                    <PxlIcon icon={List as unknown as PxlKitIconData} className="h-4 w-4 transition-transform duration-200 group-hover:scale-125" />
+                    <span>PILIH CHAPTER</span>
                   </Button>
 
                   <Button
                     variant="purple"
                     size="lg"
                     onClick={() => setCurrentView("settings")}
-                    className="group relative flex h-12 w-full items-center justify-center gap-3"
+                    className="group relative flex h-11 w-full items-center justify-center gap-2.5 text-xs"
                   >
-                    <PxlIcon icon={Gear as unknown as PxlKitIconData} className="h-5 w-5 transition-transform duration-500 group-hover:rotate-180" />
+                    <PxlIcon icon={Gear as unknown as PxlKitIconData} className="h-4 w-4 transition-transform duration-500 group-hover:rotate-180" />
                     <span>PENGATURAN</span>
                   </Button>
                 </div>
+              )}
+
+              {currentView === "chapterSelect" && (
+                <ChapterSelect
+                  onSelectChapter={(ch) => setCurrentView(ch)}
+                  onBackToMenu={() => setCurrentView("menu")}
+                />
               )}
 
               {currentView === "settings" && (
