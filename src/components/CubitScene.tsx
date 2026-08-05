@@ -42,7 +42,7 @@ export function CubitScene({ onNextScene }: CubitSceneProps) {
   return (
     <div
       onClick={handleScreenClick}
-      className={`absolute inset-0 z-50 flex flex-col items-center justify-between bg-black p-6 pb-8 text-center cursor-pointer select-none overflow-hidden ${
+      className={`absolute inset-0 z-50 flex flex-col items-center justify-between bg-white p-6 pb-8 text-center cursor-pointer select-none overflow-hidden ${
         isShaking ? "animate-shake" : ""
       }`}
     >

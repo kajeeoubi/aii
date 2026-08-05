@@ -198,22 +198,20 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
   const isKibo = currentDialogue.speaker === "KIBO";
 
   return (
-    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-white">
+    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       <div
         className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
           isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />
 
-      <div className="pointer-events-none absolute inset-0 bg-white" />
+      <div className="pointer-events-none absolute inset-0 bg-[#faf7f2]" />
 
       <img
         src="/asset/lorong_gallery.png"
         alt="Lorong Gallery Background"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
       />
-
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
 
       {/* Header Bar */}
       <div className="relative z-30 flex items-center justify-between p-4">

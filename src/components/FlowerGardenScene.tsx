@@ -227,7 +227,7 @@ export function FlowerGardenScene({
   const isKibo = currentDialogue.speaker === "KIBO";
 
   return (
-    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-white">
+    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       {/* Black transition overlay */}
       <div
         className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
@@ -235,7 +235,7 @@ export function FlowerGardenScene({
         }`}
       />
 
-      <div className="pointer-events-none absolute inset-0 bg-white" />
+      <div className="pointer-events-none absolute inset-0 bg-[#faf7f2]" />
 
       {/* Flower Garden Background */}
       <img

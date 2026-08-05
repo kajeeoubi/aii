@@ -68,7 +68,7 @@ export default function Home() {
         }}
       />
 
-      <div className={`relative z-10 flex h-full max-h-screen max-h-[100dvh] w-full max-w-md flex-col items-center justify-between overflow-hidden border-x-4 border-[#2d2d2d] bg-[#8cd0f5] shadow-[0_0_20px_rgba(0,0,0,0.08)] ${currentView === "menu" ? "pb-6" : ""}`}>
+      <div className={`relative z-10 flex h-full max-h-screen max-h-[100dvh] w-full max-w-md flex-col items-center justify-between overflow-hidden border-x-4 border-[#2d2d2d] ${currentView === "menu" || currentView === "chapterSelect" || currentView === "settings" ? "bg-[#8cd0f5] pb-6" : "bg-[#faf7f2]"} shadow-[0_0_20px_rgba(0,0,0,0.08)]`}>
         <div
           className={`pointer-events-none absolute inset-0 z-[60] bg-black transition-opacity duration-350 ${isTransitioning ? "opacity-100" : "opacity-0"
             }`}

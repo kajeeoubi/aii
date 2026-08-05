@@ -286,14 +286,12 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
   const isKibo = currentDialogue.speaker === "KIBO";
 
   return (
-    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-white">
+    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       <div
         className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
           isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />
-
-      <div className="pointer-events-none absolute inset-0 bg-white" />
 
       <img
         src="/asset/lobby.png"

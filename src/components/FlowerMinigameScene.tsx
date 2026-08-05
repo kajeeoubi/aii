@@ -178,7 +178,7 @@ export function FlowerArrangingScene({
 
   return (
     <div
-      className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#2d2d2d]"
+      className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]"
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
@@ -220,8 +220,6 @@ export function FlowerArrangingScene({
         alt="Garden Background"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
       />
-
-      <div className="pointer-events-none absolute inset-0 bg-black/25" />
 
       <div className="relative z-30 flex items-center justify-between p-3 sm:p-4">
         <button
