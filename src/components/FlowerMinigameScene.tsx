@@ -243,7 +243,7 @@ export function FlowerArrangingScene({
               <img
                 src="/char/aii/aii.PNG"
                 alt="AII"
-                className="w-full h-auto object-contain drop-shadow-[0_4px_6px_rgba(0,0,0,0.35)]"
+                className="w-full h-auto object-contain scale-105 origin-bottom drop-shadow-[0_4px_6px_rgba(0,0,0,0.35)]"
                 style={{ imageRendering: "pixelated" }}
               />
             </div>
