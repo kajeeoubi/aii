@@ -57,7 +57,7 @@ export function initBGM() {
   if (!bgmAudio) {
     bgmAudio = new Audio("/audio/bgm/stars.mp3");
     bgmAudio.loop = true;
-    bgmAudio.volume = 0.5;
+    bgmAudio.volume = 0.2;
   }
 }
 

@@ -9,7 +9,7 @@ interface FlowerArrangingNarrativeProps {
 }
 
 const narrativeText =
-  "Akhirnya Kibo dan Aii pergi ke area tempat merangkai bunga.\n\nDi sana sudah siap berbagai pilihan bunga cantik yang harum dan wadah yang siap untuk dirangkai!";
+  "Mereka berdua pergi ke area tempat merangkai bunga dan menghabiskan waktu bersama..\n\nWhen yahh..";
 
 export function FlowerArrangingNarrative({
   onBackToMenu,

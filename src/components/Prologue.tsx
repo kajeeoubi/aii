@@ -9,7 +9,7 @@ interface PrologueProps {
 }
 
 const prologueStoryText =
-  "Alkisah, seorang anak manusia yang nyebelin bernama Aii pergi jalan-jalan ke sebuah art gallery, dia niatnya cuma pengen liat liat aja terus pulang.\n\nNamun, sesuatu yang ga disangka terjadi tempat itu dan disitulah cerita ini berawal..";
+  "Alkisah, seorang anak manusia yang sangat menyebalkan bernama Aii pergi jalan-jalan ke sebuah art gallery, dia niatnya sih cuma liat liat aja terus balik.\n\nNamun, sesuatu yang ga disangka terjadi tempat itu dan disitulah cerita ini berawal..";
 
 export function Prologue({ onBackToMenu, onNextToTicket }: PrologueProps) {
   const [displayedText, setDisplayedText] = useState("");
