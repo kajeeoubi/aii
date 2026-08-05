@@ -91,6 +91,7 @@ const paintingsData: PaintingItem[] = [
 
 export function PaintingMinigameScene({
   onBackToMenu,
+  onNextScene,
 }: PaintingMinigameSceneProps) {
   const [currentPaintingIndex, setCurrentPaintingIndex] = useState(0);
   const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
@@ -200,7 +201,15 @@ export function PaintingMinigameScene({
         }, 400);
       }, 400);
     } else {
-      handleBackToMenu(e);
+      if (onNextScene) {
+        if (isExiting) return;
+        setIsExiting(true);
+        setTimeout(() => {
+          onNextScene();
+        }, 400);
+      } else {
+        handleBackToMenu(e);
+      }
     }
   };
 
@@ -440,6 +449,8 @@ export function PaintingMinigameScene({
                     <span>
                       {currentPaintingIndex < paintingsData.length - 1
                         ? "LANJUT LUKISAN BERIKUTNYA"
+                        : onNextScene
+                        ? "LANJUT KE TAMAN BUNGA"
                         : "KEMBALI KE MENU"}
                     </span>
                     <PxlIcon

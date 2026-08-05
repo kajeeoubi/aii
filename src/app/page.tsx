@@ -7,10 +7,13 @@ import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { Prologue } from "@/components/Prologue";
 import { TicketScene } from "@/components/TicketScene";
 import { Settings } from "@/components/Settings";
-import { SneakNarrative } from "@/components/SneakNarrative";
+import { SneakNarrative } from "@/components/TicketNarrative";
 import { GalleryScene } from "@/components/GalleryScene";
 import { PaintingRoomScene } from "@/components/PaintingRoomScene";
 import { PaintingMinigameScene } from "@/components/PaintingMinigameScene";
+import { FlowerGardenScene } from "@/components/FlowerGardenScene";
+import { FlowerArrangingNarrative } from "@/components/FlowerNarrative";
+import { FlowerArrangingScene } from "@/components/FlowerMinigameScene";
 import { CubitScene } from "@/components/CubitScene";
 import { ChapterSelect } from "@/components/ChapterSelect";
 import {
@@ -22,7 +25,7 @@ import {
 } from "@/lib/audioManager";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "chapterSelect" | "settings">("menu");
+  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "chapterSelect" | "settings">("menu");
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -110,6 +113,21 @@ export default function Home() {
         ) : currentView === "paintingMinigame" ? (
           <PaintingMinigameScene
             onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("flowerGarden")}
+          />
+        ) : currentView === "flowerGarden" ? (
+          <FlowerGardenScene
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("flowerArrangingNarrative")}
+          />
+        ) : currentView === "flowerArrangingNarrative" ? (
+          <FlowerArrangingNarrative
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("flowerArranging")}
+          />
+        ) : currentView === "flowerArranging" ? (
+          <FlowerArrangingScene
+            onBackToMenu={() => setCurrentView("menu")}
           />
         ) : (
           <>
@@ -166,7 +184,7 @@ export default function Home() {
                   </Button>
 
                   <Button
-                    variant="yellow"
+                    variant="sky"
                     size="lg"
                     onClick={() => setCurrentView("chapterSelect")}
                     className="group relative flex h-11 w-full items-center justify-center gap-2.5 text-xs"

@@ -12,7 +12,7 @@ import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { playButtonSound } from "@/lib/audioManager";
 
 interface ChapterSelectProps {
-  onSelectChapter: (chapter: "ticket" | "gallery" | "paintingRoom" | "paintingMinigame") => void;
+  onSelectChapter: (chapter: "ticket" | "gallery" | "paintingRoom" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging") => void;
   onBackToMenu: () => void;
 }
 
@@ -42,7 +42,7 @@ export function ChapterSelect({
       number: "CHAPTER 3",
       title: "RUANG GALLERY",
       subtitle: "Melihat lukisan yang tertutup kain",
-      bgClass: "bg-[#ffd166]",
+      bgClass: "bg-[#e9d5ff]",
       borderClass: "border-[#2d2d2d]",
     },
     {
@@ -50,6 +50,30 @@ export function ChapterSelect({
       number: "CHAPTER 4",
       title: "BUKA LUKISAN",
       subtitle: "Membuka kain lukisan misterius",
+      bgClass: "bg-[#ffb3ba]",
+      borderClass: "border-[#2d2d2d]",
+    },
+    {
+      id: "flowerGarden" as const,
+      number: "CHAPTER 5",
+      title: "TAMAN BUNGA",
+      subtitle: "Berbincang santai di taman bunga",
+      bgClass: "bg-[#baffc9]",
+      borderClass: "border-[#2d2d2d]",
+    },
+    {
+      id: "flowerArrangingNarrative" as const,
+      number: "CHAPTER 6",
+      title: "RANGKAI BUNGA",
+      subtitle: "Menuju meja merangkai bunga",
+      bgClass: "bg-[#ffffba]",
+      borderClass: "border-[#2d2d2d]",
+    },
+    {
+      id: "flowerArranging" as const,
+      number: "CHAPTER 7",
+      title: "KEBUN BUNGA",
+      subtitle: "Susunan kotak-kotak bunga indah",
       bgClass: "bg-[#ffb3ba]",
       borderClass: "border-[#2d2d2d]",
     },

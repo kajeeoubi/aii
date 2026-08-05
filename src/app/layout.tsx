@@ -44,7 +44,7 @@ const silkscreen = Silkscreen({
 
 export const metadata: Metadata = {
   title: "Aii & Kibo",
-  description: "Jalan-jalan Aii dan Kibo di Art Gallery",
+  description: "I wish we have feel same.",
 };
 
 export default function RootLayout({
