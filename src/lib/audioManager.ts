@@ -29,11 +29,26 @@ export function playButtonSound() {
   if (!isSoundEnabled()) return;
 
   try {
-    const audio = new Audio("/audio/button_audio.mp3");
-    audio.volume = 0.6;
-    audio.currentTime = 0;
-    audio.play().catch(() => {});
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(520, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.04);
+
+    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.04);
   } catch {
+    // ignore
   }
 }
 
@@ -102,32 +117,7 @@ function getAudioContext(): AudioContext | null {
 }
 
 export function playTypewriterSound() {
-  if (typeof window === "undefined") return;
-  if (!isSoundEnabled()) return;
-
-  try {
-    const ctx = getAudioContext();
-    if (!ctx) return;
-
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    osc.type = "square";
-    const baseFreq = 750 + Math.random() * 200;
-    osc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.4, ctx.currentTime + 0.035);
-
-    gain.gain.setValueAtTime(0.08, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.035);
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    osc.start();
-    osc.stop(ctx.currentTime + 0.035);
-  } catch {
-    // ignore
-  }
+  // Disabled typewriter sound
 }
 
 export function playPopSound() {
