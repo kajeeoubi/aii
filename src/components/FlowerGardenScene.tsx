@@ -243,9 +243,7 @@ export function FlowerGardenScene({
         alt="Flower Garden Background"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
       />
-
-      <div className="pointer-events-none absolute inset-0 bg-white" />
-
+      
       {/* Header Bar */}
       <div className="relative z-30 flex items-center justify-between p-4">
         <button
