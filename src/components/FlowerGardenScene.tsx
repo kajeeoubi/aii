@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Home as HomeIcon, BouncingArrow } from "@pxlkit/ui";
+import { Home as HomeIcon, ArrowRight, BouncingArrow } from "@pxlkit/ui";
 import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { Button } from "@/components/ui/pixelact-ui/button";
@@ -321,7 +321,7 @@ export function FlowerGardenScene({
 
           <div className="mt-2 flex items-center justify-between pt-1">
             <span className="text-[7.5px] sm:text-[8px] text-[#888888] font-press-start">
-              {isFinalLine && isTypingComplete ? "[Selesai]" : "[Klik buat lanjut]"}
+              {isFinalLine && isTypingComplete ? "" : "[Klik buat lanjut]"}
             </span>
 
             {(!isFinalLine || !isTypingComplete) && (
@@ -342,8 +342,8 @@ export function FlowerGardenScene({
               >
                 <span>{onNextScene ? "LANJUT MERANGKAI BUNGA" : "KEMBALI KE MENU"}</span>
                 <PxlIcon
-                  icon={HomeIcon as unknown as PxlKitIconData}
-                  className="h-3.5 w-3.5 transition-transform group-hover:scale-125"
+                  icon={ArrowRight as unknown as PxlKitIconData}
+                  className="h-3.5 w-3.5 transition-transform group-hover:scale-125 group-hover:translate-x-1"
                 />
               </Button>
             </div>
