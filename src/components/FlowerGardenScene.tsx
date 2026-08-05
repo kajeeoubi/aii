@@ -244,14 +244,7 @@ export function FlowerGardenScene({
         className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
       />
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
-
-      {/* Floating flower petals decor effect */}
-      <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
-        <div className="absolute top-10 left-8 text-lg animate-float opacity-80" style={{ animationDuration: '4s' }}>🌸</div>
-        <div className="absolute top-20 right-12 text-base animate-float opacity-70" style={{ animationDuration: '5s', animationDelay: '1s' }}>🌺</div>
-        <div className="absolute top-36 left-1/3 text-sm animate-float opacity-75" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>🌷</div>
-      </div>
+      <div className="pointer-events-none absolute inset-0 bg-white" />
 
       {/* Header Bar */}
       <div className="relative z-30 flex items-center justify-between p-4">
