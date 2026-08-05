@@ -50,7 +50,7 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "AII",
-    text: "Aku yakin dia pasti ngerti posisi kamu kalo dia emang tulus sama kamu, karena aku yakin orang gakan memandang dari seberapa besar harga barangnya, tapi seberapa tulus kamu ngasih itu",
+    text: "Aku yakin dia pasti ngerti posisi kamu, karena orang gakan memandang dari seberapa besar harga barangnya, tapi seberapa tulus kamu ngasih itu",
     expression: "/char/aii/ngomong_senyum.PNG",
   },
   {
@@ -75,12 +75,12 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "KIBO",
-    text: "Keadaan yang bikin kita ga bisa bareng lagi.. dia bilang ke aku buat menyayangi diri dulu. Itu yang selalu aku ingat dan terapkan ke diriku yang sekarang, walaupun aku sendiri gatau gimana perasaan dia sekarang..",
+    text: "Dia bilang ke aku buat menyayangi diri dulu. Itu yang selalu aku ingat dan terapkan ke diriku yang sekarang, walaupun aku sendiri gatau gimana perasaan dia sekarang..",
     expression: "/char/kibo/ketawa.PNG",
   },
   {
     speaker: "KIBO",
-    text: "Aku masih percaya kalau emang jalan yang kita tuju itu sama, aku harap kita bisa bertemu lagi",
+    text: "Aku percaya dia kalau emang jalan yang kita tuju itu sama, aku harap kita bisa bertemu lagi",
     expression: "/char/kibo/senyum.PNG",
   },
   {
@@ -100,7 +100,7 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "KIBO",
-    text: "Bolehh",
+    text: "Bolehh, yuk!!",
     expression: "/char/kibo/senyum.PNG",
   },
 ];
