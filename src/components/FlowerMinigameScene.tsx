@@ -241,7 +241,7 @@ export function FlowerArrangingScene({
           <div className="absolute -top-46 sm:-top-36 left-0 right-0 z-10 flex items-end justify-center pointer-events-none">
             <div className="relative w-20 sm:w-16">
               <img
-                src="/char/aii/aii.png"
+                src="/char/aii/aii.PNG"
                 alt="AII"
                 className="w-full h-auto object-contain scale-105 origin-bottom drop-shadow-[0_4px_6px_rgba(0,0,0,0.35)]"
                 style={{ imageRendering: "pixelated" }}
