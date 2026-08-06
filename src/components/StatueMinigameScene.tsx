@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, ArrowRight, BouncingArrow } from "@pxlkit/ui";
-import { Button } from "@/components/ui/pixelact-ui/button";
 import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
@@ -35,30 +34,6 @@ export function StatueMinigameScene({
       badgeBg: "bg-[#ffffba]",
       text: "KRRKKKkk!! Gedung bergetar.. tiba tiba sebuah pintu ruangan misterius terbuka..",
       expression: "",
-    },
-    {
-      speaker: "KIBO",
-      badgeBg: "bg-[#bae1ff]",
-      text: "Aii, apa kamu lihat itu..",
-      expression: "/char/kibo/kaget.PNG",
-    },
-    {
-      speaker: "AII",
-      badgeBg: "bg-[#ffb3ba]",
-      text: "Iya, ku pikir kita telah membuka ruangan rahasia",
-      expression: "/char/aii/kaget.PNG",
-    },
-    {
-      speaker: "PETUGAS GALLERY",
-      badgeBg: "bg-[#ffd166]",
-      text: "Woii, siapa disana menyelinap masuk diam diam, itu ilegal!!",
-      expression: "",
-    },
-    {
-      speaker: "KIBO",
-      badgeBg: "bg-[#bae1ff]",
-      text: "Aii, sebaiknya kamu pergi saja, aku akan menyerahkan diriku, aku akan menepati janjiku, aku gamau kamu ikut terlibat",
-      expression: "/char/kibo/sedih.PNG",
     },
   ];
 
@@ -114,6 +89,15 @@ export function StatueMinigameScene({
     return () => clearInterval(timer);
   }, [isCompleted, dialogueIndex]);
 
+  useEffect(() => {
+    if (isCompleted && isTypingComplete) {
+      const autoNextTimer = setTimeout(() => {
+        handleNextScene();
+      }, 1400);
+      return () => clearTimeout(autoNextTimer);
+    }
+  }, [isCompleted, isTypingComplete]);
+
   const slideHatiStep = () => {
     if (isCompleted) return;
     playPopSound();
@@ -140,6 +124,8 @@ export function StatueMinigameScene({
     } else {
       if (dialogueIndex < successDialogues.length - 1) {
         setDialogueIndex((prev) => prev + 1);
+      } else {
+        handleNextScene();
       }
     }
   };
@@ -334,44 +320,14 @@ export function StatueMinigameScene({
 
               <div className="mt-2 flex items-center justify-between pt-1">
                 <span className="text-[7.5px] sm:text-[8px] text-[#888888] font-press-start">
-                  {!isTypingComplete || !isFinalDialogue ? "[Klik buat lanjut]" : ""}
+                  [Klik buat lanjut]
                 </span>
 
-                {(!isTypingComplete || !isFinalDialogue) && (
-                  <PxlIcon
-                    icon={BouncingArrow as unknown as PxlKitIconData}
-                    className="h-4 w-4 shrink-0"
-                  />
-                )}
+                <PxlIcon
+                  icon={BouncingArrow as unknown as PxlKitIconData}
+                  className="h-4 w-4 shrink-0"
+                />
               </div>
-
-              {isFinalDialogue && isTypingComplete && (
-                <div className="mt-2.5 flex flex-col gap-2 w-full pt-1" onClick={(e) => e.stopPropagation()}>
-                  <Button
-                    variant="mint"
-                    onClick={onNextScene ? handleNextScene : handleBackToMenu}
-                    className="w-full group h-9 text-[8.5px] sm:text-[9px] flex items-center justify-center gap-2 border-2 border-[#2d2d2d] shadow-[2.5px_2.5px_0px_0px_#2d2d2d] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all"
-                  >
-                    <span>tetap bersama kibo</span>
-                    <PxlIcon
-                      icon={ArrowRight as unknown as PxlKitIconData}
-                      className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
-                    />
-                  </Button>
-
-                  <Button
-                    variant="purple"
-                    onClick={handleBackToMenu}
-                    className="w-full group h-9 text-[8.5px] sm:text-[9px] flex items-center justify-center gap-2 border-2 border-[#2d2d2d] shadow-[2.5px_2.5px_0px_0px_#2d2d2d] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all"
-                  >
-                    <span>tinggalkan kibo</span>
-                    <PxlIcon
-                      icon={ArrowRight as unknown as PxlKitIconData}
-                      className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
-                    />
-                  </Button>
-                </div>
-              )}
             </>
           )}
         </div>

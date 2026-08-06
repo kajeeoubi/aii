@@ -1,4 +1,56 @@
 let bgmAudio: HTMLAudioElement | null = null;
+let currentTrackSrc: string | null = null;
+
+export function playBGM(src: string = "/audio/bgm/stars.mp3") {
+  if (typeof window === "undefined") return;
+
+  if (bgmAudio && currentTrackSrc === src) {
+    if (isMusicEnabled() && bgmAudio.paused) {
+      bgmAudio.play().catch(() => {});
+    }
+    return;
+  }
+
+  if (bgmAudio) {
+    bgmAudio.pause();
+    bgmAudio.currentTime = 0;
+  }
+
+  currentTrackSrc = src;
+  bgmAudio = new Audio(src);
+  bgmAudio.loop = true;
+  bgmAudio.volume = 0.5;
+
+  if (isMusicEnabled()) {
+    bgmAudio.play().catch(() => {
+      const handleUserGesture = () => {
+        if (bgmAudio && isMusicEnabled()) {
+          bgmAudio.play().catch(() => {});
+        }
+        window.removeEventListener("click", handleUserGesture);
+        window.removeEventListener("keydown", handleUserGesture);
+      };
+      window.addEventListener("click", handleUserGesture);
+      window.addEventListener("keydown", handleUserGesture);
+    });
+  }
+}
+
+export function pauseBGM() {
+  if (typeof window === "undefined") return;
+  if (bgmAudio) {
+    bgmAudio.pause();
+  }
+}
+
+export function toggleBGM(enabled: boolean) {
+  setMusicEnabledStorage(enabled);
+  if (enabled) {
+    playBGM(currentTrackSrc || "/audio/bgm/stars.mp3");
+  } else {
+    pauseBGM();
+  }
+}
 
 export function isSoundEnabled(): boolean {
   if (typeof window === "undefined") return true;
@@ -52,49 +104,6 @@ export function playButtonSound() {
   }
 }
 
-export function initBGM() {
-  if (typeof window === "undefined") return;
-  if (!bgmAudio) {
-    bgmAudio = new Audio("/audio/bgm/stars.mp3");
-    bgmAudio.loop = true;
-    bgmAudio.volume = 0.2;
-  }
-}
-
-export function playBGM() {
-  if (typeof window === "undefined") return;
-  initBGM();
-  if (bgmAudio && isMusicEnabled()) {
-    bgmAudio.volume = 0.5;
-    bgmAudio.play().catch(() => {
-      const handleUserGesture = () => {
-        if (bgmAudio && isMusicEnabled()) {
-          bgmAudio.play().catch(() => {});
-        }
-        window.removeEventListener("click", handleUserGesture);
-        window.removeEventListener("keydown", handleUserGesture);
-      };
-      window.addEventListener("click", handleUserGesture);
-      window.addEventListener("keydown", handleUserGesture);
-    });
-  }
-}
-
-export function pauseBGM() {
-  if (typeof window === "undefined") return;
-  if (bgmAudio) {
-    bgmAudio.pause();
-  }
-}
-
-export function toggleBGM(enabled: boolean) {
-  setMusicEnabledStorage(enabled);
-  if (enabled) {
-    playBGM();
-  } else {
-    pauseBGM();
-  }
-}
 
 let footstepAudio: HTMLAudioElement | null = null;
 let footstepTimeout: NodeJS.Timeout | null = null;

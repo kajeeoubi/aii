@@ -17,6 +17,7 @@ import { FlowerArrangingScene } from "@/components/FlowerMinigameScene";
 import { FlowerGardenPart2Scene } from "@/components/FlowerGardenPart2Scene";
 import { StatueRoomScene } from "@/components/StatueRoomScene";
 import { StatueMinigameScene } from "@/components/StatueMinigameScene";
+import { StatueMinigameEndingScene } from "@/components/StatueMinigameEndingScene";
 import { CubitScene } from "@/components/CubitScene";
 import { ChapterSelect } from "@/components/ChapterSelect";
 import {
@@ -24,23 +25,52 @@ import {
   setSoundEnabledStorage,
   isMusicEnabled,
   playBGM,
+  pauseBGM,
   toggleBGM,
 } from "@/lib/audioManager";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "chapterSelect" | "settings">("menu");
+  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueMinigameEnding" | "chapterSelect" | "settings">("menu");
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     setSoundEnabledState(isSoundEnabled());
-    const musicOn = isMusicEnabled();
-    setMusicEnabledState(musicOn);
-    if (musicOn) {
-      playBGM();
-    }
+    setMusicEnabledState(isMusicEnabled());
   }, []);
+
+  useEffect(() => {
+    if (!musicEnabled) {
+      pauseBGM();
+      return;
+    }
+
+    const chapter3to6Views = [
+      "paintingRoom",
+      "cubit",
+      "paintingRoomPart2",
+      "paintingMinigame",
+      "flowerGarden",
+      "flowerArrangingNarrative",
+      "flowerArranging",
+      "flowerGardenPart2",
+    ];
+
+    const chapter7to9Views = [
+      "statueRoom",
+      "statueMinigame",
+      "statueMinigameEnding",
+    ];
+
+    if (chapter3to6Views.includes(currentView)) {
+      playBGM("/audio/bgm/ollg.mp3");
+    } else if (chapter7to9Views.includes(currentView)) {
+      playBGM("/audio/bgm/ilmlou.mp3");
+    } else {
+      playBGM("/audio/bgm/stars.mp3");
+    }
+  }, [currentView, musicEnabled]);
 
   const handleSetSoundEnabled = (enabled: boolean) => {
     setSoundEnabledState(enabled);
@@ -145,6 +175,11 @@ export default function Home() {
           />
         ) : currentView === "statueMinigame" ? (
           <StatueMinigameScene
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("statueMinigameEnding")}
+          />
+        ) : currentView === "statueMinigameEnding" ? (
+          <StatueMinigameEndingScene
             onBackToMenu={() => setCurrentView("menu")}
             onNextScene={() => setCurrentView("menu")}
           />

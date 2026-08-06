@@ -12,7 +12,7 @@ import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { playButtonSound } from "@/lib/audioManager";
 
 interface ChapterSelectProps {
-  onSelectChapter: (chapter: "ticket" | "gallery" | "paintingRoom" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "statueRoom" | "statueMinigame") => void;
+  onSelectChapter: (chapter: "ticket" | "gallery" | "paintingRoom" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "statueRoom" | "statueMinigame" | "statueMinigameEnding") => void;
   onBackToMenu: () => void;
 }
 
@@ -83,6 +83,14 @@ export function ChapterSelect({
       title: "GESER PATUNG",
       subtitle: "Menyelaraskan patung pameran",
       bgClass: "bg-[#baffc9]",
+      borderClass: "border-[#2d2d2d]",
+    },
+    {
+      id: "statueMinigameEnding" as const,
+      number: "CHAPTER 9",
+      title: "RUANGAN RAHASIA",
+      subtitle: "Terbongkarnya rahasia pameran",
+      bgClass: "bg-[#ffffba]",
       borderClass: "border-[#2d2d2d]",
     },
   ];

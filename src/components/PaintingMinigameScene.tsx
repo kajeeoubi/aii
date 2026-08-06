@@ -53,6 +53,11 @@ const paintingsData: PaintingItem[] = [
         badgeBg: "bg-[#ffb3ba]",
         text: "Hahahahah!! Siapa cewek manis ini?! Lihatlah matanya Kibo, pantas saja lukisan ini diberi nama\n'The Sweetie Panda'!",
       },
+      {
+        speaker: "KIBO",
+        badgeBg: "bg-[#bae1ff]",
+        text: "Bahkan wajahnya lebih manis daripada gelato yang dipegangnya >///<",
+      },
     ],
   },
   {
