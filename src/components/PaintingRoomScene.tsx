@@ -51,12 +51,12 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "AII",
-    text: "APALAHH.. emang iya?? (Salting)",
+    text: "APALAHH.. APA IYAA? (Salting)",
     expression: "/char/aii/malu.PNG",
   },
   {
     speaker: "KIBO",
-    text: "IYAHHH!! Sampe aku pen mainin pipi kamu kek gini.. (Tiba tiba kibo cubit perlahan pipinya)",
+    text: "Huummm!! Sampe aku pen mainin pipi kamu kek gini.. (Tiba tiba kibo cubit perlahan pipinya)",
     expression: "/char/kibo/ketawa.PNG",
   },
   {
@@ -318,7 +318,7 @@ export function PaintingRoomScene({
           </div>
 
           <div className="mx-auto mt-1 max-w-[140px] px-1.5 border-2 border-[#1a0f0a] bg-[#ffd166] py-0.5 text-center text-[7px] font-bold text-[#1a0f0a] shadow-[1px_1px_0px_0px_#1a0f0a] leading-tight">
-            Keajaiban Dunia
+            My Bini
           </div>
         </div>
       </div>

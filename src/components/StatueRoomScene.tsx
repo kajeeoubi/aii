@@ -6,7 +6,7 @@ import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioM
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { Button } from "@/components/ui/pixelact-ui/button";
 
-interface FlowerGardenSceneProps {
+interface StatueRoomSceneProps {
   onBackToMenu: () => void;
   onNextScene?: () => void;
 }
@@ -17,103 +17,70 @@ interface DialogueLine {
   expression: string;
 }
 
-const dialogueData: DialogueLine[] = [
+const initialDialogue: DialogueLine[] = [
   {
     speaker: "AII",
-    text: "Woahhh!! Kibo lihat!! Indah banget bunganyaa!! Banyak macam bunga jugaa!! Aku jadi pengen rangkai bunga dehh..",
-    expression: "/char/aii/semangat.PNG",
+    text: "Wahh, Kibo liat deh! Ada ruangan pameran patung disini..",
+    expression: "/char/aii/kaget.PNG",
   },
   {
     speaker: "KIBO",
-    text: "Woahh!! Iya banyak banget bunganya ya..",
-    expression: "/char/kibo/ketawa.PNG",
-  },
-  {
-    speaker: "KIBO",
-    text: "Aku jadi ke inget dulu suka milihin bunga buat seseorang hahahah",
-    expression: "/char/kibo/ketawa.PNG",
+    text: "Woahh besar kali ruangannya!! Tapi kok patungnya cuma 3 doang anjay_-",
+    expression: "/char/kibo/ngomong_senyum.PNG",
   },
   {
     speaker: "AII",
-    text: "Oh ya?? Terus gimana reaksi dia pas kamu kasih bunganya? Pasti dia seneng kan..",
+    text: "Bentar.. Patung-patungnya kek punya simbol gitu ga sih?",
     expression: "/char/aii/bingung.PNG",
   },
   {
     speaker: "KIBO",
-    text: "Ntahlah.. Ya aku ngasi dia ga seberapa sih.. but aku ngasi semua yang aku bisa",
+    text: "Huum.. Patung yang kiri itu artinya konflik, yang kanan itu kebersamaan, dan yang tengah...",
     expression: "/char/kibo/ngomong.PNG",
-  },
-  {
-    speaker: "KIBO",
-    text: "Kadang aku malu sama diriku sendiri, aku hanya bisa ngasi barang dengan harga ga seberapa ke dia, disisi lain aku pengen banget ngasi dia sesuatu yang lebih..",
-    expression: "/char/kibo/sedih.PNG",
-  },
-  {
-    speaker: "KIBO",
-    text: "Itu salah satu list yang pengen aku wujudkan sih.. karna kalo dia seneng itu uda cukup bagiku",
-    expression: "/char/kibo/senyum.PNG",
-  },
-  {
-    speaker: "AII",
-    text: "Aku yakin dia pasti paham kok, orang gakan memandang dari seberapa besar harga barangnya, tapi seberapa tulus kamu ngasih itu",
-    expression: "/char/aii/ngomong_senyum.PNG",
-  },
-  {
-    speaker: "AII",
-    text: "Ga nyangka walaupun kamu kadang aga ngeselin, tapi kamu juga punya hati yang baik ya Kibo",
-    expression: "/char/aii/ketawa.PNG",
-  },
-  {
-    speaker: "AII",
-    text: "Terus gimana hubungan kalian sekarang?",
-    expression: "/char/aii/bingung.PNG",
-  },
-  {
-    speaker: "KIBO",
-    text: "......",
-    expression: "/char/kibo/ketawa.PNG",
-  },
-  {
-    speaker: "KIBO",
-    text: "Ya, sekarang kita kembali menjadi diri kita masing-masing lagi",
-    expression: "/char/kibo/ngomong.PNG",
-  },
-  {
-    speaker: "KIBO",
-    text: "Dia bilang ke aku buat menyayangi diri dulu. Itu yang selalu aku ingat dan terapkan ke diriku yang sekarang, walaupun aku sendiri gatau gimana perasaan dia sekarang..",
-    expression: "/char/kibo/ketawa.PNG",
-  },
-  {
-    speaker: "KIBO",
-    text: "Aku percaya dia kalau emang jalan yang kita tuju itu sama, aku harap kita bisa bertemu lagi",
-    expression: "/char/kibo/senyum.PNG",
-  },
-  {
-    speaker: "AII",
-    text: "Semangatt mas..",
-    expression: "/char/aii/semangat.PNG",
-  },
-  {
-    speaker: "KIBO",
-    text: "Hahaha iya makasi ya, aku kek pernah denger itu deh",
-    expression: "/char/kibo/ketawa.PNG",
-  },
-  {
-    speaker: "AII",
-    text: "Eum gimana kalo kamu bantuin aku milih dan rangkai bunga",
-    expression: "/char/aii/ngomong_senyum.PNG",
-  },
-  {
-    speaker: "KIBO",
-    text: "Bolehh, yuk!!",
-    expression: "/char/kibo/senyum.PNG",
   },
 ];
 
-export function FlowerGardenScene({
+const option1Dialogue: DialogueLine[] = [
+  {
+    speaker: "KIBO",
+    text: "Yapp!! Jadi true love itu bakal tumbuh kalo keduanya memahami satu sama lain, tetap bareng-bareng menghadapi masalah yang muncul",
+    expression: "/char/kibo/senyum.PNG",
+  },
+  {
+    speaker: "AII",
+    text: "Oalah gituuu to..",
+    expression: "/char/aii/ngomong_senyum.PNG",
+  },
+  {
+    speaker: "AII",
+    text: "Bentar deh, kok ada yang aneh sama ketiga patung ini.. ada garis lintasannya, keknya patung ini bisa digeser",
+    expression: "/char/aii/bingung.PNG",
+  },
+];
+
+const option2Dialogue: DialogueLine[] = [
+  {
+    speaker: "KIBO",
+    text: "Kamu tu yang hopeless hahahah, itu simbol true love, tapi true love hanya tumbuh kalo keduanya saling memahami dan mau menghadapi setiap masalah yang datang bersama",
+    expression: "/char/kibo/ketawa.PNG",
+  },
+  {
+    speaker: "AII",
+    text: "Oalah gituuu to..",
+    expression: "/char/aii/ngomong_senyum.PNG",
+  },
+  {
+    speaker: "AII",
+    text: "Bentar deh, kok ada yang aneh sama ketiga patung ini.. ada garis lintasannya, keknya patung ini bisa digeser",
+    expression: "/char/aii/bingung.PNG",
+  },
+];
+
+export function StatueRoomScene({
   onBackToMenu,
   onNextScene,
-}: FlowerGardenSceneProps) {
+}: StatueRoomSceneProps) {
+  const [dialogueData, setDialogueData] = useState<DialogueLine[]>(initialDialogue);
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
@@ -121,8 +88,9 @@ export function FlowerGardenScene({
   const [isEnteringScene, setIsEnteringScene] = useState(true);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
 
-  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/semangat.PNG");
-  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/ketawa.PNG");
+  const [hasChosenOption, setHasChosenOption] = useState(false);
+  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/kaget.PNG");
+  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.PNG");
 
   useEffect(() => {
     const fadeTimer = setTimeout(() => {
@@ -168,9 +136,13 @@ export function FlowerGardenScene({
     return () => {
       clearInterval(timer);
     };
-  }, [currentLineIndex]);
+  }, [currentLineIndex, dialogueData]);
 
   const handleBoxClick = () => {
+    if (currentLineIndex === 3 && !hasChosenOption && isTypingComplete) {
+      return;
+    }
+
     playButtonSound();
     const currentDialogue = dialogueData[currentLineIndex];
     if (!isTypingComplete) {
@@ -180,8 +152,22 @@ export function FlowerGardenScene({
     } else {
       if (currentLineIndex < dialogueData.length - 1) {
         setCurrentLineIndex((prev) => prev + 1);
+      } else {
+        if (onNextScene) {
+          handleNextScene();
+        } else {
+          handleBackToMenu();
+        }
       }
     }
+  };
+
+  const handleSelectOption = (option: 1 | 2) => {
+    playPopSound();
+    setHasChosenOption(true);
+    const chosenDialogue = option === 1 ? option1Dialogue : option2Dialogue;
+    setDialogueData((prev) => [...prev, ...chosenDialogue]);
+    setCurrentLineIndex(4);
   };
 
   const handleBackToMenu = (e?: React.MouseEvent) => {
@@ -210,6 +196,7 @@ export function FlowerGardenScene({
 
   const currentDialogue = dialogueData[currentLineIndex];
   const isFinalLine = currentLineIndex === dialogueData.length - 1;
+  const isQuizTime = currentLineIndex === 3 && isTypingComplete && !hasChosenOption;
 
   const activeAiiExpr =
     currentDialogue.speaker === "AII"
@@ -242,13 +229,13 @@ export function FlowerGardenScene({
 
       <div className="pointer-events-none absolute inset-0 bg-[#faf7f2]" />
 
-      {/* Flower Garden Background */}
+      {/* Statue Room Background */}
       <img
-        src="/asset/flower_garden.png"
-        alt="Flower Garden Background"
+        src="/asset/patung.png"
+        alt="Statue Room Background"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
       />
-      
+
       {/* Header Bar */}
       <div className="relative z-30 flex items-center justify-between p-4">
         <button
@@ -259,8 +246,8 @@ export function FlowerGardenScene({
           <span>MENU</span>
         </button>
 
-        <div className="border-2 border-[#2d2d2d] bg-[#baffc9] px-3 py-1 text-[8px] sm:text-[9px] font-bold text-[#2d2d2d] shadow-[2px_2px_0px_0px_#2d2d2d]">
-          TAMAN BUNGA
+        <div className="border-2 border-[#2d2d2d] bg-[#e9d5ff] px-3 py-1 text-[8px] sm:text-[9px] font-bold text-[#2d2d2d] shadow-[2px_2px_0px_0px_#2d2d2d]">
+          RUANG PATUNG
         </div>
       </div>
 
@@ -299,7 +286,6 @@ export function FlowerGardenScene({
         </div>
       </div>
 
-      {/* Dialogue Box */}
       <div className="relative z-40 w-full px-3 pb-3">
         <div
           onClick={handleBoxClick}
@@ -322,37 +308,57 @@ export function FlowerGardenScene({
                 </span>
               )}
             </p>
+
+            {isQuizTime && (
+              <div className="mt-3 flex flex-col gap-2 w-full pt-1" onClick={(e) => e.stopPropagation()}>
+                <Button
+                  variant="mint"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectOption(1);
+                  }}
+                  className="w-full group h-9 text-[8.5px] sm:text-[9px] flex items-center justify-center gap-2 border-2 border-[#2d2d2d] shadow-[2.5px_2.5px_0px_0px_#2d2d2d] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all"
+                >
+                  <span>True Love :D</span>
+                  <PxlIcon
+                    icon={ArrowRight as unknown as PxlKitIconData}
+                    className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
+                  />
+                </Button>
+                <Button
+                  variant="sky"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectOption(2);
+                  }}
+                  className="w-full group h-9 text-[8.5px] sm:text-[9px] flex items-center justify-center gap-2 border-2 border-[#2d2d2d] shadow-[2.5px_2.5px_0px_0px_#2d2d2d] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all"
+                >
+                  <span>Hopeless Romantic :v</span>
+                  <PxlIcon
+                    icon={ArrowRight as unknown as PxlKitIconData}
+                    className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
+                  />
+                </Button>
+              </div>
+            )}
           </div>
 
           <div className="mt-2 flex items-center justify-between pt-1">
             <span className="text-[7.5px] sm:text-[8px] text-[#888888] font-press-start">
-              {isFinalLine && isTypingComplete ? "" : "[Klik buat lanjut]"}
+              {isQuizTime
+                ? ""
+                : isFinalLine && isTypingComplete
+                ? ""
+                : "[Klik buat lanjut]"}
             </span>
 
-            {(!isFinalLine || !isTypingComplete) && (
+            {(!isFinalLine || !isTypingComplete) && !isQuizTime && (
               <PxlIcon
                 icon={BouncingArrow as unknown as PxlKitIconData}
                 className="h-4 w-4 shrink-0"
               />
             )}
           </div>
-
-          {isFinalLine && isTypingComplete && (
-            <div className="mt-2 w-full pt-1">
-              <Button
-                variant="mint"
-                size="default"
-                onClick={onNextScene ? handleNextScene : handleBackToMenu}
-                className="w-full group h-9 text-[8.5px] sm:text-[9px] flex items-center justify-center gap-2 border-2 border-[#2d2d2d] shadow-[3px_3px_0px_0px_#2d2d2d]"
-              >
-                <span>{onNextScene ? "LANJUT MERANGKAI BUNGA" : "KEMBALI KE MENU"}</span>
-                <PxlIcon
-                  icon={ArrowRight as unknown as PxlKitIconData}
-                  className="h-3.5 w-3.5 transition-transform group-hover:scale-125 group-hover:translate-x-1"
-                />
-              </Button>
-            </div>
-          )}
         </div>
       </div>
     </div>

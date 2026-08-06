@@ -275,7 +275,7 @@ export function FlowerGardenPart2Scene({
                 onClick={onNextScene ? handleNextScene : handleBackToMenu}
                 className="w-full group h-9 text-[8.5px] sm:text-[9px] flex items-center justify-center gap-2 border-2 border-[#2d2d2d] shadow-[3px_3px_0px_0px_#2d2d2d]"
               >
-                <span>KEMBALI KE MENU</span>
+                <span>{onNextScene ? "PERGI KE RUANG PATUNG" : "KEMBALI KE MENU"}</span>
                 <PxlIcon
                   icon={ArrowRight as unknown as PxlKitIconData}
                   className="h-3.5 w-3.5 transition-transform group-hover:scale-125 group-hover:translate-x-1"

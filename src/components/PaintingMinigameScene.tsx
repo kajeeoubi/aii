@@ -39,7 +39,7 @@ const paintingsData: PaintingItem[] = [
       {
         speaker: "AII",
         badgeBg: "bg-[#ffb3ba]",
-        text: "Beliau pasti sayang banget sama bininya",
+        text: "Beliau pasti sayang banget sama bininya.. Tapi kok diliat liat kenapa bajunya mirip baju yang aku pakek ya..",
       },
     ],
   },
@@ -63,17 +63,17 @@ const paintingsData: PaintingItem[] = [
       {
         speaker: "KIBO",
         badgeBg: "bg-[#bae1ff]",
-        text: "SIALL ARGHH!! Ingin ku mengucap my bini, my istri, my kisah, my mbg, my sweetness, my world, my soulmate. tapi masi ada Aii disini, aku harus bersikap nonchalant didepannya (Ucap Kibo dalam hati)",
+        text: "Pliss Wokk!! Ingin ku mengucap my bini, my istri, my kisah, my mbg, my sweetness, my world, my soulmate. tapi masi ada Aii disini, aku harus bersikap nonchalant didepannya (Ucap Kibo dalam hati)",
       },
       {
         speaker: "AII",
         badgeBg: "bg-[#ffb3ba]",
-        text: "Wanita itu pasti sangat menyayangi gelang itu",
+        text: "Cewek ini pasti sangat bahagia mendapatkan gelang itu..",
       },
       {
         speaker: "KIBO",
         badgeBg: "bg-[#bae1ff]",
-        text: "Iya, pelukis ini pasti merasa menjadi cowok paling bahagia bisa memilikinya",
+        text: "Humm.. Lebih bahagia lagi si pelukis bisa melukis cewek secantik ini..",
       },
       {
         speaker: "AII",
@@ -83,7 +83,7 @@ const paintingsData: PaintingItem[] = [
       {
         speaker: "KIBO",
         badgeBg: "bg-[#bae1ff]",
-        text: "Gapapa kok hehehe, lebih baik kita pergi aja ke ruangan lain",
+        text: "Gapapa kok hehehe, lebih baik kita pergi aja ke ruangan lain aku sudah tidak kuat melihat mahakarya disini (Eaa salting tuh, tanggung jawab gih)",
       },
     ],
   },

@@ -15,6 +15,8 @@ import { FlowerGardenScene } from "@/components/FlowerGardenScene";
 import { FlowerArrangingNarrative } from "@/components/FlowerNarrative";
 import { FlowerArrangingScene } from "@/components/FlowerMinigameScene";
 import { FlowerGardenPart2Scene } from "@/components/FlowerGardenPart2Scene";
+import { StatueRoomScene } from "@/components/StatueRoomScene";
+import { StatueMinigameScene } from "@/components/StatueMinigameScene";
 import { CubitScene } from "@/components/CubitScene";
 import { ChapterSelect } from "@/components/ChapterSelect";
 import {
@@ -26,7 +28,7 @@ import {
 } from "@/lib/audioManager";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "chapterSelect" | "settings">("menu");
+  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "chapterSelect" | "settings">("menu");
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -133,6 +135,16 @@ export default function Home() {
           />
         ) : currentView === "flowerGardenPart2" ? (
           <FlowerGardenPart2Scene
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("statueRoom")}
+          />
+        ) : currentView === "statueRoom" ? (
+          <StatueRoomScene
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("statueMinigame")}
+          />
+        ) : currentView === "statueMinigame" ? (
+          <StatueMinigameScene
             onBackToMenu={() => setCurrentView("menu")}
             onNextScene={() => setCurrentView("menu")}
           />
