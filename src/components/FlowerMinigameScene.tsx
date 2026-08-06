@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 import { Home as HomeIcon, Trash } from "@pxlkit/ui";
 import { playButtonSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
+import confetti from "canvas-confetti";
 
 interface FlowerArrangingSceneProps {
   onBackToMenu: () => void;
+  onNextScene?: () => void;
 }
 
 interface FlowerItem {
@@ -40,11 +42,27 @@ const row4Lavender: FlowerItem = {
   id: "lavender", name: "Lavender", boxImage: "/flower/kotak_lavender.PNG", flowerImage: "/flower/lavender.PNG"
 };
 
+const round1Targets: FlowerItem[] = [
+  row2Flowers[0], // Tulip Kuning
+  row3Flowers[1], // Dahlia Putih
+  row4Lavender,   // Lavender
+];
+
+const round2Targets: FlowerItem[] = [
+  row1Flowers[3], // Sunflower
+  row3Flowers[1], // Dahlia Putih
+  row3Flowers[0], // Dahlia Pink
+  row3Flowers[2], // Dahlia Ungu
+  row4Lavender,   // Lavender
+];
+
 export function FlowerArrangingScene({
   onBackToMenu,
+  onNextScene,
 }: FlowerArrangingSceneProps) {
   const [isEntering, setIsEntering] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
+  const [currentRound, setCurrentRound] = useState<1 | 2>(1);
   const [slots, setSlots] = useState<(FlowerItem | null)[]>([null, null, null]);
   const [draggedFlower, setDraggedFlower] = useState<FlowerItem | null>(null);
   const [touchDrag, setTouchDrag] = useState<{
@@ -52,6 +70,79 @@ export function FlowerArrangingScene({
     x: number;
     y: number;
   } | null>(null);
+  const [hasPlayedSuccessSound, setHasPlayedSuccessSound] = useState(false);
+
+  const currentTargets = currentRound === 1 ? round1Targets : round2Targets;
+
+  const isCurrentRoundCompleted = currentTargets.every((target) =>
+    slots.some((s) => s?.id === target.id)
+  );
+
+  useEffect(() => {
+    if (isCurrentRoundCompleted) {
+      if (!hasPlayedSuccessSound) {
+        playPopSound();
+        setHasPlayedSuccessSound(true);
+
+        confetti({
+          particleCount: 100,
+          spread: 75,
+          origin: { y: 0.6 },
+          colors: ["#ffb3ba", "#ffffba", "#b5ead7", "#c7ceea", "#e2f0cb"],
+        });
+      }
+
+      if (currentRound === 1) {
+        const timer = setTimeout(() => {
+          setCurrentRound(2);
+          setSlots([null, null, null, null, null]);
+          setHasPlayedSuccessSound(false);
+        }, 1200);
+        return () => clearTimeout(timer);
+      } else if (currentRound === 2) {
+        const timerConfetti = setTimeout(() => {
+          confetti({
+            particleCount: 50,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+          });
+          confetti({
+            particleCount: 50,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+          });
+        }, 250);
+
+        const transitionTimer = setTimeout(() => {
+          setIsExiting(true);
+          setTimeout(() => {
+            if (onNextScene) {
+              onNextScene();
+            } else {
+              onBackToMenu();
+            }
+          }, 400);
+        }, 1800);
+
+        return () => {
+          clearTimeout(timerConfetti);
+          clearTimeout(transitionTimer);
+        };
+      }
+    } else {
+      setHasPlayedSuccessSound(false);
+    }
+  }, [isCurrentRoundCompleted, currentRound, hasPlayedSuccessSound]);
+
+  useEffect(() => {
+    if (currentRound === 2 && slots.length !== 5) {
+      setSlots([null, null, null, null, null]);
+    } else if (currentRound === 1 && slots.length !== 3) {
+      setSlots([null, null, null]);
+    }
+  }, [currentRound, slots.length]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -69,6 +160,19 @@ export function FlowerArrangingScene({
     }, 400);
   };
 
+  const handleNextScene = () => {
+    playButtonSound();
+    if (isExiting) return;
+    setIsExiting(true);
+    setTimeout(() => {
+      if (onNextScene) {
+        onNextScene();
+      } else {
+        onBackToMenu();
+      }
+    }, 400);
+  };
+
   const handleSelectFlower = (flower: FlowerItem) => {
     playPopSound();
     setSlots((prevSlots) => {
@@ -79,7 +183,7 @@ export function FlowerArrangingScene({
         return next;
       }
       const next = [...prevSlots];
-      next[2] = flower;
+      next[next.length - 1] = flower;
       return next;
     });
   };
@@ -255,6 +359,47 @@ export function FlowerArrangingScene({
                 className="w-full h-auto object-contain scale-105 origin-bottom drop-shadow-[0_4px_6px_rgba(0,0,0,0.35)]"
                 style={{ imageRendering: "pixelated" }}
               />
+
+              <div className="absolute bottom-full left-1/2 -translate-x-[15%] sm:-translate-x-[10%] mb-2 sm:mb-3 z-30 pointer-events-auto">
+                <div className="relative bg-white border-2 border-[#2d2d2d] shadow-[3px_3px_0px_0px_#2d2d2d] p-1.5 sm:p-2 flex flex-col items-center gap-1 rounded-none min-w-[130px] sm:min-w-[150px] whitespace-nowrap">
+                  <span className="text-[8px] sm:text-[9px] font-bold text-[#2d2d2d]">
+                    {currentRound === 1
+                      ? isCurrentRoundCompleted
+                        ? "Boleh juga"
+                        : "Ambil bunga ini!"
+                      : isCurrentRoundCompleted
+                      ? "Yeayy! Sempurna!"
+                      : "Ambil bunga ini!"}
+                  </span>
+
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    {currentTargets.map((target, idx) => {
+                      const matched = slots.some((s) => s?.id === target.id);
+                      return (
+                        <div
+                          key={idx}
+                          className={`relative ${
+                            currentRound === 2 ? "w-6 h-6 sm:w-7 sm:h-7" : "w-7 h-7 sm:w-8 sm:h-8"
+                          } border-2 ${
+                            matched ? "border-[#4caf50] bg-[#e8f5e9]" : "border-[#2d2d2d] bg-[#faf7f2]"
+                          } flex items-center justify-center transition-colors`}
+                          title={target.name}
+                        >
+                          <img
+                            src={target.flowerImage}
+                            alt={target.name}
+                            className="w-full h-full object-contain p-0.5"
+                            style={{ imageRendering: "pixelated" }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="absolute -bottom-2 left-6 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-[#2d2d2d]" />
+                  <div className="absolute -bottom-[5px] left-[25px] w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[7px] border-t-white" />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -341,14 +486,16 @@ export function FlowerArrangingScene({
       </div>
 
       <div className="relative z-40 w-full px-3 pb-3 flex flex-col items-center">
-        <div className="flex items-center justify-center gap-3.5 sm:gap-4 w-full py-1">
+        <div className="flex items-center justify-center gap-2 sm:gap-3.5 w-full py-1">
           {slots.map((slotItem, idx) => (
             <div
               key={`slot-${idx}`}
               data-slot-index={idx}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDropOnSlot(e, idx)}
-              className={`relative w-15 h-15 sm:w-18 sm:h-18 border-3 border-[#2d2d2d] bg-[#faf7f2]/95 shadow-[3px_3px_0px_0px_#2d2d2d] backdrop-blur-xs flex items-center justify-center transition-all ${
+              className={`relative ${
+                slots.length === 5 ? "w-12 h-12 sm:w-15 sm:h-15" : "w-15 h-15 sm:w-18 sm:h-18"
+              } border-3 border-[#2d2d2d] bg-[#faf7f2]/95 shadow-[3px_3px_0px_0px_#2d2d2d] backdrop-blur-xs flex items-center justify-center transition-all ${
                 slotItem ? "ring-2 ring-[#ffb3ba]" : ""
               }`}
             >

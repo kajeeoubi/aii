@@ -14,6 +14,7 @@ import { PaintingMinigameScene } from "@/components/PaintingMinigameScene";
 import { FlowerGardenScene } from "@/components/FlowerGardenScene";
 import { FlowerArrangingNarrative } from "@/components/FlowerNarrative";
 import { FlowerArrangingScene } from "@/components/FlowerMinigameScene";
+import { FlowerGardenPart2Scene } from "@/components/FlowerGardenPart2Scene";
 import { CubitScene } from "@/components/CubitScene";
 import { ChapterSelect } from "@/components/ChapterSelect";
 import {
@@ -25,7 +26,7 @@ import {
 } from "@/lib/audioManager";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "chapterSelect" | "settings">("menu");
+  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "chapterSelect" | "settings">("menu");
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -128,6 +129,12 @@ export default function Home() {
         ) : currentView === "flowerArranging" ? (
           <FlowerArrangingScene
             onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("flowerGardenPart2")}
+          />
+        ) : currentView === "flowerGardenPart2" ? (
+          <FlowerGardenPart2Scene
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("menu")}
           />
         ) : (
           <>
