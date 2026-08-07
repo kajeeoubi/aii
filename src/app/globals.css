@@ -174,22 +174,22 @@
 
 @keyframes stepIn {
   0% {
-    transform: translateX(-120%) translateY(0px) rotate(0deg);
+    transform: translateX(calc(-100% - 240px)) translateY(0px) rotate(0deg);
   }
   15% {
-    transform: translateX(-90%) translateY(-10px) rotate(-5deg);
+    transform: translateX(calc(-80% - 180px)) translateY(-10px) rotate(-5deg);
   }
   30% {
-    transform: translateX(-65%) translateY(0px) rotate(5deg);
+    transform: translateX(calc(-60% - 130px)) translateY(0px) rotate(5deg);
   }
   45% {
-    transform: translateX(-40%) translateY(-10px) rotate(-5deg);
+    transform: translateX(calc(-40% - 85px)) translateY(-10px) rotate(-5deg);
   }
   60% {
-    transform: translateX(-20%) translateY(0px) rotate(5deg);
+    transform: translateX(calc(-20% - 45px)) translateY(0px) rotate(5deg);
   }
   75% {
-    transform: translateX(-8%) translateY(-6px) rotate(-2deg);
+    transform: translateX(calc(-8% - 15px)) translateY(-6px) rotate(-2deg);
   }
   100% {
     transform: translateX(0%) translateY(0px) rotate(0deg);
