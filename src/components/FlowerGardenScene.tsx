@@ -22,100 +22,100 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Woahhh!! Kibo lihat!! Indah banget bunganyaa!! Banyak macam bunga jugaa!! Aku jadi pengen rangkai bunga dehh..",
-    expression: "/char/aii/semangat.PNG",
+    expression: "/char/aii/semangat.png",
   },
   {
     speaker: "KIBO",
     text: "Woahh!! Iya banyak banget bunganya ya..",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "KIBO",
     text: "Aku jadi ke inget dulu suka milihin bunga buat seseorang hahahah",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     text: "Oh ya?? Terus gimana reaksi dia pas kamu kasih bunganya? Pasti dia seneng kan..",
-    expression: "/char/aii/bingung.PNG",
+    expression: "/char/aii/bingung.png",
   },
   {
     speaker: "KIBO",
     text: "Ntahlah.. Ya aku ngasi dia ga seberapa sih.. but aku ngasi semua yang aku bisa",
-    typingExpression: "/char/kibo/ngomong.PNG",
-    expression: "/char/kibo/sedih.PNG",
+    typingExpression: "/char/kibo/ngomong.png",
+    expression: "/char/kibo/sedih.png",
   },
   {
     speaker: "KIBO",
     text: "Kadang aku malu sama diriku sendiri, aku hanya bisa ngasi barang dengan harga ga seberapa ke dia, disisi lain aku pengen banget ngasi dia sesuatu yang lebih..",
-    expression: "/char/kibo/sedih.PNG",
+    expression: "/char/kibo/sedih.png",
   },
   {
     speaker: "KIBO",
     text: "Itu salah satu list yang pengen aku wujudkan sih.. karna kalo ngeliat dia seneng sama apa yang ku beri, itu uda cukup bagiku",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
     text: "Aku yakin dia pasti paham kok, orang gakan memandang dari seberapa besar harga barangnya, tapi seberapa tulus kamu ngasih itu",
-    typingExpression: "/char/aii/ngomong_senyum.PNG",
-    expression: "/char/aii/senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.png",
+    expression: "/char/aii/senyum.png",
   },
   {
     speaker: "AII",
     text: "Ga nyangka walaupun kamu kadang aga ngeselin, tapi kamu juga punya hati yang baik ya Kibo",
-    expression: "/char/aii/ketawa.PNG",
+    expression: "/char/aii/ketawa.png",
   },
   {
     speaker: "AII",
     text: "Terus gimana hubungan kalian sekarang?",
-    expression: "/char/aii/bingung.PNG",
+    expression: "/char/aii/bingung.png",
   },
   {
     speaker: "KIBO",
     text: "......",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "KIBO",
     text: "Ya, sekarang kita kembali menjadi diri kita masing-masing lagi",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "KIBO",
     text: "Dia bilang ke aku buat menyayangi diri dulu. Itu yang selalu aku ingat dan terapkan ke diriku yang sekarang, walaupun aku sendiri gatau gimana perasaan dia sekarang..",
-    typingExpression: "/char/kibo/ngomong.PNG",
-    expression: "/char/kibo/ketawa.PNG",
+    typingExpression: "/char/kibo/ngomong.png",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "KIBO",
     text: "Aku percaya dia kalau emang jalan yang kita tuju itu sama, aku harap kita bisa bertemu lagi suatu saat nanti",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
     text: "Semangatt mas..",
-    expression: "/char/aii/semangat.PNG",
+    expression: "/char/aii/semangat.png",
   },
   {
     speaker: "KIBO",
     text: "Hahaha iya makasi ya, aku kek pernah denger itu deh",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     text: "Eum gimana kalo kamu bantuin aku milih dan rangkai bunga",
-    typingExpression: "/char/aii/ngomong_senyum.PNG",
-    expression: "/char/aii/senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.png",
+    expression: "/char/aii/senyum.png",
   },
   {
     speaker: "KIBO",
     text: "Bolehh, yuk!!",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
 ];
 
@@ -130,8 +130,8 @@ export function FlowerGardenScene({
   const [isEnteringScene, setIsEnteringScene] = useState(true);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
 
-  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/semangat.PNG");
-  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/ketawa.PNG");
+  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/semangat.png");
+  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/ketawa.png");
 
   useEffect(() => {
     const fadeTimer = setTimeout(() => {
@@ -249,8 +249,8 @@ export function FlowerGardenScene({
     currentDialogue.speaker === "AII"
       ? "bg-[#ffb3ba]"
       : currentDialogue.speaker === "KIBO"
-      ? "bg-[#bae1ff]"
-      : "bg-[#ffffba]";
+        ? "bg-[#bae1ff]"
+        : "bg-[#ffffba]";
 
   const isAii = currentDialogue.speaker === "AII";
   const isKibo = currentDialogue.speaker === "KIBO";
@@ -259,9 +259,8 @@ export function FlowerGardenScene({
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       {/* Black transition overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
-          isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
-        }`}
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       <div className="pointer-events-none absolute inset-0 bg-[#faf7f2]" />
@@ -272,7 +271,7 @@ export function FlowerGardenScene({
         alt="Flower Garden Background"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
       />
-      
+
       {/* Header Bar */}
       <div className="relative z-30 flex items-center justify-between p-4">
         <button
@@ -293,11 +292,10 @@ export function FlowerGardenScene({
         <div className="relative flex items-end justify-center w-full max-w-sm">
           {/* AII Sprite */}
           <div
-            className={`relative w-40 sm:w-44 transition-all duration-300 animate-pixel-idle ${
-              isAii
+            className={`relative w-40 sm:w-44 transition-all duration-300 animate-pixel-idle ${isAii
                 ? "z-20 scale-105 brightness-100"
                 : "z-10 scale-95 brightness-65"
-            }`}
+              }`}
           >
             <img
               src={activeAiiExpr}
@@ -308,11 +306,10 @@ export function FlowerGardenScene({
 
           {/* KIBO Sprite */}
           <div
-            className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 animate-pixel-idle ${
-              isKibo
+            className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 animate-pixel-idle ${isKibo
                 ? "z-30 scale-108 brightness-100"
                 : "z-0 scale-95 brightness-65"
-            }`}
+              }`}
           >
             <img
               src={activeKiboExpr}

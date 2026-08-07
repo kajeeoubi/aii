@@ -211,7 +211,7 @@ export function StatueMinigameScene({
               title="Klik untuk menggeser Patung Batu (Track Luar)"
             >
               <img
-                src="/patung/patung_batu.PNG"
+                src="/patung/patung_batu.png"
                 alt="Patung Batu"
                 className="w-full h-full object-contain pointer-events-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]"
               />
@@ -235,7 +235,7 @@ export function StatueMinigameScene({
               title="Klik untuk menggeser Patung Tangan (Track Tengah)"
             >
               <img
-                src="/patung/patung_tangan.PNG"
+                src="/patung/patung_tangan.png"
                 alt="Patung Tangan"
                 className="w-full h-full object-contain pointer-events-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]"
               />
@@ -259,7 +259,7 @@ export function StatueMinigameScene({
               title="Klik untuk menggeser Patung Hati (Track Dalam)"
             >
               <img
-                src="/patung/patung_hati.PNG"
+                src="/patung/patung_hati.png"
                 alt="Patung Hati"
                 className="w-full h-full object-contain pointer-events-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]"
               />

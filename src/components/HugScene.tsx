@@ -143,15 +143,13 @@ export function HugScene({ onBackToMenu, onNextScene }: HugSceneProps) {
 
   return (
     <div
-      className={`relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2] ${
-        isShaking ? "animate-shake" : ""
-      }`}
+      className={`relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2] ${isShaking ? "animate-shake" : ""
+        }`}
     >
       {/* Black transition overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
-          isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
-        }`}
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       {/* Peluk Background Image */}

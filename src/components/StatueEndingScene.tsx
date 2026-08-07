@@ -24,13 +24,13 @@ const dialogueData: DialogueLine[] = [
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
     text: "Aii, apa kamu lihat itu..",
-    expression: "/char/kibo/kaget.PNG",
+    expression: "/char/kibo/kaget.png",
   },
   {
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
     text: "Iya, ku pikir kita telah membuka ruangan rahasia",
-    expression: "/char/aii/kaget.PNG",
+    expression: "/char/aii/kaget.png",
   },
   {
     speaker: "PETUGAS GALLERY",
@@ -42,19 +42,19 @@ const dialogueData: DialogueLine[] = [
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
     text: "Aii, kamu pergi saja, aku akan menyerahkan diri ke petugas, setelah itu kamu bisa keluar dengan aman tanpa ketahuan",
-    expression: "/char/kibo/marah.PNG",
+    expression: "/char/kibo/marah.png",
   },
   {
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
     text: "Tapi gimana dengan kamu.. kalo kamu diapa-apain gimana?? masa aku tega tinggalin kamu??!",
-    expression: "/char/aii/kawatir.PNG",
+    expression: "/char/aii/kawatir.png",
   },
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
     text: "Buruan sebelum kita berdua ketangkep!!",
-    expression: "/char/kibo/marah.PNG",
+    expression: "/char/kibo/marah.png",
   },
 ];
 
@@ -69,8 +69,8 @@ export function StatueEndingScene({
   const [isEnteringScene, setIsEnteringScene] = useState(true);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
 
-  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/kaget.PNG");
-  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/kaget.PNG");
+  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/kaget.png");
+  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/kaget.png");
 
   useEffect(() => {
     const fadeTimer = setTimeout(() => {
@@ -192,9 +192,8 @@ export function StatueEndingScene({
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       {/* Black transition overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
-          isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
-        }`}
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       {/* Statue Minigame Background */}
@@ -237,11 +236,10 @@ export function StatueEndingScene({
             <>
               {/* AII Sprite */}
               <div
-                className={`relative w-40 sm:w-44 transition-all duration-300 animate-pixel-idle ${
-                  isAii
+                className={`relative w-40 sm:w-44 transition-all duration-300 animate-pixel-idle ${isAii
                     ? "z-20 scale-105 brightness-100"
                     : "z-10 scale-95 brightness-65"
-                }`}
+                  }`}
               >
                 <img
                   src={activeAiiExpr}
@@ -252,11 +250,10 @@ export function StatueEndingScene({
 
               {/* KIBO Sprite */}
               <div
-                className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 animate-pixel-idle ${
-                  isKibo
+                className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 animate-pixel-idle ${isKibo
                     ? "z-30 scale-108 brightness-100"
                     : "z-0 scale-95 brightness-65"
-                }`}
+                  }`}
               >
                 <img
                   src={activeKiboExpr}

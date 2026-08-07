@@ -22,33 +22,33 @@ const initialDialogue: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Wahh, Kibo liat deh! Ada ruangan pameran patung disini..",
-    expression: "/char/aii/kaget.PNG",
+    expression: "/char/aii/kaget.png",
   },
   {
     speaker: "KIBO",
     text: "Woahh besar kali ruangannya!! Tapi kok patungnya cuma 3 doang anjay_-",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
     text: "Iya.. Bentar deh.. Patung-patungnya kek punya simbol gitu ga sih?",
-    expression: "/char/aii/bingung.PNG",
+    expression: "/char/aii/bingung.png",
   },
   {
     speaker: "KIBO",
     text: "Huum.. Patung yang kiri yang bentuk batu berduri itu artinya konflik dalam hubungan...",
-    expression: "/char/kibo/ngomong.PNG",
+    expression: "/char/kibo/ngomong.png",
   },
   {
     speaker: "KIBO",
     text: "Yang kanan bentuk tangan saling genggam itu ikatan kedua pasangan...",
-    expression: "/char/kibo/ngomong.PNG",
+    expression: "/char/kibo/ngomong.png",
   },
   {
     speaker: "KIBO",
     text: "Dan yang tengah bentuk hati kristal itu...",
-    expression: "/char/kibo/bingung.PNG",
+    expression: "/char/kibo/bingung.png",
   },
 ];
 
@@ -56,19 +56,19 @@ const option1Dialogue: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Yapp!! Jadi true love itu bakal tumbuh kalo keduanya memahami satu sama lain, tetap bareng-bareng menghadapi masalah yang muncul",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
     text: "Oalah gituuu to..",
-    typingExpression: "/char/aii/ngomong_senyum.PNG",
-    expression: "/char/aii/senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.png",
+    expression: "/char/aii/senyum.png",
   },
   {
     speaker: "AII",
     text: "Bentar deh, kok ada yang aneh sama ketiga patung ini.. ada garis lintasannya, keknya patung ini bisa digeser",
-    expression: "/char/aii/bingung.PNG",
+    expression: "/char/aii/bingung.png",
   },
 ];
 
@@ -76,18 +76,18 @@ const option2Dialogue: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Kamu tu yang hopeless hahahah, itu simbol true love, tapi true love hanya tumbuh kalo keduanya saling memahami dan mau menghadapi setiap masalah yang datang bersama",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     text: "Oalah gituuu to..",
-    typingExpression: "/char/aii/ngomong_senyum.PNG",
-    expression: "/char/aii/senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.png",
+    expression: "/char/aii/senyum.png",
   },
   {
     speaker: "AII",
     text: "Bentar deh, kok ada yang aneh sama ketiga patung ini.. ada garis lintasannya, keknya patung ini bisa digeser",
-    expression: "/char/aii/bingung.PNG",
+    expression: "/char/aii/bingung.png",
   },
 ];
 
@@ -104,8 +104,8 @@ export function StatueRoomScene({
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
 
   const [hasChosenOption, setHasChosenOption] = useState(false);
-  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/kaget.PNG");
-  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.PNG");
+  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/kaget.png");
+  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.png");
 
   useEffect(() => {
     const fadeTimer = setTimeout(() => {
@@ -242,8 +242,8 @@ export function StatueRoomScene({
     currentDialogue.speaker === "AII"
       ? "bg-[#ffb3ba]"
       : currentDialogue.speaker === "KIBO"
-      ? "bg-[#bae1ff]"
-      : "bg-[#ffffba]";
+        ? "bg-[#bae1ff]"
+        : "bg-[#ffffba]";
 
   const isAii = currentDialogue.speaker === "AII";
   const isKibo = currentDialogue.speaker === "KIBO";
@@ -252,9 +252,8 @@ export function StatueRoomScene({
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       {/* Black transition overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
-          isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
-        }`}
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       <div className="pointer-events-none absolute inset-0 bg-[#faf7f2]" />
@@ -286,11 +285,10 @@ export function StatueRoomScene({
         <div className="relative flex items-end justify-center w-full max-w-sm">
           {/* AII Sprite */}
           <div
-            className={`relative w-40 sm:w-44 transition-all duration-300 animate-pixel-idle ${
-              isAii
+            className={`relative w-40 sm:w-44 transition-all duration-300 animate-pixel-idle ${isAii
                 ? "z-20 scale-105 brightness-100"
                 : "z-10 scale-95 brightness-65"
-            }`}
+              }`}
           >
             <img
               src={activeAiiExpr}
@@ -301,11 +299,10 @@ export function StatueRoomScene({
 
           {/* KIBO Sprite */}
           <div
-            className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 animate-pixel-idle ${
-              isKibo
+            className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 animate-pixel-idle ${isKibo
                 ? "z-30 scale-108 brightness-100"
                 : "z-0 scale-95 brightness-65"
-            }`}
+              }`}
           >
             <img
               src={activeKiboExpr}
@@ -378,8 +375,8 @@ export function StatueRoomScene({
               {isQuizTime
                 ? ""
                 : isFinalLine && isTypingComplete
-                ? ""
-                : "[Klik buat lanjut]"}
+                  ? ""
+                  : "[Klik buat lanjut]"}
             </span>
 
             {(!isFinalLine || !isTypingComplete) && !isQuizTime && (

@@ -23,111 +23,111 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Wahh.. lukisannya banyak banget ya.. Tapi kok semuanya ditutup kain?? Kenapa ya..",
-    expression: "/char/aii/bingung.PNG",
+    expression: "/char/aii/bingung.png",
   },
   {
     speaker: "KIBO",
     text: "Ya gatau, kamu kira aku dukun??",
-    expression: "/char/kibo/bingung.PNG",
+    expression: "/char/kibo/bingung.png",
   },
   {
     speaker: "AII",
     text: "Aishh.. Kibo nyebelin!!",
-    expression: "/char/aii/kesel.PNG",
+    expression: "/char/aii/kesel.png",
   },
   {
     speaker: "KIBO",
     text: "Emang wlee :P",
-    expression: "/char/kibo/bercanda.PNG",
+    expression: "/char/kibo/bercanda.png",
   },
   {
     speaker: "AII",
     text: "SHIBALL (Sambil pukul kecil manja)",
-    expression: "/char/aii/kesel.PNG",
+    expression: "/char/aii/kesel.png",
   },
   {
     speaker: "KIBO",
     text: "Serius deh, kalo kamu lagi ngambek tambah lucuww tau",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     text: "APALAHH.. APA IYAA? (Salting)",
-    expression: "/char/aii/salting.PNG",
+    expression: "/char/aii/salting.png",
   },
   {
     speaker: "KIBO",
     text: "Huummm!! Sampe aku pen mainin pipi kamu kek gini.. (Tiba tiba kibo cubit perlahan pipinya)",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     text: "Aduhh.. Kibo sakitt.. Humppp",
-    expression: "/char/aii/kesel.PNG",
+    expression: "/char/aii/kesel.png",
   },
   {
     speaker: "KIBO",
     text: "Heheheh maaf Aii",
-    expression: "/char/kibo/malu.PNG",
+    expression: "/char/kibo/malu.png",
   },
   {
     speaker: "KIBO",
     text: "Abisnya kamu lucuwwnya kebangetan aku jadi kebablasan deh mwhehehe :3",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     text: "Hihihi, makacii Kebo <3",
-    expression: "/char/aii/malu.PNG",
+    expression: "/char/aii/malu.png",
   },
   {
     speaker: "AII",
     text: "Emang aku lucuww :P",
-    expression: "/char/aii/salting.PNG",
+    expression: "/char/aii/salting.png",
   },
   {
     speaker: "KIBO",
     text: "Apaan Kebo, kamu tu yang sering bangun siang kek keboo huu..",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     text: "Hmm.. ya deh terserah kamu",
-    typingExpression: "/char/aii/ngomong_senyum.PNG",
-    expression: "/char/aii/senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.png",
+    expression: "/char/aii/senyum.png",
   },
   {
     speaker: "AII",
     text: "Btw, kamu ga penasaran sama lukisannya??",
-    expression: "/char/aii/bingung.PNG",
+    expression: "/char/aii/bingung.png",
   },
   {
     speaker: "KIBO",
     text: "Yaudah buka aja daripada penasaran",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
     text: "Gamauu, ntar kalo ketangkep ama petugas gimana?",
-    expression: "/char/aii/kawatir.PNG",
+    expression: "/char/aii/kawatir.png",
   },
   {
     speaker: "KIBO",
     text: "Ntar yang ngaku kalo yang buka lukisannya aku, tenang aja",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
     text: "Beneran ya.. Janji dulu :P",
-    expression: "/char/aii/semangat.PNG",
+    expression: "/char/aii/semangat.png",
   },
   {
     speaker: "KIBO",
     text: "Iya iya.. Aku janjii.. Buruan buka..",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
 ];
 
@@ -144,8 +144,8 @@ export function GalleryRoomScene({
   const [isEnteringScene, setIsEnteringScene] = useState(true);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
 
-  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/bingung.PNG");
-  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.PNG");
+  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/bingung.png");
+  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.png");
 
   useEffect(() => {
     const fadeTimer = setTimeout(() => {
@@ -208,7 +208,7 @@ export function GalleryRoomScene({
         if (onNextScene) {
           onNextScene();
         } else {
-          handleBackToMenu({ stopPropagation: () => {} } as React.MouseEvent);
+          handleBackToMenu({ stopPropagation: () => { } } as React.MouseEvent);
         }
       }
     }
@@ -256,8 +256,8 @@ export function GalleryRoomScene({
     currentDialogue.speaker === "AII"
       ? "bg-[#ffb3ba]"
       : currentDialogue.speaker === "KIBO"
-      ? "bg-[#bae1ff]"
-      : "bg-[#ffffba]";
+        ? "bg-[#bae1ff]"
+        : "bg-[#ffffba]";
 
   const isAii = currentDialogue.speaker === "AII";
   const isKibo = currentDialogue.speaker === "KIBO";
@@ -265,9 +265,8 @@ export function GalleryRoomScene({
   return (
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
-          isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
-        }`}
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       <img
@@ -329,9 +328,8 @@ export function GalleryRoomScene({
             key={currentDialogue.speaker}
             src={isAii ? activeAiiExpr : activeKiboExpr}
             alt={currentDialogue.speaker}
-            className={`w-full h-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)] ${
-              isKibo ? "scale-110 origin-bottom" : ""
-            }`}
+            className={`w-full h-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)] ${isKibo ? "scale-110 origin-bottom" : ""
+              }`}
           />
         </div>
       </div>

@@ -68,7 +68,7 @@ export default function Home() {
     const ch7_9Views = [
       "statueRoom",
       "statueMinigame",
-      "statueMinigameEnding",
+      "statueEnding",
     ];
 
     const stayViews = [
@@ -231,7 +231,7 @@ export default function Home() {
         ) : (
           <>
             <img
-              src="/asset/gedung.PNG"
+              src="/asset/gedung.png"
               alt="Building Background"
               className="pointer-events-none absolute bottom-0 left-0 w-full object-cover object-bottom"
             />

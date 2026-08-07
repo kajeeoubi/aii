@@ -22,23 +22,23 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Makasih yah udah bantu pilihin bunga buat aku :D",
-    expression: "/char/aii/malu.PNG",
+    expression: "/char/aii/malu.png",
   },
   {
     speaker: "KIBO",
     text: "Sama sama, Aii",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
     text: "Geser yok!",
-    expression: "/char/aii/semangat.PNG",
+    expression: "/char/aii/semangat.png",
   },
   {
     speaker: "KIBO",
     text: "Ayokk!",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
 ];
 
@@ -53,8 +53,8 @@ export function FlowerGardenPart2Scene({
   const [isEnteringScene, setIsEnteringScene] = useState(true);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
 
-  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/senyum.PNG");
-  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.PNG");
+  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/senyum.png");
+  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.png");
 
   useEffect(() => {
     const fadeTimer = setTimeout(() => {
@@ -172,8 +172,8 @@ export function FlowerGardenPart2Scene({
     currentDialogue.speaker === "AII"
       ? "bg-[#ffb3ba]"
       : currentDialogue.speaker === "KIBO"
-      ? "bg-[#bae1ff]"
-      : "bg-[#ffffba]";
+        ? "bg-[#bae1ff]"
+        : "bg-[#ffffba]";
 
   const isAii = currentDialogue.speaker === "AII";
   const isKibo = currentDialogue.speaker === "KIBO";
@@ -182,9 +182,8 @@ export function FlowerGardenPart2Scene({
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       {/* Black transition overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
-          isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
-        }`}
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       <div className="pointer-events-none absolute inset-0 bg-[#faf7f2]" />
@@ -195,7 +194,7 @@ export function FlowerGardenPart2Scene({
         alt="Flower Garden Background"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
       />
-      
+
       {/* Header Bar */}
       <div className="relative z-30 flex items-center justify-between p-4">
         <button
@@ -216,11 +215,10 @@ export function FlowerGardenPart2Scene({
         <div className="relative flex items-end justify-center w-full max-w-sm">
           {/* AII Sprite */}
           <div
-            className={`relative w-40 sm:w-44 transition-all duration-300 animate-pixel-idle ${
-              isAii
+            className={`relative w-40 sm:w-44 transition-all duration-300 animate-pixel-idle ${isAii
                 ? "z-20 scale-105 brightness-100"
                 : "z-10 scale-95 brightness-65"
-            }`}
+              }`}
           >
             <img
               src={activeAiiExpr}
@@ -231,11 +229,10 @@ export function FlowerGardenPart2Scene({
 
           {/* KIBO Sprite */}
           <div
-            className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 animate-pixel-idle ${
-              isKibo
+            className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 animate-pixel-idle ${isKibo
                 ? "z-30 scale-108 brightness-100"
                 : "z-0 scale-95 brightness-65"
-            }`}
+              }`}
           >
             <img
               src={activeKiboExpr}

@@ -27,7 +27,7 @@ const dialogueData: DialogueLine[] = [
     expression: "/char/petugas/petugas.png",
     animateStep: true,
   },
-    {
+  {
     speaker: "PETUGAS GALLERY",
     badgeBg: "bg-[#ffd166]",
     text: "Kalian benar benar ya.. (Tatapan sinis)",
@@ -37,7 +37,7 @@ const dialogueData: DialogueLine[] = [
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
     text: "Oo shii.. sepertinya kita dalam masalah besar..",
-    expression: "/char/kibo/takut.PNG",
+    expression: "/char/kibo/takut.png",
   },
   {
     speaker: "PETUGAS GALLERY",
@@ -51,48 +51,48 @@ const dialogueData: DialogueLine[] = [
     text: "Anda melupakan buket anda nona hehehehe :D",
     expression: "/char/petugas/petugas.png",
   },
-    {
+  {
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
     text: "HAA??",
-    expression: "/char/aii/kaget.PNG",
+    expression: "/char/aii/kaget.png",
   },
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
     text: "SURPRISEEee!!",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
     text: "AHAHAHAHH! Aii wajah kamu lucu bgt pas lagi panikk, ini bikin aku gabisa berenti ketawa bwahaha!!",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
     text: "Ihhh, Kiboo!! Semua ini rencana kamu ya?!!",
-    expression: "/char/aii/kesel.PNG",
+    expression: "/char/aii/kesel.png",
   },
   {
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
     text: "IHHH!! Kibo nyebelinnn!!",
-    expression: "/char/aii/nangis.PNG",
+    expression: "/char/aii/nangis.png",
   },
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
     text: "hihihi.. maaf maaf.. iya aku siapin semua ini buat kamu Aii, termasuk yang booking gallery ini juga wkwkw",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
     text: "humpp.. emng aga nyebelin but... makasi ya Kibo.. kamu sampe repot bikin ini semua <3",
-    typingExpression: "/char/aii/terharu.PNG",
-    expression: "/char/aii/terharu_bahagia.PNG",
+    typingExpression: "/char/aii/terharu.png",
+    expression: "/char/aii/terharu_bahagia.png",
   },
 ];
 
@@ -105,8 +105,8 @@ export function SurpriseScene({ onBackToMenu, onNextScene }: SurpriseSceneProps)
   const [isShaking, setIsShaking] = useState(true);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
 
-  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/kawatir.PNG");
-  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.PNG");
+  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/kawatir.png");
+  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.png");
 
   useEffect(() => {
     const enterTimer = setTimeout(() => {
@@ -228,15 +228,13 @@ export function SurpriseScene({ onBackToMenu, onNextScene }: SurpriseSceneProps)
 
   return (
     <div
-      className={`relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2] ${
-        isShaking ? "animate-shake" : ""
-      }`}
+      className={`relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2] ${isShaking ? "animate-shake" : ""
+        }`}
     >
       {/* Black transition overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
-          isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
-        }`}
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       {/* Background Image: patung_minigame.png */}
@@ -270,11 +268,10 @@ export function SurpriseScene({ onBackToMenu, onNextScene }: SurpriseSceneProps)
             /* PETUGAS GALLERY Sprite */
             <div
               key={`petugas-${currentLineIndex}`}
-              className={`relative w-44 sm:w-48 transition-all duration-300 z-30 scale-105 brightness-100 ${
-                currentDialogue.animateStep
+              className={`relative w-44 sm:w-48 transition-all duration-300 z-30 scale-105 brightness-100 ${currentDialogue.animateStep
                   ? "animate-step-in"
                   : "animate-pixel-idle"
-              }`}
+                }`}
             >
               <img
                 src={currentDialogue.expression || "/char/petugas/petugas.png"}
@@ -286,11 +283,10 @@ export function SurpriseScene({ onBackToMenu, onNextScene }: SurpriseSceneProps)
             <>
               {/* AII Sprite */}
               <div
-                className={`relative w-40 sm:w-44 transition-all duration-300 animate-pixel-idle ${
-                  isAii
+                className={`relative w-40 sm:w-44 transition-all duration-300 animate-pixel-idle ${isAii
                     ? "z-20 scale-105 brightness-100"
                     : "z-10 scale-95 brightness-65"
-                }`}
+                  }`}
               >
                 <img
                   src={activeAiiExpr}
@@ -301,11 +297,10 @@ export function SurpriseScene({ onBackToMenu, onNextScene }: SurpriseSceneProps)
 
               {/* KIBO Sprite */}
               <div
-                className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 animate-pixel-idle ${
-                  isKibo
+                className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 animate-pixel-idle ${isKibo
                     ? "z-30 scale-108 brightness-100"
                     : "z-0 scale-95 brightness-65"
-                }`}
+                  }`}
               >
                 <img
                   src={activeKiboExpr}

@@ -290,9 +290,8 @@ export function GalleryMinigameScene({
   return (
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
-          isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
-        }`}
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       <img
@@ -321,13 +320,12 @@ export function GalleryMinigameScene({
       {/* MINIGAME ZOOMED IN VIEW WITH SLIDE ANIMATION */}
       <div className="relative z-30 flex-1 flex flex-col items-center justify-center p-4 -mt-6 sm:-mt-4 overflow-hidden w-full">
         <div
-          className={`relative border-4 sm:border-6 border-[#1a0f0a] bg-[#3d2314] p-2 sm:p-2.5 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.8)] w-64 sm:w-72 transition-all duration-400 ${
-            isSlidingOut
+          className={`relative border-4 sm:border-6 border-[#1a0f0a] bg-[#3d2314] p-2 sm:p-2.5 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.8)] w-64 sm:w-72 transition-all duration-400 ${isSlidingOut
               ? "-translate-x-full opacity-0"
               : isSlidingIn
-              ? "translate-x-full opacity-0"
-              : "translate-x-0 opacity-100"
-          }`}
+                ? "translate-x-full opacity-0"
+                : "translate-x-0 opacity-100"
+            }`}
         >
           <div className="border-3 border-[#8c5a35] bg-[#faf7f2] p-2">
             <div className="relative w-full h-64 sm:h-72 overflow-hidden border-2 border-[#2d2d2d] bg-[#1a1a1a] shadow-inner select-none">
@@ -356,13 +354,12 @@ export function GalleryMinigameScene({
                   transform: `translateY(${isClothRemoved ? 320 : dragY}px)`,
                   opacity: isClothRemoved ? 0 : 1 - Math.min(1, dragY / 150),
                 }}
-                className={`absolute inset-0 z-20 bg-gradient-to-b from-[#b91c1c] via-[#991b1b] to-[#7f1d1d] flex flex-col items-center justify-center p-4 shadow-2xl transition-all ${
-                  isClothRemoved
+                className={`absolute inset-0 z-20 bg-gradient-to-b from-[#b91c1c] via-[#991b1b] to-[#7f1d1d] flex flex-col items-center justify-center p-4 shadow-2xl transition-all ${isClothRemoved
                     ? "pointer-events-none duration-700"
                     : isDragging
-                    ? "cursor-grabbing duration-0"
-                    : "cursor-grab duration-300"
-                }`}
+                      ? "cursor-grabbing duration-0"
+                      : "cursor-grab duration-300"
+                  }`}
               >
                 <div className="absolute top-0 left-0 right-0 h-4 bg-[#7f1d1d] border-b-2 border-[#450a0a]" />
                 <div className="absolute inset-y-0 left-1/3 w-0.5 bg-[#7f1d1d]/50" />
@@ -453,8 +450,8 @@ export function GalleryMinigameScene({
                       {currentPaintingIndex < paintingsData.length - 1
                         ? "LANJUT LUKISAN BERIKUTNYA"
                         : onNextScene
-                        ? "LANJUT KE TAMAN BUNGA"
-                        : "KEMBALI KE MENU"}
+                          ? "LANJUT KE TAMAN BUNGA"
+                          : "KEMBALI KE MENU"}
                     </span>
                     <PxlIcon
                       icon={ArrowRight as unknown as PxlKitIconData}

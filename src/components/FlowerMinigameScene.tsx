@@ -19,27 +19,27 @@ interface FlowerItem {
 }
 
 const row1Flowers: FlowerItem[] = [
-  { id: "mawar_merah", name: "Mawar Merah", boxImage: "/flower/kotak_mawar_merah.PNG", flowerImage: "/flower/mawar_merah.PNG" },
-  { id: "mawar_pink", name: "Mawar Pink", boxImage: "/flower/kotak_mawar_pink.PNG", flowerImage: "/flower/mawar_pink.PNG" },
-  { id: "mawar_putih", name: "Mawar Putih", boxImage: "/flower/kotak_mawar_putih.PNG", flowerImage: "/flower/mawar_putih.PNG" },
-  { id: "sunflower", name: "Bunga Matahari", boxImage: "/flower/kotak_sunflower.PNG", flowerImage: "/flower/sunflower.PNG" },
+  { id: "mawar_merah", name: "Mawar Merah", boxImage: "/flower/kotak_mawar_merah.png", flowerImage: "/flower/mawar_merah.png" },
+  { id: "mawar_pink", name: "Mawar Pink", boxImage: "/flower/kotak_mawar_pink.png", flowerImage: "/flower/mawar_pink.png" },
+  { id: "mawar_putih", name: "Mawar Putih", boxImage: "/flower/kotak_mawar_putih.png", flowerImage: "/flower/mawar_putih.png" },
+  { id: "sunflower", name: "Bunga Matahari", boxImage: "/flower/kotak_sunflower.png", flowerImage: "/flower/sunflower.png" },
 ];
 
 const row2Flowers: FlowerItem[] = [
-  { id: "tulip_kuning", name: "Tulip Kuning", boxImage: "/flower/kotak_tulip_kuning.PNG", flowerImage: "/flower/tulip_kuning.PNG" },
-  { id: "tulip_pink", name: "Tulip Pink", boxImage: "/flower/kotak_tulip_pink.PNG", flowerImage: "/flower/tulip_pink.PNG" },
-  { id: "tulip_putih", name: "Tulip Putih", boxImage: "/flower/kotak_tulip_putih.PNG", flowerImage: "/flower/tulip_putih.PNG" },
-  { id: "tulip_ungu", name: "Tulip Ungu", boxImage: "/flower/kotak_tulip_ungu.PNG", flowerImage: "/flower/tulip_ungu.PNG" },
+  { id: "tulip_kuning", name: "Tulip Kuning", boxImage: "/flower/kotak_tulip_kuning.png", flowerImage: "/flower/tulip_kuning.png" },
+  { id: "tulip_pink", name: "Tulip Pink", boxImage: "/flower/kotak_tulip_pink.png", flowerImage: "/flower/tulip_pink.png" },
+  { id: "tulip_putih", name: "Tulip Putih", boxImage: "/flower/kotak_tulip_putih.png", flowerImage: "/flower/tulip_putih.png" },
+  { id: "tulip_ungu", name: "Tulip Ungu", boxImage: "/flower/kotak_tulip_ungu.png", flowerImage: "/flower/tulip_ungu.png" },
 ];
 
 const row3Flowers: FlowerItem[] = [
-  { id: "dahlia_pink", name: "Dahlia Pink", boxImage: "/flower/kotak_dahlia_pink.PNG", flowerImage: "/flower/dahlia_pink.PNG" },
-  { id: "dahlia_putih", name: "Dahlia Putih", boxImage: "/flower/kotak_dahlia_putih.PNG", flowerImage: "/flower/dahlia_putih.PNG" },
-  { id: "dahlia_ungu", name: "Dahlia Ungu", boxImage: "/flower/kotak_dahlia_ungu.PNG", flowerImage: "/flower/dahlia_ungu.PNG" },
+  { id: "dahlia_pink", name: "Dahlia Pink", boxImage: "/flower/kotak_dahlia_pink.png", flowerImage: "/flower/dahlia_pink.png" },
+  { id: "dahlia_putih", name: "Dahlia Putih", boxImage: "/flower/kotak_dahlia_putih.png", flowerImage: "/flower/dahlia_putih.png" },
+  { id: "dahlia_ungu", name: "Dahlia Ungu", boxImage: "/flower/kotak_dahlia_ungu.png", flowerImage: "/flower/dahlia_ungu.png" },
 ];
 
 const row4Lavender: FlowerItem = {
-  id: "lavender", name: "Lavender", boxImage: "/flower/kotak_lavender.PNG", flowerImage: "/flower/lavender.PNG"
+  id: "lavender", name: "Lavender", boxImage: "/flower/kotak_lavender.png", flowerImage: "/flower/lavender.png"
 };
 
 const round1Targets: FlowerItem[] = [
@@ -217,7 +217,7 @@ export function FlowerArrangingScene({
     if (data) {
       try {
         flowerToPlace = JSON.parse(data);
-      } catch (_) {}
+      } catch (_) { }
     }
     if (flowerToPlace) {
       playPopSound();
@@ -314,9 +314,8 @@ export function FlowerArrangingScene({
       </div>
 
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
-          isEntering || isExiting ? "opacity-100" : "opacity-0"
-        }`}
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${isEntering || isExiting ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       <img
@@ -341,7 +340,7 @@ export function FlowerArrangingScene({
 
       <div className="relative z-20 flex-1 flex flex-col items-center justify-center px-2 py-1 overflow-visible">
         <div className="relative w-full max-w-sm flex flex-col my-auto translate-y-24 sm:translate-y-28">
-          
+
           <div className="absolute -top-46 sm:-top-36 left-0 right-0 z-10 flex items-end justify-center pointer-events-none">
             <div className="relative w-20 sm:w-16">
               <img
@@ -354,7 +353,7 @@ export function FlowerArrangingScene({
 
             <div className="relative w-21 sm:w-17 -ml-5 sm:-ml-4">
               <img
-                src="/char/kibo/kibo.PNG"
+                src="/char/kibo/kibo.png"
                 alt="KIBO"
                 className="w-full h-auto object-contain scale-105 origin-bottom drop-shadow-[0_4px_6px_rgba(0,0,0,0.35)]"
                 style={{ imageRendering: "pixelated" }}
@@ -368,8 +367,8 @@ export function FlowerArrangingScene({
                         ? "Boleh juga"
                         : "Ambil bunga ini!"
                       : isCurrentRoundCompleted
-                      ? "Yeayy! Sempurna!"
-                      : "Ambil bunga ini!"}
+                        ? "Yeayy! Sempurna!"
+                        : "Ambil bunga ini!"}
                   </span>
 
                   <div className="flex items-center gap-1.5 mt-0.5">
@@ -378,11 +377,9 @@ export function FlowerArrangingScene({
                       return (
                         <div
                           key={idx}
-                          className={`relative ${
-                            currentRound === 2 ? "w-6 h-6 sm:w-7 sm:h-7" : "w-7 h-7 sm:w-8 sm:h-8"
-                          } border-2 ${
-                            matched ? "border-[#4caf50] bg-[#e8f5e9]" : "border-[#2d2d2d] bg-[#faf7f2]"
-                          } flex items-center justify-center transition-colors`}
+                          className={`relative ${currentRound === 2 ? "w-6 h-6 sm:w-7 sm:h-7" : "w-7 h-7 sm:w-8 sm:h-8"
+                            } border-2 ${matched ? "border-[#4caf50] bg-[#e8f5e9]" : "border-[#2d2d2d] bg-[#faf7f2]"
+                            } flex items-center justify-center transition-colors`}
                           title={target.name}
                         >
                           <img
@@ -493,11 +490,9 @@ export function FlowerArrangingScene({
               data-slot-index={idx}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDropOnSlot(e, idx)}
-              className={`relative ${
-                slots.length === 5 ? "w-12 h-12 sm:w-15 sm:h-15" : "w-15 h-15 sm:w-18 sm:h-18"
-              } border-3 border-[#2d2d2d] bg-[#faf7f2]/95 shadow-[3px_3px_0px_0px_#2d2d2d] backdrop-blur-xs flex items-center justify-center transition-all ${
-                slotItem ? "ring-2 ring-[#ffb3ba]" : ""
-              }`}
+              className={`relative ${slots.length === 5 ? "w-12 h-12 sm:w-15 sm:h-15" : "w-15 h-15 sm:w-18 sm:h-18"
+                } border-3 border-[#2d2d2d] bg-[#faf7f2]/95 shadow-[3px_3px_0px_0px_#2d2d2d] backdrop-blur-xs flex items-center justify-center transition-all ${slotItem ? "ring-2 ring-[#ffb3ba]" : ""
+                }`}
             >
               {slotItem ? (
                 <div className="relative w-full h-full p-1.5 flex items-center justify-center pointer-events-none">

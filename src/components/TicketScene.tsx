@@ -22,20 +22,20 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Fiuhh.. finally nyampe juga.. katanya viral tapi kok sepi ya??",
-    typingExpression: "/char/aii/ngomong_senyum.PNG",
-    expression: "/char/aii/senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.png",
+    expression: "/char/aii/senyum.png",
   },
   {
     speaker: "AII",
     text: "Oh iya! kalo gitu aku beli tiket dulu deh..",
-    typingExpression: "/char/aii/ngomong_senyum.PNG",
-    expression: "/char/aii/senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.png",
+    expression: "/char/aii/senyum.png",
   },
   {
     speaker: "AII",
     text: "Mas, tiketnya satu ya..",
-    typingExpression: "/char/aii/ngomong_senyum.PNG",
-    expression: "/char/aii/senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.png",
+    expression: "/char/aii/senyum.png",
   },
   {
     speaker: "PETUGAS LOKET",
@@ -45,7 +45,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Yah.. masa aku jauh-jauh kesini gabisa masuk, aku uda effort loh mas..",
-    expression: "/char/aii/sedih.PNG",
+    expression: "/char/aii/sedih.png",
   },
   {
     speaker: "PETUGAS LOKET",
@@ -55,7 +55,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Gimana sih mas!! kalo gallery ditutup harusnya ada pemberitahuan dong.. kalo kek gini kan aku yang repot!! aku uda capek niat buat mandi, buat makeup, buat panas panasan ke sini!!",
-    expression: "/char/aii/kesel.PNG",
+    expression: "/char/aii/kesel.png",
   },
   {
     speaker: "PETUGAS LOKET",
@@ -65,70 +65,70 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Bodo amat, poko-",
-    expression: "/char/aii/marah.PNG",
+    expression: "/char/aii/marah.png",
   },
   {
     speaker: "KIBO",
     text: "Eeeh ada apa ini rame amat, napas dulu.. jangan marah marah nanti cepet tua lho~",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     text: "Hah?! Kibo?! Kok kamu ada di sini?!",
-    expression: "/char/aii/kaget.PNG",
+    expression: "/char/aii/kaget.png",
   },
   {
     speaker: "KIBO",
     text: "Ya mau nonton pameran lah, emangnya cuma kamu doang yang boleh ke sini? pasti kamu ngikutin aku ya hahah..",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
     text: "Gak usah sok pede deh, tempat ini udah dibooking full hari ini! Ditutup buat umum! Gara-gara itu aku dari tadi emosi!!",
-    expression: "/char/aii/kesel.PNG",
+    expression: "/char/aii/kesel.png",
   },
   {
     speaker: "KIBO",
     text: "Lah... seriusan ditutup? Yah, padahal aku udah niat banget ke sini...",
-    expression: "/char/kibo/sedih.PNG",
+    expression: "/char/kibo/sedih.png",
   },
   {
     speaker: "AII",
     text: "Yakann.. emang nyebelin banget gallery-nya..",
-    expression: "/char/aii/sedih.PNG",
+    expression: "/char/aii/sedih.png",
   },
   {
     speaker: "KIBO",
     text: "Hmmm... tapi berhubung kita udah sama-sama sampe sini...",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
     text: "Kenapa muka kamu kek gitu? Pasti kamu punya ide aneh-aneh ya...",
-    expression: "/char/aii/bingung.PNG",
+    expression: "/char/aii/bingung.png",
   },
   {
     speaker: "KIBO",
     text: "Gimana kalo kita diem-diem masuk lewat pintu belakang?",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     text: "HAH?! Tuhkan.. Kalo kepergok sama petugasnya gimana??",
-    expression: "/char/aii/kaget.PNG",
+    expression: "/char/aii/kaget.png",
   },
   {
     speaker: "KIBO",
     text: "Mumpung petugasnya lagi ke toilet tuh. Lagian rugi dong udah dandan cantik gitu masa langsung balik? Berani ga?",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
     text: "Ngomong apasi! Tapi... mmm... oke deh, kalo ketauan aku bilang cuma ikut ikutan kamu!",
-    expression: "/char/aii/salting.PNG",
+    expression: "/char/aii/salting.png",
   },
 ];
 
@@ -143,8 +143,8 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
   const [isEnteringScene, setIsEnteringScene] = useState(true);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
 
-  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/senyum.PNG");
-  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.PNG");
+  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/senyum.png");
+  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.png");
 
   useEffect(() => {
     playFootstepSound(3200);
@@ -221,7 +221,7 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
         if (onNextScene) {
           onNextScene();
         } else {
-          handleBackToMenu({ stopPropagation: () => {} } as React.MouseEvent);
+          handleBackToMenu({ stopPropagation: () => { } } as React.MouseEvent);
         }
       }
     }
@@ -278,8 +278,8 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
   const speakerBadgeColor = currentDialogue.speaker === "AII"
     ? "bg-[#ffb3ba]"
     : currentDialogue.speaker === "KIBO"
-    ? "bg-[#bae1ff]"
-    : "bg-[#ffffba]";
+      ? "bg-[#bae1ff]"
+      : "bg-[#ffffba]";
 
   const isAii = currentDialogue.speaker === "AII";
   const isKibo = currentDialogue.speaker === "KIBO";
@@ -287,9 +287,8 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
   return (
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-700 ${
-          isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
-        }`}
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-700 ${isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       <img
@@ -317,26 +316,23 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
       <div className="relative z-20 flex-1 flex items-end justify-center -mb-10 sm:-mb-12 px-4 pointer-events-none overflow-hidden">
         {!hasKiboEntered ? (
           <div
-            className={`relative w-48 sm:w-52 ${
-              isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
-            }`}
+            className={`relative w-48 sm:w-52 ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+              }`}
           >
             <img
               src={currentExpression}
               alt="Character"
-              className={`w-full h-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)] ${
-                !isAii ? "scale-125 sm:scale-130 origin-bottom" : ""
-              }`}
+              className={`w-full h-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)] ${!isAii ? "scale-125 sm:scale-130 origin-bottom" : ""
+                }`}
             />
           </div>
         ) : (
           <div className="relative flex items-end justify-center w-full max-w-sm">
             <div
-              className={`relative w-40 sm:w-44 transition-all duration-300 ${
-                isAii
+              className={`relative w-40 sm:w-44 transition-all duration-300 ${isAii
                   ? "z-20 scale-105 brightness-100"
                   : "z-10 scale-95 brightness-65"
-              }`}
+                }`}
             >
               <img
                 src={activeAiiExpr}
@@ -347,13 +343,11 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
 
             <div
               key={isKiboWalkingIn ? "kibo-walking" : "kibo-idle"}
-              className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 ${
-                isKiboWalkingIn ? "animate-step-in" : "animate-pixel-idle"
-              } ${
-                isKibo
+              className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 ${isKiboWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+                } ${isKibo
                   ? "z-30 scale-108 brightness-100"
                   : "z-0 scale-95 brightness-65"
-              }`}
+                }`}
             >
               <img
                 src={activeKiboExpr}

@@ -21,39 +21,39 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Pelan pelan Aii jangan berisik, ntar kita bisa ketauan ama petugasnya loh..",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
     text: "Iyaa.. Pokoknya kalo nanti kita kepergok aku cuma bilang ikut ikutan doang!",
-    expression: "/char/aii/kawatir.PNG",
+    expression: "/char/aii/kawatir.png",
   },
   {
     speaker: "KIBO",
     text: "Humm.. Cewe emang gamau disalahin (ucap pelan)",
-    expression: "/char/kibo/bingung.PNG",
+    expression: "/char/kibo/bingung.png",
   },
   {
     speaker: "AII",
     text: "Apa, kamu ngomong apa tadi?!",
-    expression: "/char/aii/kesel.PNG",
+    expression: "/char/aii/kesel.png",
   },
   {
     speaker: "KIBO",
     text: "Hehehe.. Ngga kok, aku tadi ngomong \"You look so fine with your dress today\"",
-    expression: "/char/kibo/ketawa.PNG",
+    expression: "/char/kibo/ketawa.png",
   },
   {
     speaker: "AII",
     text: "Hihihihi.. Makasi Kibo",
-    expression: "/char/aii/malu.PNG",
+    expression: "/char/aii/malu.png",
   },
   {
     speaker: "KIBO",
     text: "Yaudah ayo pertama tama kita masuk ke dalam gallery itu",
-    typingExpression: "/char/kibo/ngomong_senyum.PNG",
-    expression: "/char/kibo/senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.png",
+    expression: "/char/kibo/senyum.png",
   },
 ];
 
@@ -66,8 +66,8 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
   const [isEnteringScene, setIsEnteringScene] = useState(true);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
 
-  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/kawatir.PNG");
-  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.PNG");
+  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/kawatir.png");
+  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.png");
 
   useEffect(() => {
     playFootstepSound(3200);
@@ -135,7 +135,7 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
         if (onNextScene) {
           onNextScene();
         } else {
-          handleBackToMenu({ stopPropagation: () => {} } as React.MouseEvent);
+          handleBackToMenu({ stopPropagation: () => { } } as React.MouseEvent);
         }
       }
     }
@@ -183,8 +183,8 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
     currentDialogue.speaker === "AII"
       ? "bg-[#ffb3ba]"
       : currentDialogue.speaker === "KIBO"
-      ? "bg-[#bae1ff]"
-      : "bg-[#ffffba]";
+        ? "bg-[#bae1ff]"
+        : "bg-[#ffffba]";
 
   const isAii = currentDialogue.speaker === "AII";
   const isKibo = currentDialogue.speaker === "KIBO";
@@ -192,9 +192,8 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
   return (
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
-          isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
-        }`}
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       <div className="pointer-events-none absolute inset-0 bg-[#faf7f2]" />
@@ -225,13 +224,11 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
         <div className="relative flex items-end justify-center w-full max-w-sm">
           {/* AII Sprite */}
           <div
-            className={`relative w-40 sm:w-44 transition-all duration-300 ${
-              isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
-            } ${
-              isAii
+            className={`relative w-40 sm:w-44 transition-all duration-300 ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+              } ${isAii
                 ? "z-20 scale-105 brightness-100"
                 : "z-10 scale-95 brightness-65"
-            }`}
+              }`}
           >
             <img
               src={activeAiiExpr}
@@ -242,13 +239,11 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
 
           {/* KIBO Sprite */}
           <div
-            className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 ${
-              isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
-            } ${
-              isKibo
+            className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+              } ${isKibo
                 ? "z-30 scale-108 brightness-100"
                 : "z-0 scale-95 brightness-65"
-            }`}
+              }`}
             style={isWalkingIn ? { animationDelay: "0.2s" } : undefined}
           >
             <img
