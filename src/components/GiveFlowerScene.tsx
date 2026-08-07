@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Home as HomeIcon, BouncingArrow } from "@pxlkit/ui";
+import { BouncingArrow } from "@pxlkit/ui";
 import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
@@ -135,21 +135,6 @@ export function GiveFlowerScene({ onBackToMenu, onNextScene }: GiveFlowerScenePr
         alt="Give Flower Scene Background"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
       />
-
-      {/* Header Bar */}
-      <div className="relative z-30 flex items-center justify-between p-4">
-        <button
-          onClick={handleBackToMenu}
-          className="flex items-center gap-1.5 border-2 border-[#2d2d2d] bg-[#ffffba] px-3 py-1.5 text-[9px] font-bold text-[#2d2d2d] shadow-[2px_2px_0px_0px_#2d2d2d] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
-        >
-          <PxlIcon icon={HomeIcon as unknown as PxlKitIconData} className="h-3.5 w-3.5" />
-          <span>MENU</span>
-        </button>
-
-        <div className="border-2 border-[#2d2d2d] bg-[#bae1ff] px-3 py-1 text-[8px] sm:text-[9px] font-bold text-[#2d2d2d] shadow-[2px_2px_0px_0px_#2d2d2d]">
-          BUNGA UNTUK AII
-        </div>
-      </div>
 
       {/* Empty flex container to push dialogue box to the bottom */}
       <div className="flex-1" />

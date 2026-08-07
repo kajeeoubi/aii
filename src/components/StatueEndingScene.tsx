@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/pixelact-ui/button";
 import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
-interface StatueMinigameEndingSceneProps {
+interface StatueEndingSceneProps {
   onBackToMenu: () => void;
   onNextScene?: () => void;
 }
@@ -58,10 +58,10 @@ const dialogueData: DialogueLine[] = [
   },
 ];
 
-export function StatueMinigameEndingScene({
+export function StatueEndingScene({
   onBackToMenu,
   onNextScene,
-}: StatueMinigameEndingSceneProps) {
+}: StatueEndingSceneProps) {
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
