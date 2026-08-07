@@ -51,21 +51,15 @@ export default function Home() {
       return;
     }
 
-    const ch3_4Views = [
+    const ch3_9Views = [
       "galleryRoom",
       "cubit",
       "galleryRoomPart2",
       "galleryMinigame",
-    ];
-
-    const ch5_6Views = [
       "flowerGarden",
       "flowerArrangingNarrative",
       "flowerArranging",
       "flowerGardenPart2",
-    ];
-
-    const ch7_9Views = [
       "statueRoom",
       "statueMinigame",
       "statueEnding",
@@ -79,12 +73,8 @@ export default function Home() {
       "hug",
     ];
 
-    if (ch3_4Views.includes(currentView)) {
+    if (ch3_9Views.includes(currentView)) {
       playBGM("/audio/bgm/ollg.mp3");
-    } else if (ch5_6Views.includes(currentView)) {
-      playBGM("/audio/bgm/cyht.mp3");
-    } else if (ch7_9Views.includes(currentView)) {
-      playBGM("/audio/bgm/mcimy.mp3");
     } else if (stayViews.includes(currentView)) {
       playBGM("/audio/bgm/ilmlou.mp3");
     } else {
