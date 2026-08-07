@@ -32,7 +32,7 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "AII",
-    text: "Geser yok!",
+    text: "Gimana kalo kita lanjut ke ruangan lain??",
     expression: "/char/aii/semangat.png",
   },
   {

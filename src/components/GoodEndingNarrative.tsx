@@ -9,7 +9,7 @@ interface GoodEndingNarrativeProps {
 }
 
 const narrativeText =
-  "[Good Ending] \n\nYeayy selamat kamu berhasil menyelesaikan game ini!! ini adalah ending impian aku sih wkwkwk, lucuww bgtt gasi mereka hahahah \n\nWhen yah kek gini, pasti bakal jadi couple paling sweet and fun gasih?? \n\nOh iya, kalo kamu lagi bosen atau kangen maybe jangan ragu buat mampir lagi ya, kalo kamu butuh tempat cerita or wanna tell someting, kamu bisa tinggalin pesan di \"DIARY KITA\" \n\nBye.. Byee.. <3";
+  "[Ending 1] \n\nYeayy selamat kamu berhasil menyelesaikan game ini!! ini adalah ending impian aku sih wkwkwk, lucuww bgtt gasi mereka hahahah \n\nWhen yah kek gini, pasti bakal jadi couple paling sweet and fun gasih?? \n\nOh iya, kalo kamu lagi bosen atau kangen maybe jangan ragu buat mampir lagi ya, kalo kamu butuh tempat cerita or wanna tell someting, kamu bisa tinggalin pesan di \"DIARY KITA\" \n\nBye.. Byee.. <3";
 
 export function GoodEndingNarrative({ onBackToMenu, onNextScene }: GoodEndingNarrativeProps) {
   const [displayedText, setDisplayedText] = useState("");

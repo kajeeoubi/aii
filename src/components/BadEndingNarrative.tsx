@@ -9,7 +9,7 @@ interface BadEndingNarrativeProps {
 }
 
 const narrativeText =
-  "[Bad Ending]\n\nNgejar hati seseorang itu kek ngejar bayangan. Kita ga bisa memaksa orang yang kita sayang bisa ngerasain hal yang kita rasain kalo dia emang ga ngerti rasanya.\n\nMau sebanyak apapun kata-kata apa yang kita ucapin, orang ga bakal bisa rasain sakitnya.\n\nKarna kek musim kemarau yang tiba tiba ujan, kita gabisa tau dan gimana mencegahnya. Kalo komunikasi gak ada gimana kita tau jawabannya";
+  "[Ending 2]\n\nNgejar hati seseorang itu kek ngejar bayangan. Kita ga bisa memaksa orang yang kita sayang bisa ngerasain hal yang kita rasain kalo dia emang ga ngerti rasanya.\n\nMau sebanyak apapun kata-kata apa yang kita ucapin, orang ga bakal bisa rasain sakitnya.\n\nKarna kek musim kemarau yang tiba tiba ujan, kita gabisa tau dan gimana mencegahnya. Kalo komunikasi gak ada gimana kita tau jawabannya";
 
 export function BadEndingNarrative({ onBackToMenu, onNextScene }: BadEndingNarrativeProps) {
   const [displayedText, setDisplayedText] = useState("");
@@ -66,7 +66,7 @@ export function BadEndingNarrative({ onBackToMenu, onNextScene }: BadEndingNarra
         } else {
           onBackToMenu();
         }
-      }, 400);
+      }, 1500);
     }
   };
 
@@ -76,7 +76,7 @@ export function BadEndingNarrative({ onBackToMenu, onNextScene }: BadEndingNarra
       className="absolute inset-0 z-50 flex flex-col items-center justify-between bg-[#faf7f2] p-6 pb-8 text-center cursor-pointer select-none overflow-y-auto"
     >
       <div
-        className={`pointer-events-none absolute inset-0 z-[60] bg-black transition-opacity duration-400 ${
+        className={`pointer-events-none absolute inset-0 z-[60] bg-black transition-opacity duration-1500 ${
           isEntering || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />

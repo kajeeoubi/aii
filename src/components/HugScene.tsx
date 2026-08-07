@@ -20,7 +20,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "NARATOR",
     badgeBg: "bg-[#ffffba]",
-    text: "Aii tiba tiba memeluk kibo dengan erat (aww sweet kali wok ;D)",
+    text: "Aii tiba tiba memeluk Kibo dengan erat (aww sweet kali wok ;D)",
   },
   {
     speaker: "AII",

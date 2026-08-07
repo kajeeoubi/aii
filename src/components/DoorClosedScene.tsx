@@ -22,7 +22,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "NARATOR",
     badgeBg: "bg-[#ffffba]",
-    text: "KKKKRrk!! Pintu ruangan rahasia tiba-tiba tertutup",
+    text: "KKKKRrk!! Pintu ruangan rahasia tiba-tiba tertutup lagi..",
     expression: "/char/aii/nangis.png",
   },
   {
@@ -41,7 +41,7 @@ const dialogueData: DialogueLine[] = [
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
     text: "Kibo?! Apa itu kamu?!! Apa kamu denger aku?! Kiboo!!",
-    expression: "/char/aii/kaget.png",
+    expression: "/char/aii/nangis.png",
     screenImage: "/asset/layar.png",
   },
   {
@@ -55,6 +55,12 @@ const dialogueData: DialogueLine[] = [
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
     text: "NGGAKK!! Pliss jangan pergi!!",
+    expression: "/char/aii/nangis.png",
+  },
+  {
+    speaker: "AII",
+    badgeBg: "bg-[#ffb3ba]",
+    text: ".......",
     expression: "/char/aii/nangis.png",
   },
   {

@@ -21,13 +21,18 @@ interface DialogueLine {
 const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
-    text: "Woahhh!! Kibo lihat!! Indah banget bunganyaa!! Banyak macam bunga jugaa!! Aku jadi pengen rangkai bunga dehh..",
+    text: "Woahhh!! Kibo lihat!! Indah banget bunganyaa!! Banyak macam bunga jugaa!!",
     expression: "/char/aii/semangat.png",
   },
   {
     speaker: "KIBO",
     text: "Woahh!! Iya banyak banget bunganya ya..",
     expression: "/char/kibo/ketawa.png",
+  },
+  {
+    speaker: "KIBO",
+    text: "......",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "KIBO",

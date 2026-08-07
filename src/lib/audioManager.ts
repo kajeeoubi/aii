@@ -189,10 +189,21 @@ export function playBGM(src: string = "/audio/bgm/stars.mp3", targetVol: number 
     }, 40);
   } else {
     // Starting fresh or resuming
-    audio.src = src;
-    currentTrackSrc = src;
+    if (currentTrackSrc !== src || !audio.src) {
+      audio.src = src;
+      currentTrackSrc = src;
+    }
     startFadeIn(audio, targetVol);
   }
+}
+
+export function resumeBGM(targetVol: number = currentTargetVolume) {
+  if (typeof window === "undefined") return;
+  if (!bgmAudio) return;
+  if (!isMusicEnabled()) return;
+
+  clearFade();
+  startFadeIn(bgmAudio, targetVol);
 }
 
 export function pauseBGM() {

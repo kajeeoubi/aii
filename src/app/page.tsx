@@ -23,6 +23,7 @@ import { LeaveScene } from "@/components/LeaveScene";
 import { LookScene } from "@/components/LookScene";
 import { DoorClosedScene } from "@/components/DoorClosedScene";
 import { BadEndingNarrative } from "@/components/BadEndingNarrative";
+import { LetterScene } from "@/components/LetterScene";
 import { StayScene } from "@/components/StayScene";
 import { SurpriseScene } from "@/components/SurpriseScene";
 import { StayNarrative } from "@/components/StayNarrative";
@@ -44,7 +45,7 @@ import {
 import { useAssetPreloader } from "@/lib/useAssetPreloader";
 import { ResourcePreloaderModal } from "@/components/ResourcePreloaderModal";
 
-type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerNarrative" | "flowerMinigame" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "leave" | "look" | "doorClosed" | "badEndingNarrative" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "goodEndingNarrative" | "diary" | "chapterSelect" | "settings";
+type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerNarrative" | "flowerMinigame" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "leave" | "look" | "doorClosed" | "badEndingNarrative" | "letter" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "goodEndingNarrative" | "diary" | "chapterSelect" | "settings";
 
 export default function Home() {
   const [currentView, setCurrentView] = useState<ViewType>("menu");
@@ -141,6 +142,7 @@ export default function Home() {
       "look",
       "doorClosed",
       "badEndingNarrative",
+      "letter",
     ];
 
     const mcimyNormalViews = [
@@ -329,6 +331,11 @@ export default function Home() {
           />
         ) : currentView === "badEndingNarrative" ? (
           <BadEndingNarrative
+            onNextScene={() => setCurrentView("letter")}
+            onBackToMenu={() => setCurrentView("letter")}
+          />
+        ) : currentView === "letter" ? (
+          <LetterScene
             onBackToMenu={() => setCurrentView("menu")}
           />
         ) : currentView === "stay" ? (
