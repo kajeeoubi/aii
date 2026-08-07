@@ -9,6 +9,7 @@ import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 interface StatueEndingSceneProps {
   onBackToMenu: () => void;
   onNextScene?: () => void;
+  onLeaveKibo?: () => void;
 }
 
 interface DialogueLine {
@@ -61,6 +62,7 @@ const dialogueData: DialogueLine[] = [
 export function StatueEndingScene({
   onBackToMenu,
   onNextScene,
+  onLeaveKibo,
 }: StatueEndingSceneProps) {
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
@@ -150,6 +152,20 @@ export function StatueEndingScene({
     setTimeout(() => {
       if (onNextScene) {
         onNextScene();
+      } else {
+        onBackToMenu();
+      }
+    }, 1000);
+  };
+
+  const handleLeaveKibo = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    playButtonSound();
+    if (isExiting) return;
+    setIsExiting(true);
+    setTimeout(() => {
+      if (onLeaveKibo) {
+        onLeaveKibo();
       } else {
         onBackToMenu();
       }
@@ -320,7 +336,7 @@ export function StatueEndingScene({
 
               <Button
                 variant="purple"
-                onClick={handleBackToMenu}
+                onClick={handleLeaveKibo}
                 className="w-full group h-9 text-[8.5px] sm:text-[9px] flex items-center justify-center gap-2 border-2 border-[#2d2d2d] shadow-[2.5px_2.5px_0px_0px_#2d2d2d] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all"
               >
                 <span>tinggalkan kibo</span>

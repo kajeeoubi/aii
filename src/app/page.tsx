@@ -19,6 +19,10 @@ import { StatueRoomScene } from "@/components/StatueRoomScene";
 import { StatueMinigameScene } from "@/components/StatueMinigameScene";
 import { StatueEndingScene } from "@/components/StatueEndingScene";
 import { CubitScene } from "@/components/CubitScene";
+import { LeaveScene } from "@/components/LeaveScene";
+import { LookScene } from "@/components/LookScene";
+import { DoorClosedScene } from "@/components/DoorClosedScene";
+import { BadEndingNarrative } from "@/components/BadEndingNarrative";
 import { StayScene } from "@/components/StayScene";
 import { SurpriseScene } from "@/components/SurpriseScene";
 import { StayNarrative } from "@/components/StayNarrative";
@@ -40,7 +44,7 @@ import {
 import { useAssetPreloader } from "@/lib/useAssetPreloader";
 import { ResourcePreloaderModal } from "@/components/ResourcePreloaderModal";
 
-type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerNarrative" | "flowerMinigame" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "goodEndingNarrative" | "diary" | "chapterSelect" | "settings";
+type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerNarrative" | "flowerMinigame" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "leave" | "look" | "doorClosed" | "badEndingNarrative" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "goodEndingNarrative" | "diary" | "chapterSelect" | "settings";
 
 export default function Home() {
   const [currentView, setCurrentView] = useState<ViewType>("menu");
@@ -133,6 +137,10 @@ export default function Home() {
       "flowerGardenPart2",
       "statueRoom",
       "statueEnding",
+      "leave",
+      "look",
+      "doorClosed",
+      "badEndingNarrative",
     ];
 
     const mcimyNormalViews = [
@@ -302,6 +310,26 @@ export default function Home() {
           <StatueEndingScene
             onBackToMenu={() => setCurrentView("menu")}
             onNextScene={() => setCurrentView("stay")}
+            onLeaveKibo={() => setCurrentView("leave")}
+          />
+        ) : currentView === "leave" ? (
+          <LeaveScene
+            onNextScene={() => setCurrentView("look")}
+            onBackToMenu={() => setCurrentView("look")}
+          />
+        ) : currentView === "look" ? (
+          <LookScene
+            onNextScene={() => setCurrentView("doorClosed")}
+            onBackToMenu={() => setCurrentView("doorClosed")}
+          />
+        ) : currentView === "doorClosed" ? (
+          <DoorClosedScene
+            onNextScene={() => setCurrentView("badEndingNarrative")}
+            onBackToMenu={() => setCurrentView("badEndingNarrative")}
+          />
+        ) : currentView === "badEndingNarrative" ? (
+          <BadEndingNarrative
+            onBackToMenu={() => setCurrentView("menu")}
           />
         ) : currentView === "stay" ? (
           <StayScene
