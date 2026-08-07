@@ -12,11 +12,13 @@ import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { playButtonSound } from "@/lib/audioManager";
 
 interface ChapterSelectProps {
+  playedChapters: string[];
   onSelectChapter: (chapter: "ticket" | "gallery" | "galleryRoom" | "galleryMinigame" | "flowerGarden" | "flowerNarrative" | "statueRoom" | "statueMinigame" | "statueEnding") => void;
   onBackToMenu: () => void;
 }
 
 export function ChapterSelect({
+  playedChapters,
   onSelectChapter,
   onBackToMenu,
 }: ChapterSelectProps) {
@@ -95,6 +97,8 @@ export function ChapterSelect({
     },
   ];
 
+  const availableChapters = chapters.filter((ch) => playedChapters.includes(ch.id));
+
   return (
     <Card font="pixel" className="w-full border-3 border-[#2d2d2d] bg-white/95 text-[#2d2d2d] p-2.5 shadow-[6px_6px_0px_0px_#2d2d2d] backdrop-blur-sm">
       <CardHeader className="text-center p-2 pb-1">
@@ -105,7 +109,7 @@ export function ChapterSelect({
 
       <CardContent className="mt-2 px-1 pb-2">
         <div className="max-h-[210px] sm:max-h-[240px] overflow-y-auto space-y-2.5">
-          {chapters.map((ch) => (
+          {availableChapters.map((ch) => (
             <div
               key={ch.id}
               onClick={() => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Play, Gear, List } from "@pxlkit/ui";
+import { Play, Gear, List, Copy } from "@pxlkit/ui";
 import { Button } from "@/components/ui/pixelact-ui/button";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { Prologue } from "@/components/Prologue";
@@ -25,6 +25,7 @@ import { StayNarrative } from "@/components/StayNarrative";
 import { GiveFlowerScene } from "@/components/GiveFlowerScene";
 import { HugScene } from "@/components/HugScene";
 import { GoodEndingNarrative } from "@/components/GoodEndingNarrative";
+import { DiaryBook } from "@/components/DiaryBook";
 import { ChapterSelect } from "@/components/ChapterSelect";
 import {
   isSoundEnabled,
@@ -39,10 +40,12 @@ import {
 import { useAssetPreloader } from "@/lib/useAssetPreloader";
 import { ResourcePreloaderModal } from "@/components/ResourcePreloaderModal";
 
-type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerNarrative" | "flowerMinigame" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "goodEndingNarrative" | "chapterSelect" | "settings";
+type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerNarrative" | "flowerMinigame" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "goodEndingNarrative" | "diary" | "chapterSelect" | "settings";
 
 export default function Home() {
   const [currentView, setCurrentView] = useState<ViewType>("menu");
+  const [playedChapters, setPlayedChapters] = useState<string[]>([]);
+  const [hasGoodEnding, setHasGoodEnding] = useState<boolean>(false);
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -54,7 +57,55 @@ export default function Home() {
   useEffect(() => {
     setSoundEnabledState(isSoundEnabled());
     setMusicEnabledState(isMusicEnabled());
+
+    try {
+      const saved = localStorage.getItem("aii_played_chapters");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setPlayedChapters(parsed);
+        }
+      }
+      const savedEnding = localStorage.getItem("aii_has_good_ending");
+      if (savedEnding === "true") {
+        setHasGoodEnding(true);
+      }
+    } catch (_) {}
   }, []);
+
+  useEffect(() => {
+    const chapterViews: ViewType[] = [
+      "ticket",
+      "gallery",
+      "galleryRoom",
+      "galleryMinigame",
+      "flowerGarden",
+      "flowerNarrative",
+      "statueRoom",
+      "statueMinigame",
+      "statueEnding",
+    ];
+
+    if (chapterViews.includes(currentView)) {
+      setPlayedChapters((prev) => {
+        if (!prev.includes(currentView)) {
+          const updated = [...prev, currentView];
+          try {
+            localStorage.setItem("aii_played_chapters", JSON.stringify(updated));
+          } catch (_) {}
+          return updated;
+        }
+        return prev;
+      });
+    }
+
+    if (currentView === "goodEndingNarrative") {
+      setHasGoodEnding(true);
+      try {
+        localStorage.setItem("aii_has_good_ending", "true");
+      } catch (_) {}
+    }
+  }, [currentView]);
 
   useEffect(() => {
     if (!musicEnabled) {
@@ -62,7 +113,7 @@ export default function Home() {
       return;
     }
 
-    const starsNormalViews = ["menu", "chapterSelect", "settings"];
+    const starsNormalViews = ["menu", "chapterSelect", "settings", "diary"];
     const starsLowViews = ["prologue", "ticket"];
 
     const ollgLowViews = [
@@ -272,6 +323,10 @@ export default function Home() {
             onBackToMenu={() => setCurrentView("menu")}
             onNextScene={() => setCurrentView("menu")}
           />
+        ) : currentView === "diary" ? (
+          <DiaryBook
+            onBackToMenu={() => setCurrentView("menu")}
+          />
         ) : (
           <>
             <img
@@ -326,15 +381,29 @@ export default function Home() {
                     <span>MULAI TOUR!</span>
                   </Button>
 
-                  <Button
-                    variant="sky"
-                    size="lg"
-                    onClick={() => setCurrentView("chapterSelect")}
-                    className="group relative flex h-11 w-full items-center justify-center gap-2.5 text-xs"
-                  >
-                    <PxlIcon icon={List as unknown as PxlKitIconData} className="h-4 w-4 transition-transform duration-200 group-hover:scale-125" />
-                    <span>PILIH CHAPTER</span>
-                  </Button>
+                  {playedChapters.length > 0 && (
+                    <Button
+                      variant="sky"
+                      size="lg"
+                      onClick={() => setCurrentView("chapterSelect")}
+                      className="group relative flex h-11 w-full items-center justify-center gap-2.5 text-xs"
+                    >
+                      <PxlIcon icon={List as unknown as PxlKitIconData} className="h-4 w-4 transition-transform duration-200 group-hover:scale-125" />
+                      <span>PILIH CHAPTER</span>
+                    </Button>
+                  )}
+
+                  {hasGoodEnding && (
+                    <Button
+                      variant="pink"
+                      size="lg"
+                      onClick={() => setCurrentView("diary")}
+                      className="group relative flex h-11 w-full items-center justify-center gap-2.5 text-xs"
+                    >
+                      <PxlIcon icon={Copy as unknown as PxlKitIconData} className="h-4 w-4 transition-transform duration-200 group-hover:scale-125" />
+                      <span>DIARY KITA</span>
+                    </Button>
+                  )}
 
                   <Button
                     variant="purple"
@@ -350,6 +419,7 @@ export default function Home() {
 
               {currentView === "chapterSelect" && (
                 <ChapterSelect
+                  playedChapters={playedChapters}
                   onSelectChapter={(ch) => transitionToView(ch)}
                   onBackToMenu={() => setCurrentView("menu")}
                 />
