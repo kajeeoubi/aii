@@ -43,7 +43,7 @@ import {
   BGM_VOLUME_LOW,
 } from "@/lib/audioManager";
 import { useAssetPreloader } from "@/lib/useAssetPreloader";
-import { ResourcePreloaderModal } from "@/components/ResourcePreloaderModal";
+import { SplashScreen } from "@/components/SplashScreen";
 
 type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerNarrative" | "flowerMinigame" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "leave" | "look" | "doorClosed" | "badEndingNarrative" | "letter" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "goodEndingNarrative" | "diary" | "chapterSelect" | "settings";
 
@@ -54,10 +54,9 @@ export default function Home() {
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [pendingTargetView, setPendingTargetView] = useState<ViewType | null>(null);
-  const [showPreloaderModal, setShowPreloaderModal] = useState(false);
+  const [showSplashScreen, setShowSplashScreen] = useState(true);
 
-  const preloader = useAssetPreloader();
+  useAssetPreloader();
 
   useEffect(() => {
     setSoundEnabledState(isSoundEnabled());
@@ -190,25 +189,7 @@ export default function Home() {
     toggleBGM(enabled);
   };
 
-  useEffect(() => {
-    if (preloader.isComplete && pendingTargetView) {
-      setShowPreloaderModal(false);
-      const target = pendingTargetView;
-      setPendingTargetView(null);
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentView(target);
-        setIsTransitioning(false);
-      }, 1000);
-    }
-  }, [preloader.isComplete, pendingTargetView]);
-
   const transitionToView = (targetView: ViewType) => {
-    if (!preloader.isComplete) {
-      setPendingTargetView(targetView);
-      setShowPreloaderModal(true);
-      return;
-    }
     setIsTransitioning(true);
     setTimeout(() => {
       setCurrentView(targetView);
@@ -231,13 +212,15 @@ export default function Home() {
         }}
       />
 
-      <div className={`relative z-10 flex h-full max-h-screen max-h-[100dvh] w-full max-w-md flex-col items-center justify-between overflow-hidden border-x-4 border-[#2d2d2d] ${currentView === "menu" || currentView === "chapterSelect" || currentView === "settings" ? "bg-[#8cd0f5] pb-6" : "bg-[#faf7f2]"} shadow-[0_0_20px_rgba(0,0,0,0.08)]`}>
+      <div className={`relative z-10 flex h-full max-h-screen max-h-[100dvh] w-full max-w-md flex-col items-center justify-between overflow-hidden border-x-4 border-[#2d2d2d] ${!showSplashScreen && (currentView === "menu" || currentView === "chapterSelect" || currentView === "settings") ? "bg-[#8cd0f5] pb-6" : "bg-[#faf7f2]"} shadow-[0_0_20px_rgba(0,0,0,0.08)]`}>
         <div
           className={`pointer-events-none absolute inset-0 z-[60] bg-black transition-opacity duration-1000 ${isTransitioning ? "opacity-100" : "opacity-0"
             }`}
         />
 
-        {currentView === "prologue" ? (
+        {showSplashScreen ? (
+          <SplashScreen onFinish={() => setShowSplashScreen(false)} />
+        ) : currentView === "prologue" ? (
           <Prologue
             onBackToMenu={() => setCurrentView("menu")}
             onNextToTicket={() => setCurrentView("ticket")}
@@ -483,14 +466,6 @@ export default function Home() {
           </>
         )}
       </div>
-
-      {showPreloaderModal && (
-        <ResourcePreloaderModal
-          loadedCount={preloader.loadedCount}
-          totalCount={preloader.totalCount}
-          progressPercentage={preloader.progressPercentage}
-        />
-      )}
     </div>
   );
 }
