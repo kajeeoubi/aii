@@ -49,20 +49,20 @@ const paintingsData: PaintingItem[] = [
     image: "/lukisan/lukisan_2.jpeg",
     dialogues: [
       {
-        speaker: "KIBO",
-        badgeBg: "bg-[#bae1ff]",
-        text: "Woii!! Kok pandanya gendut bener anjay haahahahah :D",
-      },
-      {
         speaker: "AII",
         badgeBg: "bg-[#ffb3ba]",
-        text: "Lucuww tau!! Kek panda lagi makan eskrimmm, imut kiyowo bangett huaa <3",
+        text: "Hahahah!! Kibo liatlah matanya hahah!! Siapa cewek manis ini??! Pantes aja lukisan ini dinamain \n'The Sweetie Panda'",
+      },
+      {
+        speaker: "KIBO",
+        badgeBg: "bg-[#bae1ff]",
+        text: "Dia sangat imut.. bahkan wajahnya lebih manis daripada gelato yang dipegangnya",
       },
     ],
   },
   {
     id: 3,
-    title: "The Precious Flower",
+    title: "Happiness",
     image: "/lukisan/lukisan_3.jpeg",
     dialogues: [
       {
