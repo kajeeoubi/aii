@@ -48,7 +48,7 @@ export const ALL_IMAGE_ASSETS = [
   "/char/kibo/sedih.png",
   "/char/kibo/semangat.png",
   "/char/kibo/senyum.png",
-  "/char/kibo/takut.PNG",
+  "/char/kibo/takut.png",
 
   // Character Sprites - Petugas
   "/char/petugas/petugas.png",

@@ -81,6 +81,9 @@ export default function Home() {
       "flowerNarrative",
       "flowerMinigame",
       "statueMinigame",
+    ];
+
+    const ilmlouNormalViews = [
       "stay",
       "stayNarrative",
       "giveFlower",
@@ -95,8 +98,10 @@ export default function Home() {
       playBGM("/audio/bgm/ollg.mp3", BGM_VOLUME_LOW);
     } else if (ollgNormalViews.includes(currentView)) {
       playBGM("/audio/bgm/ollg.mp3", BGM_VOLUME_NORMAL);
+    } else if (ilmlouNormalViews.includes(currentView)) {
+      playBGM("/audio/bgm/ilmlou.mp3", BGM_VOLUME_NORMAL);
     } else if (currentView === "surprise") {
-      playBGM("/audio/bgm/ollg.mp3", BGM_VOLUME_LOW);
+      playBGM("/audio/bgm/ilmlou.mp3", BGM_VOLUME_LOW);
     } else {
       playBGM("/audio/bgm/stars.mp3", BGM_VOLUME_NORMAL);
     }
