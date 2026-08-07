@@ -24,6 +24,7 @@ import { SurpriseScene } from "@/components/SurpriseScene";
 import { StayNarrative } from "@/components/StayNarrative";
 import { GiveFlowerScene } from "@/components/GiveFlowerScene";
 import { HugScene } from "@/components/HugScene";
+import { GoodEndingNarrative } from "@/components/GoodEndingNarrative";
 import { ChapterSelect } from "@/components/ChapterSelect";
 import {
   isSoundEnabled,
@@ -38,7 +39,7 @@ import {
 import { useAssetPreloader } from "@/lib/useAssetPreloader";
 import { ResourcePreloaderModal } from "@/components/ResourcePreloaderModal";
 
-type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerNarrative" | "flowerMinigame" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "chapterSelect" | "settings";
+type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerNarrative" | "flowerMinigame" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "goodEndingNarrative" | "chapterSelect" | "settings";
 
 export default function Home() {
   const [currentView, setCurrentView] = useState<ViewType>("menu");
@@ -88,6 +89,7 @@ export default function Home() {
       "stayNarrative",
       "giveFlower",
       "hug",
+      "goodEndingNarrative",
     ];
 
     if (starsNormalViews.includes(currentView)) {
@@ -262,6 +264,11 @@ export default function Home() {
           />
         ) : currentView === "hug" ? (
           <HugScene
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("goodEndingNarrative")}
+          />
+        ) : currentView === "goodEndingNarrative" ? (
+          <GoodEndingNarrative
             onBackToMenu={() => setCurrentView("menu")}
             onNextScene={() => setCurrentView("menu")}
           />

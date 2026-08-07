@@ -40,7 +40,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
-    text: "Shhhttt.. (diem dulu banh lagi menang nih)",
+    text: "Shhhttt.. (Diem dulu banh lagi menang nih)",
   },
   {
     speaker: "PETUGAS GALLERY",
