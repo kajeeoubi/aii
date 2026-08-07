@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, BouncingArrow } from "@pxlkit/ui";
-import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
 interface StaySceneProps {
@@ -14,8 +14,6 @@ interface DialogueLine {
   speaker: string;
   badgeBg: string;
   text: string;
-  expression: string;
-  animateStep?: boolean;
 }
 
 const dialogueData: DialogueLine[] = [
@@ -23,68 +21,16 @@ const dialogueData: DialogueLine[] = [
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
     text: "Ga, aku gamau ninggalin kamu.. kalo kamu ngaku, aku juga bakal ikut kamu.. apapun yang terjadi, kita hadepin bareng!!",
-    expression: "/char/aii/kawatir.PNG",
   },
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
     text: ".........",
-    expression: "/char/kibo/bingung.PNG",
   },
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
     text: "Makasi, Ai (Kibo tersenyum terharu)",
-    expression: "/char/kibo/senyum.PNG",
-  },
-  {
-    speaker: "PETUGAS GALLERY",
-    badgeBg: "bg-[#ffd166]",
-    text: "Woii!! kalian berdua.. >:( (Marah besar jirr takutnyoo)",
-    expression: "/char/petugas/petugas.png",
-    animateStep: true,
-  },
-  {
-    speaker: "PETUGAS GALLERY",
-    badgeBg: "bg-[#ffd166]",
-    text: "Anda melupakan buket anda nona hehehehe :D",
-    expression: "/char/petugas/petugas.png",
-  },
-  {
-    speaker: "KIBO",
-    badgeBg: "bg-[#bae1ff]",
-    text: "SURPRISEEee!!",
-    expression: "/char/kibo/ketawa.PNG",
-  },
-  {
-    speaker: "KIBO",
-    badgeBg: "bg-[#bae1ff]",
-    text: "AHAHAHAHH! Aii wajah kamu lucu bgt pas lagi panikk, ini bikin aku gabisa berenti ketawa bwahaha!!",
-    expression: "/char/kibo/ketawa.PNG",
-  },
-  {
-    speaker: "AII",
-    badgeBg: "bg-[#ffb3ba]",
-    text: "Tunggu jadi semua ini rencana menyebalkan kamu!!",
-    expression: "/char/aii/kaget.PNG",
-  },
-  {
-    speaker: "AII",
-    badgeBg: "bg-[#ffb3ba]",
-    text: "IHHH!! Kibo nyebelinnn!!",
-    expression: "/char/aii/marah.PNG",
-  },
-  {
-    speaker: "KIBO",
-    badgeBg: "bg-[#bae1ff]",
-    text: "hihihi.. maaf maaf.. iya aku siapin semua ini buat kamu ai, termasuk yang sewa gallery ini juga wkwkw",
-    expression: "/char/kibo/tengil.PNG",
-  },
-  {
-    speaker: "AII",
-    badgeBg: "bg-[#ffb3ba]",
-    text: "humpp.. emng aga nyebelin but... makasi ya Kibo.. kamu sampe repot bikin ini semua <3",
-    expression: "/char/aii/malu.PNG",
   },
 ];
 
@@ -97,14 +43,13 @@ export function StayScene({ onBackToMenu, onNextScene }: StaySceneProps) {
   const [isShaking, setIsShaking] = useState(true);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
 
-  const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/kawatir.PNG");
-  const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/senyum.PNG");
-
   useEffect(() => {
     const enterTimer = setTimeout(() => {
       setIsEnteringScene(false);
       playPopSound();
     }, 50);
+
+    setBGMVolume(0.5, 500);
 
     const shakeTimer = setTimeout(() => {
       setIsShaking(false);
@@ -119,12 +64,6 @@ export function StayScene({ onBackToMenu, onNextScene }: StaySceneProps) {
   useEffect(() => {
     const currentDialogue = dialogueData[currentLineIndex];
     if (!currentDialogue) return;
-
-    if (currentDialogue.speaker === "AII" && currentDialogue.expression) {
-      setLastAiiExpr(currentDialogue.expression);
-    } else if (currentDialogue.speaker === "KIBO" && currentDialogue.expression) {
-      setLastKiboExpr(currentDialogue.expression);
-    }
 
     setDisplayedText("");
     setIsTypingComplete(false);
@@ -167,7 +106,7 @@ export function StayScene({ onBackToMenu, onNextScene }: StaySceneProps) {
         setIsExiting(true);
         setTimeout(() => {
           onNextScene();
-        }, 400);
+        }, 1000);
       }
     }
   };
@@ -183,25 +122,11 @@ export function StayScene({ onBackToMenu, onNextScene }: StaySceneProps) {
       } else {
         onNextScene();
       }
-    }, 400);
+    }, 1000);
   };
 
   const currentDialogue = dialogueData[currentLineIndex];
   const isFinalLine = currentLineIndex === dialogueData.length - 1;
-
-  const activeAiiExpr =
-    currentDialogue.speaker === "AII" && currentDialogue.expression
-      ? currentDialogue.expression
-      : lastAiiExpr;
-
-  const activeKiboExpr =
-    currentDialogue.speaker === "KIBO" && currentDialogue.expression
-      ? currentDialogue.expression
-      : lastKiboExpr;
-
-  const isAii = currentDialogue.speaker === "AII";
-  const isKibo = currentDialogue.speaker === "KIBO";
-  const isPetugas = currentDialogue.speaker === "PETUGAS GALLERY";
 
   return (
     <div
@@ -211,19 +136,17 @@ export function StayScene({ onBackToMenu, onNextScene }: StaySceneProps) {
     >
       {/* Black transition overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
           isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />
 
-      {/* Stay Background Image */}
+      {/* Stay Background Image (Un-dimmed) */}
       <img
         src="/asset/stay.png"
         alt="Stay Scene Background"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
       />
-
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
 
       {/* Header Bar */}
       <div className="relative z-30 flex items-center justify-between p-4">
@@ -240,60 +163,8 @@ export function StayScene({ onBackToMenu, onNextScene }: StaySceneProps) {
         </div>
       </div>
 
-      {/* Characters Area */}
-      <div className="relative z-20 flex-1 flex items-end justify-center -mb-10 sm:-mb-12 px-4 pointer-events-none overflow-hidden">
-        <div className="relative flex items-end justify-center w-full max-w-sm">
-          {isPetugas ? (
-            /* PETUGAS GALLERY Sprite */
-            <div
-              key={`petugas-${currentLineIndex}`}
-              className={`relative w-44 sm:w-48 transition-all duration-300 z-30 scale-105 brightness-100 ${
-                currentDialogue.animateStep
-                  ? "animate-step-in"
-                  : "animate-pixel-idle"
-              }`}
-            >
-              <img
-                src={currentDialogue.expression || "/char/petugas/petugas.png"}
-                alt="PETUGAS GALLERY"
-                className="w-full h-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)]"
-              />
-            </div>
-          ) : (
-            <>
-              {/* AII Sprite */}
-              <div
-                className={`relative w-40 sm:w-44 transition-all duration-300 animate-pixel-idle ${
-                  isAii
-                    ? "z-20 scale-105 brightness-100"
-                    : "z-10 scale-95 brightness-65"
-                }`}
-              >
-                <img
-                  src={activeAiiExpr}
-                  alt="AII"
-                  className="w-full h-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)]"
-                />
-              </div>
-
-              {/* KIBO Sprite */}
-              <div
-                className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 animate-pixel-idle ${
-                  isKibo
-                    ? "z-30 scale-108 brightness-100"
-                    : "z-0 scale-95 brightness-65"
-                }`}
-              >
-                <img
-                  src={activeKiboExpr}
-                  alt="KIBO"
-                  className="w-full h-auto object-contain scale-110 origin-bottom drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)]"
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+      {/* Empty flex container to push dialogue box to the bottom */}
+      <div className="flex-1" />
 
       {/* Dialogue Box */}
       <div className="relative z-40 w-full px-3 pb-3">
@@ -337,3 +208,4 @@ export function StayScene({ onBackToMenu, onNextScene }: StaySceneProps) {
     </div>
   );
 }
+

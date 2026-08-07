@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, ArrowRight, BouncingArrow } from "@pxlkit/ui";
-import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { Button } from "@/components/ui/pixelact-ui/button";
 
@@ -15,6 +15,7 @@ interface DialogueLine {
   speaker: string;
   text: string;
   expression: string;
+  typingExpression?: string;
 }
 
 const dialogueData: DialogueLine[] = [
@@ -41,7 +42,8 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Ntahlah.. Ya aku ngasi dia ga seberapa sih.. but aku ngasi semua yang aku bisa",
-    expression: "/char/kibo/ngomong.PNG",
+    typingExpression: "/char/kibo/ngomong.PNG",
+    expression: "/char/kibo/sedih.PNG",
   },
   {
     speaker: "KIBO",
@@ -50,13 +52,15 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "KIBO",
-    text: "Itu salah satu list yang pengen aku wujudkan sih.. karna kalo dia seneng itu uda cukup bagiku",
+    text: "Itu salah satu list yang pengen aku wujudkan sih.. karna kalo ngeliat dia seneng sama apa yang ku beri, itu uda cukup bagiku",
+    typingExpression: "/char/kibo/ngomong_senyum.PNG",
     expression: "/char/kibo/senyum.PNG",
   },
   {
     speaker: "AII",
     text: "Aku yakin dia pasti paham kok, orang gakan memandang dari seberapa besar harga barangnya, tapi seberapa tulus kamu ngasih itu",
-    expression: "/char/aii/ngomong_senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.PNG",
+    expression: "/char/aii/senyum.PNG",
   },
   {
     speaker: "AII",
@@ -76,16 +80,19 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Ya, sekarang kita kembali menjadi diri kita masing-masing lagi",
-    expression: "/char/kibo/ngomong.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.PNG",
+    expression: "/char/kibo/senyum.PNG",
   },
   {
     speaker: "KIBO",
     text: "Dia bilang ke aku buat menyayangi diri dulu. Itu yang selalu aku ingat dan terapkan ke diriku yang sekarang, walaupun aku sendiri gatau gimana perasaan dia sekarang..",
+    typingExpression: "/char/kibo/ngomong.PNG",
     expression: "/char/kibo/ketawa.PNG",
   },
   {
     speaker: "KIBO",
-    text: "Aku percaya dia kalau emang jalan yang kita tuju itu sama, aku harap kita bisa bertemu lagi",
+    text: "Aku percaya dia kalau emang jalan yang kita tuju itu sama, aku harap kita bisa bertemu lagi suatu saat nanti",
+    typingExpression: "/char/kibo/ngomong_senyum.PNG",
     expression: "/char/kibo/senyum.PNG",
   },
   {
@@ -101,11 +108,13 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Eum gimana kalo kamu bantuin aku milih dan rangkai bunga",
-    expression: "/char/aii/ngomong_senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.PNG",
+    expression: "/char/aii/senyum.PNG",
   },
   {
     speaker: "KIBO",
     text: "Bolehh, yuk!!",
+    typingExpression: "/char/kibo/ngomong_senyum.PNG",
     expression: "/char/kibo/senyum.PNG",
   },
 ];
@@ -128,6 +137,8 @@ export function FlowerGardenScene({
     const fadeTimer = setTimeout(() => {
       setIsEnteringScene(false);
     }, 50);
+
+    setBGMVolume(0.5, 500);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -191,7 +202,7 @@ export function FlowerGardenScene({
     setIsExiting(true);
     setTimeout(() => {
       onBackToMenu();
-    }, 400);
+    }, 1000);
   };
 
   const handleNextScene = (e?: React.MouseEvent) => {
@@ -205,20 +216,35 @@ export function FlowerGardenScene({
       } else {
         onBackToMenu();
       }
-    }, 400);
+    }, 1000);
   };
 
   const currentDialogue = dialogueData[currentLineIndex];
   const isFinalLine = currentLineIndex === dialogueData.length - 1;
 
+  useEffect(() => {
+    if (isTypingComplete && currentDialogue) {
+      if (currentDialogue.speaker === "AII" && currentDialogue.expression) {
+        setLastAiiExpr(currentDialogue.expression);
+      } else if (currentDialogue.speaker === "KIBO" && currentDialogue.expression) {
+        setLastKiboExpr(currentDialogue.expression);
+      }
+    }
+  }, [isTypingComplete, currentDialogue]);
+
+  const currentDialogueExpr =
+    !isTypingComplete && currentDialogue.typingExpression
+      ? currentDialogue.typingExpression
+      : currentDialogue.expression;
+
   const activeAiiExpr =
-    currentDialogue.speaker === "AII"
-      ? currentDialogue.expression
+    currentDialogue.speaker === "AII" && currentDialogueExpr
+      ? currentDialogueExpr
       : lastAiiExpr;
 
   const activeKiboExpr =
-    currentDialogue.speaker === "KIBO"
-      ? currentDialogue.expression
+    currentDialogue.speaker === "KIBO" && currentDialogueExpr
+      ? currentDialogueExpr
       : lastKiboExpr;
 
   const speakerBadgeColor =
@@ -235,7 +261,7 @@ export function FlowerGardenScene({
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       {/* Black transition overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
           isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />

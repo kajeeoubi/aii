@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, ArrowRight, BouncingArrow } from "@pxlkit/ui";
-import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { Button } from "@/components/ui/pixelact-ui/button";
 
@@ -15,17 +15,19 @@ interface DialogueLine {
   speaker: string;
   text: string;
   expression: string;
+  typingExpression?: string;
 }
 
 const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
-    text: "Makasi yah, Kibo :D",
-    expression: "/char/aii/senyum.PNG",
+    text: "Makasih yah udah bantu pilihin bunga buat aku :D",
+    expression: "/char/aii/malu.PNG",
   },
   {
     speaker: "KIBO",
     text: "Sama sama, Aii",
+    typingExpression: "/char/kibo/ngomong_senyum.PNG",
     expression: "/char/kibo/senyum.PNG",
   },
   {
@@ -36,7 +38,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Ayokk!",
-    expression: "/char/kibo/semangat.PNG",
+    expression: "/char/kibo/ketawa.PNG",
   },
 ];
 
@@ -59,8 +61,11 @@ export function FlowerGardenPart2Scene({
       setIsEnteringScene(false);
     }, 50);
 
+    setBGMVolume(0.15, 500);
+
     return () => {
       clearTimeout(fadeTimer);
+      setBGMVolume(0.5, 500);
     };
   }, []);
 
@@ -121,7 +126,7 @@ export function FlowerGardenPart2Scene({
     setIsExiting(true);
     setTimeout(() => {
       onBackToMenu();
-    }, 400);
+    }, 1000);
   };
 
   const handleNextScene = (e?: React.MouseEvent) => {
@@ -135,20 +140,35 @@ export function FlowerGardenPart2Scene({
       } else {
         onBackToMenu();
       }
-    }, 400);
+    }, 1000);
   };
 
   const currentDialogue = dialogueData[currentLineIndex];
   const isFinalLine = currentLineIndex === dialogueData.length - 1;
 
+  useEffect(() => {
+    if (isTypingComplete && currentDialogue) {
+      if (currentDialogue.speaker === "AII" && currentDialogue.expression) {
+        setLastAiiExpr(currentDialogue.expression);
+      } else if (currentDialogue.speaker === "KIBO" && currentDialogue.expression) {
+        setLastKiboExpr(currentDialogue.expression);
+      }
+    }
+  }, [isTypingComplete, currentDialogue]);
+
+  const currentDialogueExpr =
+    !isTypingComplete && currentDialogue.typingExpression
+      ? currentDialogue.typingExpression
+      : currentDialogue.expression;
+
   const activeAiiExpr =
-    currentDialogue.speaker === "AII"
-      ? currentDialogue.expression
+    currentDialogue.speaker === "AII" && currentDialogueExpr
+      ? currentDialogueExpr
       : lastAiiExpr;
 
   const activeKiboExpr =
-    currentDialogue.speaker === "KIBO"
-      ? currentDialogue.expression
+    currentDialogue.speaker === "KIBO" && currentDialogueExpr
+      ? currentDialogueExpr
       : lastKiboExpr;
 
   const speakerBadgeColor =
@@ -165,7 +185,7 @@ export function FlowerGardenPart2Scene({
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       {/* Black transition overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
           isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />

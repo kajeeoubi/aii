@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, ArrowRight, BouncingArrow } from "@pxlkit/ui";
-import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
 interface StatueMinigameSceneProps {
@@ -41,6 +41,9 @@ export function StatueMinigameScene({
     const fadeTimer = setTimeout(() => {
       setIsEnteringScene(false);
     }, 50);
+
+    setBGMVolume(0.5, 500);
+
     return () => clearTimeout(fadeTimer);
   }, []);
 

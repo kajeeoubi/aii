@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Heart } from "@pxlkit/social";
-import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
-import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
 
 interface StayNarrativeProps {
   onBackToMenu: () => void;
@@ -24,6 +22,8 @@ export function StayNarrative({ onBackToMenu, onNextScene }: StayNarrativeProps)
     const enterTimer = setTimeout(() => {
       setIsEntering(false);
     }, 50);
+
+    setBGMVolume(0.5, 500);
 
     setDisplayedText("");
     setIsTypingComplete(false);
@@ -84,15 +84,6 @@ export function StayNarrative({ onBackToMenu, onNextScene }: StayNarrativeProps)
       />
 
       <div className="my-auto w-full max-w-xs flex flex-col items-center justify-center gap-4">
-        {isTypingComplete && (
-          <div className="animate-float flex items-center justify-center gap-2">
-            <PxlIcon
-              icon={Heart as unknown as PxlKitIconData}
-              className="h-10 w-10 sm:h-12 sm:w-12 text-[#ff70a6]"
-            />
-          </div>
-        )}
-
         <p className="font-press-start text-xs sm:text-sm leading-relaxed text-[#2d2d2d] whitespace-pre-line">
           {displayedText}
           {!isTypingComplete && (

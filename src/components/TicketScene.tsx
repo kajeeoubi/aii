@@ -15,22 +15,26 @@ interface DialogueLine {
   speaker: string;
   text: string;
   expression: string;
+  typingExpression?: string;
 }
 
 const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Fiuhh.. finally nyampe juga.. katanya viral tapi kok sepi ya??",
+    typingExpression: "/char/aii/ngomong_senyum.PNG",
     expression: "/char/aii/senyum.PNG",
   },
   {
     speaker: "AII",
     text: "Oh iya! kalo gitu aku beli tiket dulu deh..",
-    expression: "/char/aii/ngomong_senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.PNG",
+    expression: "/char/aii/senyum.PNG",
   },
   {
     speaker: "AII",
     text: "Mas, tiketnya satu ya..",
+    typingExpression: "/char/aii/ngomong_senyum.PNG",
     expression: "/char/aii/senyum.PNG",
   },
   {
@@ -51,7 +55,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Gimana sih mas!! kalo gallery ditutup harusnya ada pemberitahuan dong.. kalo kek gini kan aku yang repot!! aku uda capek niat buat mandi, buat makeup, buat panas panasan ke sini!!",
-    expression: "/char/aii/marah.PNG",
+    expression: "/char/aii/kesel.PNG",
   },
   {
     speaker: "PETUGAS LOKET",
@@ -76,12 +80,13 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Ya mau nonton pameran lah, emangnya cuma kamu doang yang boleh ke sini? pasti kamu ngikutin aku ya hahah..",
+    typingExpression: "/char/kibo/ngomong_senyum.PNG",
     expression: "/char/kibo/senyum.PNG",
   },
   {
     speaker: "AII",
     text: "Gak usah sok pede deh, tempat ini udah dibooking full hari ini! Ditutup buat umum! Gara-gara itu aku dari tadi emosi!!",
-    expression: "/char/aii/marah.PNG",
+    expression: "/char/aii/kesel.PNG",
   },
   {
     speaker: "KIBO",
@@ -96,6 +101,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Hmmm... tapi berhubung kita udah sama-sama sampe sini...",
+    typingExpression: "/char/kibo/ngomong_senyum.PNG",
     expression: "/char/kibo/senyum.PNG",
   },
   {
@@ -116,12 +122,13 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Mumpung petugasnya lagi ke toilet tuh. Lagian rugi dong udah dandan cantik gitu masa langsung balik? Berani ga?",
+    typingExpression: "/char/kibo/ngomong_senyum.PNG",
     expression: "/char/kibo/senyum.PNG",
   },
   {
     speaker: "AII",
     text: "Ngomong apasi! Tapi... mmm... oke deh, kalo ketauan aku bilang cuma ikut ikutan kamu!",
-    expression: "/char/aii/malu.PNG",
+    expression: "/char/aii/salting.PNG",
   },
 ];
 
@@ -232,45 +239,37 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
     setIsExiting(true);
     setTimeout(() => {
       onBackToMenu();
-    }, 400);
+    }, 700);
   };
 
   const currentDialogue = dialogueData[currentLineIndex];
   const isFinalLine = currentLineIndex === dialogueData.length - 1;
   const isBuyTicketLine = currentLineIndex === 1;
 
-  const activeAiiExpr = currentDialogue.speaker === "AII"
-    ? !isTypingComplete
-      ? currentDialogue.expression === "/char/aii/senyum.PNG"
-        ? "/char/aii/ngomong_senyum.PNG"
-        : currentDialogue.expression === "/char/aii/marah.PNG" ||
-          currentDialogue.expression === "/char/aii/kaget.PNG" ||
-          currentDialogue.expression === "/char/aii/bingung.PNG" ||
-          currentDialogue.expression === "/char/aii/malu.PNG" ||
-          currentDialogue.expression === "/char/aii/nangis.PNG" ||
-          currentDialogue.expression === "/char/aii/kawatir.PNG"
-        ? currentDialogue.expression
-        : "/char/aii/ngomong.PNG"
-      : currentDialogue.expression
-    : lastAiiExpr;
+  useEffect(() => {
+    if (isTypingComplete && currentDialogue) {
+      if (currentDialogue.speaker === "AII" && currentDialogue.expression) {
+        setLastAiiExpr(currentDialogue.expression);
+      } else if (currentDialogue.speaker === "KIBO" && currentDialogue.expression) {
+        setLastKiboExpr(currentDialogue.expression);
+      }
+    }
+  }, [isTypingComplete, currentDialogue]);
 
-  const activeKiboExpr = currentDialogue.speaker === "KIBO"
-    ? !isTypingComplete
-      ? currentDialogue.expression === "/char/kibo/senyum.PNG"
-        ? "/char/kibo/ngomong_senyum.PNG"
-        : currentDialogue.expression === "/char/kibo/sedih.PNG" ||
-          currentDialogue.expression === "/char/kibo/marah.PNG" ||
-          currentDialogue.expression === "/char/kibo/ketawa.PNG" ||
-          currentDialogue.expression === "/char/kibo/malu.PNG" ||
-          currentDialogue.expression === "/char/kibo/tengil.PNG" ||
-          currentDialogue.expression === "/char/kibo/salting.PNG" ||
-          currentDialogue.expression === "/char/kibo/semangat.PNG" ||
-          currentDialogue.expression === "/char/kibo/bingung.PNG" ||
-          currentDialogue.expression === "/char/kibo/kawatir.PNG"
-        ? currentDialogue.expression
-        : "/char/kibo/ngomong.PNG"
-      : currentDialogue.expression
-    : lastKiboExpr;
+  const currentDialogueExpr =
+    !isTypingComplete && currentDialogue.typingExpression
+      ? currentDialogue.typingExpression
+      : currentDialogue.expression;
+
+  const activeAiiExpr =
+    currentDialogue.speaker === "AII" && currentDialogueExpr
+      ? currentDialogueExpr
+      : lastAiiExpr;
+
+  const activeKiboExpr =
+    currentDialogue.speaker === "KIBO" && currentDialogueExpr
+      ? currentDialogueExpr
+      : lastKiboExpr;
 
   const currentExpression = currentDialogue.speaker === "PETUGAS LOKET"
     ? currentDialogue.expression
@@ -288,7 +287,7 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
   return (
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-700 ${
           isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />

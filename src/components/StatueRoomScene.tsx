@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, ArrowRight, BouncingArrow } from "@pxlkit/ui";
-import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { Button } from "@/components/ui/pixelact-ui/button";
 
@@ -15,6 +15,7 @@ interface DialogueLine {
   speaker: string;
   text: string;
   expression: string;
+  typingExpression?: string;
 }
 
 const initialDialogue: DialogueLine[] = [
@@ -26,17 +27,28 @@ const initialDialogue: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Woahh besar kali ruangannya!! Tapi kok patungnya cuma 3 doang anjay_-",
-    expression: "/char/kibo/ngomong_senyum.PNG",
+    typingExpression: "/char/kibo/ngomong_senyum.PNG",
+    expression: "/char/kibo/senyum.PNG",
   },
   {
     speaker: "AII",
-    text: "Bentar.. Patung-patungnya kek punya simbol gitu ga sih?",
+    text: "Iya.. Bentar deh.. Patung-patungnya kek punya simbol gitu ga sih?",
     expression: "/char/aii/bingung.PNG",
   },
   {
     speaker: "KIBO",
-    text: "Huum.. Patung yang kiri itu artinya konflik, yang kanan itu kebersamaan, dan yang tengah...",
+    text: "Huum.. Patung yang kiri yang bentuk batu berduri itu artinya konflik dalam hubungan...",
     expression: "/char/kibo/ngomong.PNG",
+  },
+  {
+    speaker: "KIBO",
+    text: "Yang kanan bentuk tangan saling genggam itu ikatan kedua pasangan...",
+    expression: "/char/kibo/ngomong.PNG",
+  },
+  {
+    speaker: "KIBO",
+    text: "Dan yang tengah bentuk hati kristal itu...",
+    expression: "/char/kibo/bingung.PNG",
   },
 ];
 
@@ -44,12 +56,14 @@ const option1Dialogue: DialogueLine[] = [
   {
     speaker: "KIBO",
     text: "Yapp!! Jadi true love itu bakal tumbuh kalo keduanya memahami satu sama lain, tetap bareng-bareng menghadapi masalah yang muncul",
+    typingExpression: "/char/kibo/ngomong_senyum.PNG",
     expression: "/char/kibo/senyum.PNG",
   },
   {
     speaker: "AII",
     text: "Oalah gituuu to..",
-    expression: "/char/aii/ngomong_senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.PNG",
+    expression: "/char/aii/senyum.PNG",
   },
   {
     speaker: "AII",
@@ -67,7 +81,8 @@ const option2Dialogue: DialogueLine[] = [
   {
     speaker: "AII",
     text: "Oalah gituuu to..",
-    expression: "/char/aii/ngomong_senyum.PNG",
+    typingExpression: "/char/aii/ngomong_senyum.PNG",
+    expression: "/char/aii/senyum.PNG",
   },
   {
     speaker: "AII",
@@ -97,8 +112,11 @@ export function StatueRoomScene({
       setIsEnteringScene(false);
     }, 50);
 
+    setBGMVolume(0.15, 500);
+
     return () => {
       clearTimeout(fadeTimer);
+      setBGMVolume(0.5, 500);
     };
   }, []);
 
@@ -139,7 +157,7 @@ export function StatueRoomScene({
   }, [currentLineIndex, dialogueData]);
 
   const handleBoxClick = () => {
-    if (currentLineIndex === 3 && !hasChosenOption && isTypingComplete) {
+    if (currentLineIndex === 5 && !hasChosenOption && isTypingComplete) {
       return;
     }
 
@@ -167,7 +185,7 @@ export function StatueRoomScene({
     setHasChosenOption(true);
     const chosenDialogue = option === 1 ? option1Dialogue : option2Dialogue;
     setDialogueData((prev) => [...prev, ...chosenDialogue]);
-    setCurrentLineIndex(4);
+    setCurrentLineIndex(6);
   };
 
   const handleBackToMenu = (e?: React.MouseEvent) => {
@@ -177,7 +195,7 @@ export function StatueRoomScene({
     setIsExiting(true);
     setTimeout(() => {
       onBackToMenu();
-    }, 400);
+    }, 1000);
   };
 
   const handleNextScene = (e?: React.MouseEvent) => {
@@ -191,21 +209,36 @@ export function StatueRoomScene({
       } else {
         onBackToMenu();
       }
-    }, 400);
+    }, 1000);
   };
 
   const currentDialogue = dialogueData[currentLineIndex];
   const isFinalLine = currentLineIndex === dialogueData.length - 1;
-  const isQuizTime = currentLineIndex === 3 && isTypingComplete && !hasChosenOption;
+  const isQuizTime = currentLineIndex === 5 && isTypingComplete && !hasChosenOption;
+
+  useEffect(() => {
+    if (isTypingComplete && currentDialogue) {
+      if (currentDialogue.speaker === "AII" && currentDialogue.expression) {
+        setLastAiiExpr(currentDialogue.expression);
+      } else if (currentDialogue.speaker === "KIBO" && currentDialogue.expression) {
+        setLastKiboExpr(currentDialogue.expression);
+      }
+    }
+  }, [isTypingComplete, currentDialogue]);
+
+  const currentDialogueExpr =
+    !isTypingComplete && currentDialogue.typingExpression
+      ? currentDialogue.typingExpression
+      : currentDialogue.expression;
 
   const activeAiiExpr =
-    currentDialogue.speaker === "AII"
-      ? currentDialogue.expression
+    currentDialogue.speaker === "AII" && currentDialogueExpr
+      ? currentDialogueExpr
       : lastAiiExpr;
 
   const activeKiboExpr =
-    currentDialogue.speaker === "KIBO"
-      ? currentDialogue.expression
+    currentDialogue.speaker === "KIBO" && currentDialogueExpr
+      ? currentDialogueExpr
       : lastKiboExpr;
 
   const speakerBadgeColor =
@@ -222,7 +255,7 @@ export function StatueRoomScene({
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       {/* Black transition overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
           isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />

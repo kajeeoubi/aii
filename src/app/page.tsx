@@ -8,9 +8,9 @@ import { Prologue } from "@/components/Prologue";
 import { TicketScene } from "@/components/TicketScene";
 import { Settings } from "@/components/Settings";
 import { SneakNarrative } from "@/components/TicketNarrative";
-import { GalleryScene } from "@/components/GalleryScene";
-import { PaintingRoomScene } from "@/components/PaintingRoomScene";
-import { PaintingMinigameScene } from "@/components/PaintingMinigameScene";
+import { GalleryScene } from "@/components/FrontGalleryScene";
+import { PaintingRoomScene } from "@/components/GalleryRoomScene";
+import { PaintingMinigameScene } from "@/components/GalleryMinigameScene";
 import { FlowerGardenScene } from "@/components/FlowerGardenScene";
 import { FlowerArrangingNarrative } from "@/components/FlowerNarrative";
 import { FlowerArrangingScene } from "@/components/FlowerMinigameScene";
@@ -20,6 +20,7 @@ import { StatueMinigameScene } from "@/components/StatueMinigameScene";
 import { StatueMinigameEndingScene } from "@/components/StatueMinigameEndingScene";
 import { CubitScene } from "@/components/CubitScene";
 import { StayScene } from "@/components/StayScene";
+import { SurpriseScene } from "@/components/SurpriseScene";
 import { StayNarrative } from "@/components/StayNarrative";
 import { ChapterSelect } from "@/components/ChapterSelect";
 import {
@@ -32,7 +33,7 @@ import {
 } from "@/lib/audioManager";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueMinigameEnding" | "stay" | "stayNarrative" | "chapterSelect" | "settings">("menu");
+  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueMinigameEnding" | "stay" | "surprise" | "stayNarrative" | "chapterSelect" | "settings">("menu");
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -48,28 +49,39 @@ export default function Home() {
       return;
     }
 
-    const chapter3to6Views = [
+    const galleryViews = [
       "paintingRoom",
       "cubit",
       "paintingRoomPart2",
       "paintingMinigame",
+    ];
+
+    const flowerViews = [
       "flowerGarden",
       "flowerArrangingNarrative",
       "flowerArranging",
       "flowerGardenPart2",
     ];
 
-    const chapter7to9Views = [
+    const statueViews = [
       "statueRoom",
       "statueMinigame",
       "statueMinigameEnding",
+    ];
+
+    const stayViews = [
       "stay",
+      "surprise",
       "stayNarrative",
     ];
 
-    if (chapter3to6Views.includes(currentView)) {
+    if (galleryViews.includes(currentView)) {
       playBGM("/audio/bgm/ollg.mp3");
-    } else if (chapter7to9Views.includes(currentView)) {
+    } else if (flowerViews.includes(currentView)) {
+      playBGM("/audio/bgm/mcimy.mp3");
+    } else if (statueViews.includes(currentView)) {
+      playBGM("/audio/bgm/cyht.mp3");
+    } else if (stayViews.includes(currentView)) {
       playBGM("/audio/bgm/ilmlou.mp3");
     } else {
       playBGM("/audio/bgm/stars.mp3");
@@ -91,7 +103,7 @@ export default function Home() {
     setTimeout(() => {
       setCurrentView("prologue");
       setIsTransitioning(false);
-    }, 350);
+    }, 1000);
   };
 
   return (
@@ -107,7 +119,7 @@ export default function Home() {
 
       <div className={`relative z-10 flex h-full max-h-screen max-h-[100dvh] w-full max-w-md flex-col items-center justify-between overflow-hidden border-x-4 border-[#2d2d2d] ${currentView === "menu" || currentView === "chapterSelect" || currentView === "settings" ? "bg-[#8cd0f5] pb-6" : "bg-[#faf7f2]"} shadow-[0_0_20px_rgba(0,0,0,0.08)]`}>
         <div
-          className={`pointer-events-none absolute inset-0 z-[60] bg-black transition-opacity duration-350 ${isTransitioning ? "opacity-100" : "opacity-0"
+          className={`pointer-events-none absolute inset-0 z-[60] bg-black transition-opacity duration-1000 ${isTransitioning ? "opacity-100" : "opacity-0"
             }`}
         />
 
@@ -189,6 +201,11 @@ export default function Home() {
           />
         ) : currentView === "stay" ? (
           <StayScene
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("surprise")}
+          />
+        ) : currentView === "surprise" ? (
+          <SurpriseScene
             onBackToMenu={() => setCurrentView("menu")}
             onNextScene={() => setCurrentView("stayNarrative")}
           />

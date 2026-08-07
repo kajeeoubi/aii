@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, ArrowRight, BouncingArrow } from "@pxlkit/ui";
 import { Button } from "@/components/ui/pixelact-ui/button";
-import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
 interface StatueMinigameEndingSceneProps {
@@ -16,6 +16,7 @@ interface DialogueLine {
   badgeBg: string;
   text: string;
   expression: string;
+  typingExpression?: string;
 }
 
 const dialogueData: DialogueLine[] = [
@@ -23,7 +24,7 @@ const dialogueData: DialogueLine[] = [
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
     text: "Aii, apa kamu lihat itu..",
-    expression: "/char/kibo/kawatir.PNG",
+    expression: "/char/kibo/kaget.PNG",
   },
   {
     speaker: "AII",
@@ -40,20 +41,20 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
-    text: "Aii, sebaiknya kamu pergi saja, aku akan mengaku menyelinap kepada petugas, setelah itu kamu bisa keluar dengan aman tanpa ketahuan",
-    expression: "/char/kibo/ngomong.PNG",
+    text: "Aii, kamu pergi saja, aku akan menyerahkan diri ke petugas, setelah itu kamu bisa keluar dengan aman tanpa ketahuan",
+    expression: "/char/kibo/marah.PNG",
   },
   {
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
-    text: "Tapi gimana dengan kamu.. gimana kalo kamu diapa-apain.. masa aku harus tinggalin kamu??!",
+    text: "Tapi gimana dengan kamu.. kalo kamu diapa-apain gimana?? masa aku tega tinggalin kamu??!",
     expression: "/char/aii/kawatir.PNG",
   },
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
     text: "Buruan sebelum kita berdua ketangkep!!",
-    expression: "/char/kibo/kawatir.PNG",
+    expression: "/char/kibo/marah.PNG",
   },
 ];
 
@@ -76,8 +77,11 @@ export function StatueMinigameEndingScene({
       setIsEnteringScene(false);
     }, 50);
 
+    setBGMVolume(0.15, 500);
+
     return () => {
       clearTimeout(fadeTimer);
+      setBGMVolume(0.5, 500);
     };
   }, []);
 
@@ -138,7 +142,7 @@ export function StatueMinigameEndingScene({
     setIsExiting(true);
     setTimeout(() => {
       onBackToMenu();
-    }, 400);
+    }, 1000);
   };
 
   const handleNextScene = (e?: React.MouseEvent) => {
@@ -152,20 +156,35 @@ export function StatueMinigameEndingScene({
       } else {
         onBackToMenu();
       }
-    }, 400);
+    }, 1000);
   };
 
   const currentDialogue = dialogueData[currentLineIndex];
   const isFinalLine = currentLineIndex === dialogueData.length - 1;
 
+  useEffect(() => {
+    if (isTypingComplete && currentDialogue) {
+      if (currentDialogue.speaker === "AII" && currentDialogue.expression) {
+        setLastAiiExpr(currentDialogue.expression);
+      } else if (currentDialogue.speaker === "KIBO" && currentDialogue.expression) {
+        setLastKiboExpr(currentDialogue.expression);
+      }
+    }
+  }, [isTypingComplete, currentDialogue]);
+
+  const currentDialogueExpr =
+    !isTypingComplete && currentDialogue.typingExpression
+      ? currentDialogue.typingExpression
+      : currentDialogue.expression;
+
   const activeAiiExpr =
-    currentDialogue.speaker === "AII" && currentDialogue.expression
-      ? currentDialogue.expression
+    currentDialogue.speaker === "AII" && currentDialogueExpr
+      ? currentDialogueExpr
       : lastAiiExpr;
 
   const activeKiboExpr =
-    currentDialogue.speaker === "KIBO" && currentDialogue.expression
-      ? currentDialogue.expression
+    currentDialogue.speaker === "KIBO" && currentDialogueExpr
+      ? currentDialogueExpr
       : lastKiboExpr;
 
   const isAii = currentDialogue.speaker === "AII";
@@ -176,7 +195,7 @@ export function StatueMinigameEndingScene({
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       {/* Black transition overlay */}
       <div
-        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-400 ${
+        className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
           isEnteringScene || isExiting ? "opacity-100" : "opacity-0"
         }`}
       />

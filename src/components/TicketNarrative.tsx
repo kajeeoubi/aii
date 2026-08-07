@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Laugh } from "@pxlkit/social";
-import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 
 interface SneakNarrativeProps {
@@ -11,7 +9,7 @@ interface SneakNarrativeProps {
 }
 
 const narrativeText =
-  "Akhirnya mereka berdua memutuskan untuk diam diam masuk, cie ciee.. ceritanya nyelinap bareng nich yee wkwkwkw";
+  "Akhirnya mereka berdua memutuskan untuk diam diam masuk \n\ncie ciee.. ceritanya nyelinap bareng nich yee wkwkwkw";
 
 export function SneakNarrative({ onBackToMenu, onNextScene }: SneakNarrativeProps) {
   const [displayedText, setDisplayedText] = useState("");
@@ -85,15 +83,6 @@ export function SneakNarrative({ onBackToMenu, onNextScene }: SneakNarrativeProp
       />
 
       <div className="my-auto w-full max-w-xs flex flex-col items-center justify-center gap-4">
-        {isTypingComplete && (
-          <div className="animate-float">
-            <PxlIcon
-              icon={Laugh as unknown as PxlKitIconData}
-              className="h-10 w-10 sm:h-12 sm:w-12 text-pxl-dark"
-            />
-          </div>
-        )}
-
         <p className="font-press-start text-xs sm:text-sm leading-relaxed text-[#2d2d2d] whitespace-pre-line">
           {displayedText}
           {!isTypingComplete && (

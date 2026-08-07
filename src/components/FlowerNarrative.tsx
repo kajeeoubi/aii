@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
 
 interface FlowerArrangingNarrativeProps {
   onBackToMenu: () => void;
@@ -25,6 +25,8 @@ export function FlowerArrangingNarrative({
     const enterTimer = setTimeout(() => {
       setIsEntering(false);
     }, 50);
+
+    setBGMVolume(0.15, 500);
 
     setDisplayedText("");
     setIsTypingComplete(false);
