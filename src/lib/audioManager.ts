@@ -1,17 +1,76 @@
 let bgmAudio: HTMLAudioElement | null = null;
+let bgmSourceNode: MediaElementAudioSourceNode | null = null;
+let bgmGainNode: GainNode | null = null;
 let currentTrackSrc: string | null = null;
 let fadeInterval: NodeJS.Timeout | null = null;
 let gestureListenerActive = false;
 
 const TARGET_VOLUME = 0.5;
 
+let audioCtx: AudioContext | null = null;
+
+function getAudioContext(): AudioContext | null {
+  if (typeof window === "undefined") return null;
+  const AudioContextClass =
+    window.AudioContext ||
+    (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+  if (!AudioContextClass) return null;
+  if (!audioCtx) {
+    audioCtx = new AudioContextClass();
+  }
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume().catch(() => {});
+  }
+  return audioCtx;
+}
+
 function getBGMElement(): HTMLAudioElement {
   if (!bgmAudio) {
     bgmAudio = new Audio();
     bgmAudio.loop = true;
-    bgmAudio.volume = 0;
+    bgmAudio.volume = 1;
   }
+  setupBGMWebAudio();
   return bgmAudio;
+}
+
+function setupBGMWebAudio(): GainNode | null {
+  if (bgmGainNode) return bgmGainNode;
+  const ctx = getAudioContext();
+  if (!ctx || !bgmAudio) return null;
+
+  try {
+    if (!bgmSourceNode) {
+      bgmSourceNode = ctx.createMediaElementSource(bgmAudio);
+      bgmGainNode = ctx.createGain();
+      bgmGainNode.gain.value = 0;
+      bgmSourceNode.connect(bgmGainNode);
+      bgmGainNode.connect(ctx.destination);
+    }
+  } catch {
+  }
+  return bgmGainNode;
+}
+
+function setBGMVolumeInternal(vol: number) {
+  const clamped = Math.max(0, Math.min(1, vol));
+  const gain = setupBGMWebAudio();
+  if (gain) {
+    gain.gain.value = clamped;
+  }
+  if (bgmAudio) {
+    try {
+      bgmAudio.volume = clamped;
+    } catch {
+    }
+  }
+}
+
+function getBGMVolumeInternal(): number {
+  if (bgmGainNode) {
+    return bgmGainNode.gain.value;
+  }
+  return bgmAudio ? bgmAudio.volume : 0;
 }
 
 function clearFade() {
@@ -28,7 +87,14 @@ function setupGestureListener() {
   const handleUserGesture = () => {
     gestureListenerActive = false;
     window.removeEventListener("click", handleUserGesture);
+    window.removeEventListener("touchstart", handleUserGesture);
+    window.removeEventListener("pointerdown", handleUserGesture);
     window.removeEventListener("keydown", handleUserGesture);
+
+    const ctx = getAudioContext();
+    if (ctx && ctx.state === "suspended") {
+      ctx.resume().catch(() => {});
+    }
 
     if (bgmAudio && currentTrackSrc && isMusicEnabled()) {
       startFadeIn(bgmAudio);
@@ -36,14 +102,21 @@ function setupGestureListener() {
   };
 
   window.addEventListener("click", handleUserGesture);
+  window.addEventListener("touchstart", handleUserGesture);
+  window.addEventListener("pointerdown", handleUserGesture);
   window.addEventListener("keydown", handleUserGesture);
 }
 
 function startFadeIn(audio: HTMLAudioElement) {
   clearFade();
-  audio.volume = 0;
+  setBGMVolumeInternal(0);
 
   if (!isMusicEnabled()) return;
+
+  const ctx = getAudioContext();
+  if (ctx && ctx.state === "suspended") {
+    ctx.resume().catch(() => {});
+  }
 
   const playPromise = audio.play();
   if (playPromise !== undefined) {
@@ -54,11 +127,11 @@ function startFadeIn(audio: HTMLAudioElement) {
 
         fadeInterval = setInterval(() => {
           currentVol = Math.min(TARGET_VOLUME, currentVol + fadeInStep);
-          audio.volume = currentVol;
+          setBGMVolumeInternal(currentVol);
 
           if (currentVol >= TARGET_VOLUME) {
             clearFade();
-            audio.volume = TARGET_VOLUME;
+            setBGMVolumeInternal(TARGET_VOLUME);
           }
         }, 40);
       })
@@ -74,7 +147,7 @@ export function playBGM(src: string = "/audio/bgm/stars.mp3") {
   const audio = getBGMElement();
 
   // If already playing this track
-  if (currentTrackSrc === src && !audio.paused && audio.volume > 0) {
+  if (currentTrackSrc === src && !audio.paused && getBGMVolumeInternal() > 0) {
     return;
   }
 
@@ -86,14 +159,14 @@ export function playBGM(src: string = "/audio/bgm/stars.mp3") {
 
   clearFade();
 
-  if (currentTrackSrc && currentTrackSrc !== src && !audio.paused && audio.volume > 0) {
+  if (currentTrackSrc && currentTrackSrc !== src && !audio.paused && getBGMVolumeInternal() > 0) {
     // Fade out current track over 50 steps, then switch src and fade in
-    let currentVol = audio.volume;
+    let currentVol = getBGMVolumeInternal();
     const fadeOutStep = currentVol / 50;
 
     fadeInterval = setInterval(() => {
       currentVol = Math.max(0, currentVol - fadeOutStep);
-      audio.volume = currentVol;
+      setBGMVolumeInternal(currentVol);
 
       if (currentVol <= 0) {
         clearFade();
@@ -116,18 +189,18 @@ export function pauseBGM() {
   if (!bgmAudio || bgmAudio.paused) return;
 
   clearFade();
-  let currentVol = bgmAudio.volume;
+  let currentVol = getBGMVolumeInternal();
   const fadeOutStep = currentVol / 50;
 
   fadeInterval = setInterval(() => {
     currentVol = Math.max(0, currentVol - fadeOutStep);
-    if (bgmAudio) bgmAudio.volume = currentVol;
+    setBGMVolumeInternal(currentVol);
 
     if (currentVol <= 0) {
       clearFade();
       if (bgmAudio) {
         bgmAudio.pause();
-        bgmAudio.volume = 0;
+        setBGMVolumeInternal(0);
       }
     }
   }, 40);
@@ -138,9 +211,9 @@ export function setBGMVolume(targetVol: number = TARGET_VOLUME, durationMs: numb
   if (!bgmAudio || bgmAudio.paused) return;
 
   clearFade();
-  const startVol = bgmAudio.volume;
+  const startVol = getBGMVolumeInternal();
   if (Math.abs(startVol - targetVol) < 0.01) {
-    bgmAudio.volume = targetVol;
+    setBGMVolumeInternal(targetVol);
     return;
   }
 
@@ -151,13 +224,11 @@ export function setBGMVolume(targetVol: number = TARGET_VOLUME, durationMs: numb
   fadeInterval = setInterval(() => {
     currentStep++;
     const nextVol = startVol + stepAmount * currentStep;
-    if (bgmAudio) {
-      bgmAudio.volume = Math.max(0, Math.min(1, nextVol));
-    }
+    setBGMVolumeInternal(nextVol);
 
     if (currentStep >= steps) {
       clearFade();
-      if (bgmAudio) bgmAudio.volume = targetVol;
+      setBGMVolumeInternal(targetVol);
     }
   }, 30);
 }
@@ -226,23 +297,6 @@ export function playButtonSound() {
 
 let footstepAudio: HTMLAudioElement | null = null;
 let footstepTimeout: NodeJS.Timeout | null = null;
-
-let audioCtx: AudioContext | null = null;
-
-function getAudioContext(): AudioContext | null {
-  if (typeof window === "undefined") return null;
-  const AudioContextClass =
-    window.AudioContext ||
-    (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-  if (!AudioContextClass) return null;
-  if (!audioCtx) {
-    audioCtx = new AudioContextClass();
-  }
-  if (audioCtx.state === "suspended") {
-    audioCtx.resume().catch(() => {});
-  }
-  return audioCtx;
-}
 
 export function playTypewriterSound() {
   // Disabled typewriter sound

@@ -84,7 +84,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
-    text: "hihihi.. maaf maaf.. iya aku siapin semua ini buat kamu Aii, termasuk yang sewa gallery ini juga wkwkw",
+    text: "hihihi.. maaf maaf.. iya aku siapin semua ini buat kamu Aii, termasuk yang booking gallery ini juga wkwkw",
     expression: "/char/kibo/ketawa.PNG",
   },
   {

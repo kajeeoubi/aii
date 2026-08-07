@@ -22,6 +22,8 @@ import { CubitScene } from "@/components/CubitScene";
 import { StayScene } from "@/components/StayScene";
 import { SurpriseScene } from "@/components/SurpriseScene";
 import { StayNarrative } from "@/components/StayNarrative";
+import { GiveFlowerScene } from "@/components/GiveFlowerScene";
+import { HugScene } from "@/components/HugScene";
 import { ChapterSelect } from "@/components/ChapterSelect";
 import {
   isSoundEnabled,
@@ -33,7 +35,7 @@ import {
 } from "@/lib/audioManager";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueMinigameEnding" | "stay" | "surprise" | "stayNarrative" | "chapterSelect" | "settings">("menu");
+  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueMinigameEnding" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "chapterSelect" | "settings">("menu");
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -73,6 +75,8 @@ export default function Home() {
       "stay",
       "surprise",
       "stayNarrative",
+      "giveFlower",
+      "hug",
     ];
 
     if (ch3_4Views.includes(currentView)) {
@@ -211,6 +215,16 @@ export default function Home() {
           />
         ) : currentView === "stayNarrative" ? (
           <StayNarrative
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("giveFlower")}
+          />
+        ) : currentView === "giveFlower" ? (
+          <GiveFlowerScene
+            onBackToMenu={() => setCurrentView("menu")}
+            onNextScene={() => setCurrentView("hug")}
+          />
+        ) : currentView === "hug" ? (
+          <HugScene
             onBackToMenu={() => setCurrentView("menu")}
             onNextScene={() => setCurrentView("menu")}
           />
