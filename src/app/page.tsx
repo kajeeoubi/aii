@@ -33,12 +33,20 @@ import {
   pauseBGM,
   toggleBGM,
 } from "@/lib/audioManager";
+import { useAssetPreloader } from "@/lib/useAssetPreloader";
+import { ResourcePreloaderModal } from "@/components/ResourcePreloaderModal";
+
+type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "chapterSelect" | "settings";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "chapterSelect" | "settings">("menu");
+  const [currentView, setCurrentView] = useState<ViewType>("menu");
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [pendingTargetView, setPendingTargetView] = useState<ViewType | null>(null);
+  const [showPreloaderModal, setShowPreloaderModal] = useState(false);
+
+  const preloader = useAssetPreloader();
 
   useEffect(() => {
     setSoundEnabledState(isSoundEnabled());
@@ -92,12 +100,34 @@ export default function Home() {
     toggleBGM(enabled);
   };
 
-  const handleStartTour = () => {
+  useEffect(() => {
+    if (preloader.isComplete && pendingTargetView) {
+      setShowPreloaderModal(false);
+      const target = pendingTargetView;
+      setPendingTargetView(null);
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentView(target);
+        setIsTransitioning(false);
+      }, 1000);
+    }
+  }, [preloader.isComplete, pendingTargetView]);
+
+  const transitionToView = (targetView: ViewType) => {
+    if (!preloader.isComplete) {
+      setPendingTargetView(targetView);
+      setShowPreloaderModal(true);
+      return;
+    }
     setIsTransitioning(true);
     setTimeout(() => {
-      setCurrentView("prologue");
+      setCurrentView(targetView);
       setIsTransitioning(false);
     }, 1000);
+  };
+
+  const handleStartTour = () => {
+    transitionToView("prologue");
   };
 
   return (
@@ -296,7 +326,7 @@ export default function Home() {
 
               {currentView === "chapterSelect" && (
                 <ChapterSelect
-                  onSelectChapter={(ch) => setCurrentView(ch)}
+                  onSelectChapter={(ch) => transitionToView(ch)}
                   onBackToMenu={() => setCurrentView("menu")}
                 />
               )}
@@ -314,6 +344,14 @@ export default function Home() {
           </>
         )}
       </div>
+
+      {showPreloaderModal && (
+        <ResourcePreloaderModal
+          loadedCount={preloader.loadedCount}
+          totalCount={preloader.totalCount}
+          progressPercentage={preloader.progressPercentage}
+        />
+      )}
     </div>
   );
 }
