@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 
 interface StayNarrativeProps {
   onBackToMenu: () => void;
@@ -22,8 +22,6 @@ export function StayNarrative({ onBackToMenu, onNextScene }: StayNarrativeProps)
     const enterTimer = setTimeout(() => {
       setIsEntering(false);
     }, 50);
-
-    setBGMVolume(0.5, 500);
 
     setDisplayedText("");
     setIsTypingComplete(false);

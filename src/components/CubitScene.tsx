@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { playButtonSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
+import { playButtonSound, playPopSound } from "@/lib/audioManager";
 
 interface CubitSceneProps {
   onBackToMenu?: () => void;
@@ -18,8 +18,6 @@ export function CubitScene({ onNextScene }: CubitSceneProps) {
       setIsEntering(false);
       playPopSound();
     }, 50);
-
-    setBGMVolume(0.5, 500);
 
     const shakeTimer = setTimeout(() => {
       setIsShaking(false);

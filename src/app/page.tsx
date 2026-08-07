@@ -9,8 +9,8 @@ import { TicketScene } from "@/components/TicketScene";
 import { Settings } from "@/components/Settings";
 import { SneakNarrative } from "@/components/TicketNarrative";
 import { GalleryScene } from "@/components/FrontGalleryScene";
-import { PaintingRoomScene } from "@/components/GalleryRoomScene";
-import { PaintingMinigameScene } from "@/components/GalleryMinigameScene";
+import { GalleryRoomScene } from "@/components/GalleryRoomScene";
+import { GalleryMinigameScene } from "@/components/GalleryMinigameScene";
 import { FlowerGardenScene } from "@/components/FlowerGardenScene";
 import { FlowerArrangingNarrative } from "@/components/FlowerNarrative";
 import { FlowerArrangingScene } from "@/components/FlowerMinigameScene";
@@ -33,7 +33,7 @@ import {
 } from "@/lib/audioManager";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "paintingRoom" | "cubit" | "paintingRoomPart2" | "paintingMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueMinigameEnding" | "stay" | "surprise" | "stayNarrative" | "chapterSelect" | "settings">("menu");
+  const [currentView, setCurrentView] = useState<"menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueMinigameEnding" | "stay" | "surprise" | "stayNarrative" | "chapterSelect" | "settings">("menu");
   const [soundEnabled, setSoundEnabledState] = useState(true);
   const [musicEnabled, setMusicEnabledState] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -49,21 +49,21 @@ export default function Home() {
       return;
     }
 
-    const galleryViews = [
-      "paintingRoom",
+    const ch3_4Views = [
+      "galleryRoom",
       "cubit",
-      "paintingRoomPart2",
-      "paintingMinigame",
+      "galleryRoomPart2",
+      "galleryMinigame",
     ];
 
-    const flowerViews = [
+    const ch5_6Views = [
       "flowerGarden",
       "flowerArrangingNarrative",
       "flowerArranging",
       "flowerGardenPart2",
     ];
 
-    const statueViews = [
+    const ch7_9Views = [
       "statueRoom",
       "statueMinigame",
       "statueMinigameEnding",
@@ -75,12 +75,12 @@ export default function Home() {
       "stayNarrative",
     ];
 
-    if (galleryViews.includes(currentView)) {
+    if (ch3_4Views.includes(currentView)) {
       playBGM("/audio/bgm/ollg.mp3");
-    } else if (flowerViews.includes(currentView)) {
-      playBGM("/audio/bgm/mcimy.mp3");
-    } else if (statueViews.includes(currentView)) {
+    } else if (ch5_6Views.includes(currentView)) {
       playBGM("/audio/bgm/cyht.mp3");
+    } else if (ch7_9Views.includes(currentView)) {
+      playBGM("/audio/bgm/mcimy.mp3");
     } else if (stayViews.includes(currentView)) {
       playBGM("/audio/bgm/ilmlou.mp3");
     } else {
@@ -141,26 +141,26 @@ export default function Home() {
         ) : currentView === "gallery" ? (
           <GalleryScene
             onBackToMenu={() => setCurrentView("menu")}
-            onNextScene={() => setCurrentView("paintingRoom")}
+            onNextScene={() => setCurrentView("galleryRoom")}
           />
-        ) : currentView === "paintingRoom" ? (
-          <PaintingRoomScene
+        ) : currentView === "galleryRoom" ? (
+          <GalleryRoomScene
             startLineIndex={0}
             onBackToMenu={() => setCurrentView("menu")}
             onTriggerCubit={() => setCurrentView("cubit")}
           />
         ) : currentView === "cubit" ? (
           <CubitScene
-            onNextScene={() => setCurrentView("paintingRoomPart2")}
+            onNextScene={() => setCurrentView("galleryRoomPart2")}
           />
-        ) : currentView === "paintingRoomPart2" ? (
-          <PaintingRoomScene
+        ) : currentView === "galleryRoomPart2" ? (
+          <GalleryRoomScene
             startLineIndex={8}
             onBackToMenu={() => setCurrentView("menu")}
-            onNextScene={() => setCurrentView("paintingMinigame")}
+            onNextScene={() => setCurrentView("galleryMinigame")}
           />
-        ) : currentView === "paintingMinigame" ? (
-          <PaintingMinigameScene
+        ) : currentView === "galleryMinigame" ? (
+          <GalleryMinigameScene
             onBackToMenu={() => setCurrentView("menu")}
             onNextScene={() => setCurrentView("flowerGarden")}
           />

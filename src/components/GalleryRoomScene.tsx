@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, BouncingArrow } from "@pxlkit/ui";
-import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
-interface PaintingRoomSceneProps {
+interface GalleryRoomSceneProps {
   onBackToMenu: () => void;
   onNextScene?: () => void;
   onTriggerCubit?: () => void;
@@ -131,12 +131,12 @@ const dialogueData: DialogueLine[] = [
   },
 ];
 
-export function PaintingRoomScene({
+export function GalleryRoomScene({
   onBackToMenu,
   onNextScene,
   onTriggerCubit,
   startLineIndex = 0,
-}: PaintingRoomSceneProps) {
+}: GalleryRoomSceneProps) {
   const [currentLineIndex, setCurrentLineIndex] = useState(startLineIndex);
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
@@ -152,11 +152,8 @@ export function PaintingRoomScene({
       setIsEnteringScene(false);
     }, 50);
 
-    setBGMVolume(0.15, 500);
-
     return () => {
       clearTimeout(fadeTimer);
-      setBGMVolume(0.5, 500);
     };
   }, []);
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, BouncingArrow } from "@pxlkit/ui";
-import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
 interface StaySceneProps {
@@ -48,8 +48,6 @@ export function StayScene({ onBackToMenu, onNextScene }: StaySceneProps) {
       setIsEnteringScene(false);
       playPopSound();
     }, 50);
-
-    setBGMVolume(0.5, 500);
 
     const shakeTimer = setTimeout(() => {
       setIsShaking(false);

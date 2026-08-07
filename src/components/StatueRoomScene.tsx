@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, ArrowRight, BouncingArrow } from "@pxlkit/ui";
-import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import { Button } from "@/components/ui/pixelact-ui/button";
 
@@ -112,11 +112,8 @@ export function StatueRoomScene({
       setIsEnteringScene(false);
     }, 50);
 
-    setBGMVolume(0.15, 500);
-
     return () => {
       clearTimeout(fadeTimer);
-      setBGMVolume(0.5, 500);
     };
   }, []);
 

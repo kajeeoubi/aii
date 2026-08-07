@@ -2,7 +2,8 @@ let bgmAudio: HTMLAudioElement | null = null;
 let currentTrackSrc: string | null = null;
 let fadeInterval: NodeJS.Timeout | null = null;
 let gestureListenerActive = false;
-let activeTargetVolume = 0.5;
+
+const TARGET_VOLUME = 0.5;
 
 function getBGMElement(): HTMLAudioElement {
   if (!bgmAudio) {
@@ -44,21 +45,20 @@ function startFadeIn(audio: HTMLAudioElement) {
 
   if (!isMusicEnabled()) return;
 
-  const targetVol = activeTargetVolume;
   const playPromise = audio.play();
   if (playPromise !== undefined) {
     playPromise
       .then(() => {
         let currentVol = 0;
-        const fadeInStep = targetVol / 50;
+        const fadeInStep = TARGET_VOLUME / 50;
 
         fadeInterval = setInterval(() => {
-          currentVol = Math.min(targetVol, currentVol + fadeInStep);
+          currentVol = Math.min(TARGET_VOLUME, currentVol + fadeInStep);
           audio.volume = currentVol;
 
-          if (currentVol >= targetVol) {
+          if (currentVol >= TARGET_VOLUME) {
             clearFade();
-            audio.volume = targetVol;
+            audio.volume = TARGET_VOLUME;
           }
         }, 40);
       })
@@ -133,10 +133,8 @@ export function pauseBGM() {
   }, 40);
 }
 
-export function setBGMVolume(targetVol: number = 0.5, durationMs: number = 500) {
+export function setBGMVolume(targetVol: number = TARGET_VOLUME, durationMs: number = 1500) {
   if (typeof window === "undefined") return;
-  activeTargetVolume = targetVol;
-
   if (!bgmAudio || bgmAudio.paused) return;
 
   clearFade();

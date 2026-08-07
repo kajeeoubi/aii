@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, Trash } from "@pxlkit/ui";
-import { playButtonSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
+import { playButtonSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import confetti from "canvas-confetti";
 
@@ -148,9 +148,6 @@ export function FlowerArrangingScene({
     const timer = setTimeout(() => {
       setIsEntering(false);
     }, 50);
-
-    setBGMVolume(0.5, 500);
-
     return () => clearTimeout(timer);
   }, []);
 

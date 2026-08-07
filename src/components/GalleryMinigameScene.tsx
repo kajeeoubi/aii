@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, ArrowRight, BouncingArrow } from "@pxlkit/ui";
 import { Button } from "@/components/ui/pixelact-ui/button";
-import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import confetti from "canvas-confetti";
 
-interface PaintingMinigameSceneProps {
+interface GalleryMinigameSceneProps {
   onBackToMenu: () => void;
   onNextScene?: () => void;
 }
@@ -49,20 +49,20 @@ const paintingsData: PaintingItem[] = [
     image: "/lukisan/lukisan_2.jpeg",
     dialogues: [
       {
-        speaker: "AII",
-        badgeBg: "bg-[#ffb3ba]",
-        text: "Hahahahah!! Siapa cewek manis ini?! Lihatlah matanya Kibo, pantas saja lukisan ini diberi nama\n'The Sweetie Panda'!",
-      },
-      {
         speaker: "KIBO",
         badgeBg: "bg-[#bae1ff]",
-        text: "Bahkan wajahnya lebih manis daripada gelato yang dipegangnya >///<",
+        text: "Woii!! Kok pandanya gendut bener anjay haahahahah :D",
+      },
+      {
+        speaker: "AII",
+        badgeBg: "bg-[#ffb3ba]",
+        text: "Lucuww tau!! Kek panda lagi makan eskrimmm, imut kiyowo bangett huaa <3",
       },
     ],
   },
   {
     id: 3,
-    title: "Happiness",
+    title: "The Precious Flower",
     image: "/lukisan/lukisan_3.jpeg",
     dialogues: [
       {
@@ -94,10 +94,10 @@ const paintingsData: PaintingItem[] = [
   },
 ];
 
-export function PaintingMinigameScene({
+export function GalleryMinigameScene({
   onBackToMenu,
   onNextScene,
-}: PaintingMinigameSceneProps) {
+}: GalleryMinigameSceneProps) {
   const [currentPaintingIndex, setCurrentPaintingIndex] = useState(0);
   const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -121,8 +121,6 @@ export function PaintingMinigameScene({
     const fadeTimer = setTimeout(() => {
       setIsEnteringScene(false);
     }, 50);
-
-    setBGMVolume(0.5, 500);
 
     return () => {
       clearTimeout(fadeTimer);
