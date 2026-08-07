@@ -6,7 +6,7 @@ let fadeInterval: NodeJS.Timeout | null = null;
 let gestureListenerActive = false;
 
 export const BGM_VOLUME_NORMAL = 0.5;
-export const BGM_VOLUME_LOW = 0.18;
+export const BGM_VOLUME_LOW = 0.3;
 
 let currentTargetVolume = BGM_VOLUME_NORMAL;
 
@@ -60,8 +60,13 @@ function setBGMVolumeInternal(vol: number) {
   const gain = setupBGMWebAudio();
   if (gain) {
     gain.gain.value = clamped;
-  }
-  if (bgmAudio) {
+    if (bgmAudio) {
+      try {
+        bgmAudio.volume = 1;
+      } catch {
+      }
+    }
+  } else if (bgmAudio) {
     try {
       bgmAudio.volume = clamped;
     } catch {

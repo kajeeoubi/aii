@@ -121,15 +121,21 @@ export default function Home() {
       "gallery",
       "galleryRoom",
       "galleryRoomPart2",
+    ];
+
+    const ollgNormalViews = [
+      "cubit",
+      "galleryMinigame",
+    ];
+
+    const mcimyLowViews = [
       "flowerGarden",
       "flowerGardenPart2",
       "statueRoom",
       "statueEnding",
     ];
 
-    const ollgNormalViews = [
-      "cubit",
-      "galleryMinigame",
+    const mcimyNormalViews = [
       "flowerNarrative",
       "flowerMinigame",
       "statueMinigame",
@@ -151,6 +157,10 @@ export default function Home() {
       playBGM("/audio/bgm/ollg.mp3", BGM_VOLUME_LOW);
     } else if (ollgNormalViews.includes(currentView)) {
       playBGM("/audio/bgm/ollg.mp3", BGM_VOLUME_NORMAL);
+    } else if (mcimyLowViews.includes(currentView)) {
+      playBGM("/audio/bgm/mcimy.mp3", BGM_VOLUME_LOW);
+    } else if (mcimyNormalViews.includes(currentView)) {
+      playBGM("/audio/bgm/mcimy.mp3", BGM_VOLUME_NORMAL);
     } else if (ilmlouNormalViews.includes(currentView)) {
       playBGM("/audio/bgm/ilmlou.mp3", BGM_VOLUME_NORMAL);
     } else if (currentView === "surprise") {
