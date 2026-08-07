@@ -313,23 +313,23 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
         </div>
       </div>
 
-      <div className="relative z-20 flex-1 flex items-end justify-center -mb-10 sm:-mb-12 px-4 pointer-events-none overflow-hidden">
+      <div className="relative z-20 flex-1 flex items-end justify-center -mb-12 sm:-mb-14 px-4 pointer-events-none overflow-hidden">
         {!hasKiboEntered ? (
           <div
-            className={`relative w-48 sm:w-52 ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+            className={`relative h-76 sm:h-80 flex items-end justify-center ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
               }`}
           >
             <img
               src={currentExpression}
               alt="Character"
-              className={`w-full h-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)] ${!isAii ? "scale-125 sm:scale-130 origin-bottom" : ""
+              className={`h-full w-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)] ${!isAii ? "scale-105 origin-bottom" : ""
                 }`}
             />
           </div>
         ) : (
-          <div className="relative flex items-end justify-center w-full max-w-sm">
+          <div className="relative flex items-end justify-center w-full max-w-sm h-76 sm:h-80">
             <div
-              className={`relative w-40 sm:w-44 transition-all duration-300 ${isAii
+              className={`relative h-full transition-all duration-300 flex items-end ${isAii
                   ? "z-20 scale-105 brightness-100"
                   : "z-10 scale-95 brightness-65"
                 }`}
@@ -337,22 +337,22 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
               <img
                 src={activeAiiExpr}
                 alt="AII"
-                className="w-full h-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)]"
+                className="h-full w-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)]"
               />
             </div>
 
             <div
               key={isKiboWalkingIn ? "kibo-walking" : "kibo-idle"}
-              className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 ${isKiboWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+              className={`relative h-full -ml-10 sm:-ml-12 transition-all duration-300 flex items-end ${isKiboWalkingIn ? "animate-step-in" : "animate-pixel-idle"
                 } ${isKibo
-                  ? "z-30 scale-108 brightness-100"
+                  ? "z-30 scale-105 brightness-100"
                   : "z-0 scale-95 brightness-65"
                 }`}
             >
               <img
                 src={activeKiboExpr}
                 alt="KIBO"
-                className="w-full h-auto object-contain scale-110 origin-bottom drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)]"
+                className="h-full w-auto object-contain scale-105 origin-bottom drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)]"
               />
             </div>
           </div>

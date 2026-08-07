@@ -220,11 +220,11 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
       </div>
 
       {/* Characters Area with Step animation */}
-      <div className="relative z-20 flex-1 flex items-end justify-center -mb-10 sm:-mb-12 px-4 pointer-events-none overflow-hidden">
-        <div className="relative flex items-end justify-center w-full max-w-sm">
+      <div className="relative z-20 flex-1 flex items-end justify-center -mb-12 sm:-mb-14 px-4 pointer-events-none overflow-hidden">
+        <div className="relative flex items-end justify-center w-full max-w-sm h-76 sm:h-80">
           {/* AII Sprite */}
           <div
-            className={`relative w-40 sm:w-44 transition-all duration-300 ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+            className={`relative h-full transition-all duration-300 flex items-end ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
               } ${isAii
                 ? "z-20 scale-105 brightness-100"
                 : "z-10 scale-95 brightness-65"
@@ -233,15 +233,15 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
             <img
               src={activeAiiExpr}
               alt="AII"
-              className="w-full h-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)]"
+              className="h-full w-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)]"
             />
           </div>
 
           {/* KIBO Sprite */}
           <div
-            className={`relative w-42 sm:w-46 -ml-9 sm:-ml-11 transition-all duration-300 ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+            className={`relative h-full -ml-10 sm:-ml-12 transition-all duration-300 flex items-end ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
               } ${isKibo
-                ? "z-30 scale-108 brightness-100"
+                ? "z-30 scale-105 brightness-100"
                 : "z-0 scale-95 brightness-65"
               }`}
             style={isWalkingIn ? { animationDelay: "0.2s" } : undefined}
@@ -249,7 +249,7 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
             <img
               src={activeKiboExpr}
               alt="KIBO"
-              className="w-full h-auto object-contain scale-110 origin-bottom drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)]"
+              className="h-full w-auto object-contain scale-105 origin-bottom drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)]"
             />
           </div>
         </div>

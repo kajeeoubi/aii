@@ -322,13 +322,13 @@ export function GalleryRoomScene({
       </div>
 
       {/* Single Speaker Character Area */}
-      <div className="relative z-20 flex-1 flex items-end justify-center -mb-10 sm:-mb-12 px-4 pointer-events-none overflow-hidden">
-        <div className="relative w-48 sm:w-52 animate-pixel-idle flex items-end justify-center">
+      <div className="relative z-20 flex-1 flex items-end justify-center -mb-12 sm:-mb-14 px-4 pointer-events-none overflow-hidden">
+        <div className="relative h-76 sm:h-80 animate-pixel-idle flex items-end justify-center">
           <img
             key={currentDialogue.speaker}
             src={isAii ? activeAiiExpr : activeKiboExpr}
             alt={currentDialogue.speaker}
-            className={`w-full h-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)] ${isKibo ? "scale-110 origin-bottom" : ""
+            className={`h-full w-auto object-contain drop-shadow-[0_6px_6px_rgba(0,0,0,0.3)] ${isKibo ? "scale-105 origin-bottom" : ""
               }`}
           />
         </div>
