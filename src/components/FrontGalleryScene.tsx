@@ -15,6 +15,7 @@ interface DialogueLine {
   text: string;
   expression: string;
   typingExpression?: string;
+  animateStep?: boolean;
 }
 
 const dialogueData: DialogueLine[] = [
@@ -23,6 +24,7 @@ const dialogueData: DialogueLine[] = [
     text: "Pelan pelan Aii jangan berisik, ntar kita bisa ketauan ama petugasnya loh..",
     typingExpression: "/char/kibo/ngomong_senyum.png",
     expression: "/char/kibo/senyum.png",
+    animateStep: true,
   },
   {
     speaker: "AII",
@@ -224,7 +226,7 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
         <div className="relative flex items-end justify-center w-full max-w-sm h-76 sm:h-80">
           {/* AII Sprite */}
           <div
-            className={`relative h-full transition-all duration-300 flex items-end ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+            className={`relative h-full transition-all duration-300 flex items-end ${isWalkingIn || currentDialogue.animateStep ? "animate-step-in" : "animate-pixel-idle"
               } ${isAii
                 ? "z-20 scale-105 brightness-100"
                 : "z-10 scale-95 brightness-65"
@@ -239,12 +241,12 @@ export function GalleryScene({ onBackToMenu, onNextScene }: GallerySceneProps) {
 
           {/* KIBO Sprite */}
           <div
-            className={`relative h-full -ml-10 sm:-ml-12 transition-all duration-300 flex items-end ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+            className={`relative h-full -ml-10 sm:-ml-12 transition-all duration-300 flex items-end ${isWalkingIn || currentDialogue.animateStep ? "animate-step-in" : "animate-pixel-idle"
               } ${isKibo
                 ? "z-30 scale-105 brightness-100"
                 : "z-0 scale-95 brightness-65"
               }`}
-            style={isWalkingIn ? { animationDelay: "0.2s" } : undefined}
+            style={isWalkingIn || currentDialogue.animateStep ? { animationDelay: "0.2s" } : undefined}
           >
             <img
               src={activeKiboExpr}

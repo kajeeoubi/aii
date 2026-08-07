@@ -6,7 +6,7 @@ import { playButtonSound, playPopSound } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 import confetti from "canvas-confetti";
 
-interface FlowerArrangingSceneProps {
+interface FlowerMinigameSceneProps {
   onBackToMenu: () => void;
   onNextScene?: () => void;
 }
@@ -56,10 +56,10 @@ const round2Targets: FlowerItem[] = [
   row4Lavender,   // Lavender
 ];
 
-export function FlowerArrangingScene({
+export function FlowerMinigameScene({
   onBackToMenu,
   onNextScene,
-}: FlowerArrangingSceneProps) {
+}: FlowerMinigameSceneProps) {
   const [isEntering, setIsEntering] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
   const [currentRound, setCurrentRound] = useState<1 | 2>(1);

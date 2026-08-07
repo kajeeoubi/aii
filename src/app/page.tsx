@@ -12,8 +12,8 @@ import { GalleryScene } from "@/components/FrontGalleryScene";
 import { GalleryRoomScene } from "@/components/GalleryRoomScene";
 import { GalleryMinigameScene } from "@/components/GalleryMinigameScene";
 import { FlowerGardenScene } from "@/components/FlowerGardenScene";
-import { FlowerArrangingNarrative } from "@/components/FlowerNarrative";
-import { FlowerArrangingScene } from "@/components/FlowerMinigameScene";
+import { FlowerNarrative } from "@/components/FlowerNarrative";
+import { FlowerMinigameScene } from "@/components/FlowerMinigameScene";
 import { FlowerGardenPart2Scene } from "@/components/FlowerGardenPart2Scene";
 import { StatueRoomScene } from "@/components/StatueRoomScene";
 import { StatueMinigameScene } from "@/components/StatueMinigameScene";
@@ -32,11 +32,13 @@ import {
   playBGM,
   pauseBGM,
   toggleBGM,
+  BGM_VOLUME_NORMAL,
+  BGM_VOLUME_LOW,
 } from "@/lib/audioManager";
 import { useAssetPreloader } from "@/lib/useAssetPreloader";
 import { ResourcePreloaderModal } from "@/components/ResourcePreloaderModal";
 
-type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerArrangingNarrative" | "flowerArranging" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "chapterSelect" | "settings";
+type ViewType = "menu" | "prologue" | "ticket" | "sneakNarrative" | "gallery" | "galleryRoom" | "cubit" | "galleryRoomPart2" | "galleryMinigame" | "flowerGarden" | "flowerNarrative" | "flowerMinigame" | "flowerGardenPart2" | "statueRoom" | "statueMinigame" | "statueEnding" | "stay" | "surprise" | "stayNarrative" | "giveFlower" | "hug" | "chapterSelect" | "settings";
 
 export default function Home() {
   const [currentView, setCurrentView] = useState<ViewType>("menu");
@@ -59,34 +61,44 @@ export default function Home() {
       return;
     }
 
-    const ch3_9Views = [
+    const starsNormalViews = ["menu", "chapterSelect", "settings"];
+    const starsLowViews = ["prologue", "ticket"];
+
+    const ollgLowViews = [
+      "sneakNarrative",
+      "gallery",
       "galleryRoom",
-      "cubit",
       "galleryRoomPart2",
-      "galleryMinigame",
       "flowerGarden",
-      "flowerArrangingNarrative",
-      "flowerArranging",
       "flowerGardenPart2",
       "statueRoom",
-      "statueMinigame",
       "statueEnding",
     ];
 
-    const stayViews = [
+    const ollgNormalViews = [
+      "cubit",
+      "galleryMinigame",
+      "flowerNarrative",
+      "flowerMinigame",
+      "statueMinigame",
       "stay",
-      "surprise",
       "stayNarrative",
       "giveFlower",
       "hug",
     ];
 
-    if (ch3_9Views.includes(currentView)) {
-      playBGM("/audio/bgm/ollg.mp3");
-    } else if (stayViews.includes(currentView)) {
-      playBGM("/audio/bgm/ilmlou.mp3");
+    if (starsNormalViews.includes(currentView)) {
+      playBGM("/audio/bgm/stars.mp3", BGM_VOLUME_NORMAL);
+    } else if (starsLowViews.includes(currentView)) {
+      playBGM("/audio/bgm/stars.mp3", BGM_VOLUME_LOW);
+    } else if (ollgLowViews.includes(currentView)) {
+      playBGM("/audio/bgm/ollg.mp3", BGM_VOLUME_LOW);
+    } else if (ollgNormalViews.includes(currentView)) {
+      playBGM("/audio/bgm/ollg.mp3", BGM_VOLUME_NORMAL);
+    } else if (currentView === "surprise") {
+      playBGM("/audio/bgm/ollg.mp3", BGM_VOLUME_LOW);
     } else {
-      playBGM("/audio/bgm/stars.mp3");
+      playBGM("/audio/bgm/stars.mp3", BGM_VOLUME_NORMAL);
     }
   }, [currentView, musicEnabled]);
 
@@ -191,15 +203,15 @@ export default function Home() {
         ) : currentView === "flowerGarden" ? (
           <FlowerGardenScene
             onBackToMenu={() => setCurrentView("menu")}
-            onNextScene={() => setCurrentView("flowerArrangingNarrative")}
+            onNextScene={() => setCurrentView("flowerNarrative")}
           />
-        ) : currentView === "flowerArrangingNarrative" ? (
-          <FlowerArrangingNarrative
+        ) : currentView === "flowerNarrative" ? (
+          <FlowerNarrative
             onBackToMenu={() => setCurrentView("menu")}
-            onNextScene={() => setCurrentView("flowerArranging")}
+            onNextScene={() => setCurrentView("flowerMinigame")}
           />
-        ) : currentView === "flowerArranging" ? (
-          <FlowerArrangingScene
+        ) : currentView === "flowerMinigame" ? (
+          <FlowerMinigameScene
             onBackToMenu={() => setCurrentView("menu")}
             onNextScene={() => setCurrentView("flowerGardenPart2")}
           />

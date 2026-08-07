@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
 
-interface FlowerArrangingNarrativeProps {
+interface FlowerNarrativeProps {
   onBackToMenu: () => void;
   onNextScene?: () => void;
 }
@@ -11,10 +11,10 @@ interface FlowerArrangingNarrativeProps {
 const narrativeText =
   "Mereka berdua pergi ke area tempat merangkai bunga dan menghabiskan waktu bersama..\n\nWhen yahh..";
 
-export function FlowerArrangingNarrative({
+export function FlowerNarrative({
   onBackToMenu,
   onNextScene,
-}: FlowerArrangingNarrativeProps) {
+}: FlowerNarrativeProps) {
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);

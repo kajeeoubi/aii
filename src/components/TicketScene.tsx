@@ -16,6 +16,7 @@ interface DialogueLine {
   text: string;
   expression: string;
   typingExpression?: string;
+  animateStep?: boolean;
 }
 
 const dialogueData: DialogueLine[] = [
@@ -24,6 +25,7 @@ const dialogueData: DialogueLine[] = [
     text: "Fiuhh.. finally nyampe juga.. katanya viral tapi kok sepi ya??",
     typingExpression: "/char/aii/ngomong_senyum.png",
     expression: "/char/aii/senyum.png",
+    animateStep: true,
   },
   {
     speaker: "AII",
@@ -71,6 +73,7 @@ const dialogueData: DialogueLine[] = [
     speaker: "KIBO",
     text: "Eeeh ada apa ini rame amat, napas dulu.. jangan marah marah nanti cepet tua lho~",
     expression: "/char/kibo/ketawa.png",
+    animateStep: true,
   },
   {
     speaker: "AII",
@@ -316,7 +319,7 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
       <div className="relative z-20 flex-1 flex items-end justify-center -mb-12 sm:-mb-14 px-4 pointer-events-none overflow-hidden">
         {!hasKiboEntered ? (
           <div
-            className={`relative h-76 sm:h-80 flex items-end justify-center ${isWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+            className={`relative h-76 sm:h-80 flex items-end justify-center ${isWalkingIn || currentDialogue.animateStep ? "animate-step-in" : "animate-pixel-idle"
               }`}
           >
             <img
@@ -329,7 +332,8 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
         ) : (
           <div className="relative flex items-end justify-center w-full max-w-sm h-76 sm:h-80">
             <div
-              className={`relative h-full transition-all duration-300 flex items-end ${isAii
+              className={`relative h-full transition-all duration-300 flex items-end ${currentDialogue.speaker === "AII" && currentDialogue.animateStep ? "animate-step-in" : ""
+                } ${isAii
                   ? "z-20 scale-105 brightness-100"
                   : "z-10 scale-95 brightness-65"
                 }`}
@@ -342,8 +346,8 @@ export function TicketScene({ onBackToMenu, onNextScene }: TicketSceneProps) {
             </div>
 
             <div
-              key={isKiboWalkingIn ? "kibo-walking" : "kibo-idle"}
-              className={`relative h-full -ml-10 sm:-ml-12 transition-all duration-300 flex items-end ${isKiboWalkingIn ? "animate-step-in" : "animate-pixel-idle"
+              key={isKiboWalkingIn || (currentDialogue.speaker === "KIBO" && currentDialogue.animateStep) ? "kibo-walking" : "kibo-idle"}
+              className={`relative h-full -ml-10 sm:-ml-12 transition-all duration-300 flex items-end ${isKiboWalkingIn || (currentDialogue.speaker === "KIBO" && currentDialogue.animateStep) ? "animate-step-in" : "animate-pixel-idle"
                 } ${isKibo
                   ? "z-30 scale-105 brightness-100"
                   : "z-0 scale-95 brightness-65"

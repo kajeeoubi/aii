@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Home as HomeIcon, BouncingArrow } from "@pxlkit/ui";
-import { playButtonSound, playTypewriterSound, playPopSound } from "@/lib/audioManager";
+import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume, BGM_VOLUME_NORMAL, BGM_VOLUME_LOW } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
 interface SurpriseSceneProps {
@@ -125,6 +125,12 @@ export function SurpriseScene({ onBackToMenu, onNextScene }: SurpriseSceneProps)
   }, []);
 
   useEffect(() => {
+    if (currentLineIndex < 4) {
+      setBGMVolume(BGM_VOLUME_LOW, 800);
+    } else {
+      setBGMVolume(BGM_VOLUME_NORMAL, 800);
+    }
+
     const currentDialogue = dialogueData[currentLineIndex];
     if (!currentDialogue) return;
 
