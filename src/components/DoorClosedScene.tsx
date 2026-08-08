@@ -103,7 +103,10 @@ export function DoorClosedScene({
     const currentDialogue = dialogueData[currentLineIndex];
     if (!currentDialogue) return;
 
-    if (currentDialogue.speaker === "NARATOR" && currentDialogue.text.includes("DUARRRrr")) {
+    if (
+      currentDialogue.speaker === "NARATOR" &&
+      (currentDialogue.text.includes("DUARRRrr") || currentDialogue.text.includes("KKKKRrk"))
+    ) {
       setIsShaking(true);
       setTimeout(() => {
         setIsShaking(false);
