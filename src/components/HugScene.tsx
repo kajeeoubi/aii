@@ -20,7 +20,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "NARATOR",
     badgeBg: "bg-[#ffffba]",
-    text: "Aii tiba tiba memeluk Kibo dengan erat (aww sweet kali wok ;D)",
+    text: "Aii tiba tiba memeluk Kibo dengan erat (Aww sweet kali wok, akal akalan Mas Arda hahaha)",
   },
   {
     speaker: "AII",
@@ -35,17 +35,17 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "PETUGAS GALLERY",
     badgeBg: "bg-[#ffd166]",
-    text: "Bang pliss, aku sama siapa pelukannya?? (awikwok banget wok hahah)",
+    text: "Bang pliss, aku sama siapa pelukannya?? (Ga rispek banget wok)",
   },
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
-    text: "Shhhttt.. (Diem dulu banh lagi menang nih)",
+    text: "Shhhttt.. (Diem dulu banh gw lagi menang nih)",
   },
   {
     speaker: "PETUGAS GALLERY",
     badgeBg: "bg-[#ffd166]",
-    text: "WHENN YAHH.. (Senyumku menjadi saldo dana awokaowk)",
+    text: "WHENN YAHH.. (Nyengir lu juned Hahahaha)",
   },
 ];
 

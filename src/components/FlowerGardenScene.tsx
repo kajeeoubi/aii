@@ -102,7 +102,7 @@ const dialogueData: DialogueLine[] = [
   },
   {
     speaker: "AII",
-    text: "Semangatt mas..",
+    text: "Semangatt Mas..",
     expression: "/char/aii/semangat.png",
   },
   {
