@@ -194,19 +194,38 @@ export function playBGM(
   currentTrackSrc = src;
 
   if (isSameTrack && forceRestart) {
-    cancelFadeAnimation();
-    audio.currentTime = 0;
-    applyVolume(0);
+    if (audio.paused || currentActualVolume <= 0.01) {
+      cancelFadeAnimation();
+      audio.currentTime = 0;
+      applyVolume(0);
 
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          fadeVolumeTo(targetVol, FADE_IN_DEFAULT_MS);
-        })
-        .catch(() => {
-          setupGestureListener();
-        });
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            fadeVolumeTo(targetVol, FADE_IN_DEFAULT_MS);
+          })
+          .catch(() => {
+            setupGestureListener();
+          });
+      }
+    } else {
+      fadeVolumeTo(0, FADE_OUT_DEFAULT_MS, () => {
+        if (currentTrackSrc !== src) return;
+        audio.currentTime = 0;
+        applyVolume(0);
+
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              fadeVolumeTo(currentTargetVolume, FADE_IN_DEFAULT_MS);
+            })
+            .catch(() => {
+              setupGestureListener();
+            });
+        }
+      });
     }
     return;
   }
