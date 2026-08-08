@@ -63,7 +63,7 @@ function applyVolume(vol: number) {
   } else if (bgmAudio) {
     try {
       bgmAudio.volume = clampedVol;
-    } catch (_) {}
+    } catch {}
   }
 }
 
