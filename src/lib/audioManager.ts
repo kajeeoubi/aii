@@ -5,7 +5,7 @@ let fadeAnimationId: number | null = null;
 let gestureListenerActive = false;
 
 export const BGM_VOLUME_NORMAL = 0.5;
-export const BGM_VOLUME_LOW = 0.3;
+export const BGM_VOLUME_LOW = 0.2;
 
 const FADE_IN_DEFAULT_MS = 1200;
 const FADE_OUT_DEFAULT_MS = 800;
