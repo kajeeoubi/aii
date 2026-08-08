@@ -20,7 +20,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
-    text: "Ga, aku gamau ninggalin kamu.. kalo kamu ngaku, aku juga bakal ikut kamu.. apapun yang terjadi, kita hadepin bareng!!",
+    text: "Ga, aku gamau ninggalin kamu.. kalo kamu ngaku, aku juga bakal ikut kamu.. apapun yang terjadi, kita hadepin bareng!! (Aii menarik dan menggenggam erat tangan Kibo)",
   },
   {
     speaker: "KIBO",
