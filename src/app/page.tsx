@@ -167,6 +167,8 @@ export default function Home() {
       playBGM("/audio/bgm/mcimy.mp3", BGM_VOLUME_LOW);
     } else if (mcimyNormalViews.includes(currentView)) {
       playBGM("/audio/bgm/mcimy.mp3", BGM_VOLUME_NORMAL);
+    } else if (currentView === "giveFlower") {
+      playBGM("/audio/bgm/ilmlou.mp3", BGM_VOLUME_NORMAL, true);
     } else if (ilmlouNormalViews.includes(currentView)) {
       playBGM("/audio/bgm/ilmlou.mp3", BGM_VOLUME_NORMAL);
     } else if (currentView === "surprise") {

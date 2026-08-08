@@ -163,7 +163,11 @@ function fadeVolumeTo(targetVol: number, durationMs: number = FADE_IN_DEFAULT_MS
   fadeAnimationId = requestAnimationFrame(step);
 }
 
-export function playBGM(src: string = "/audio/bgm/stars.mp3", targetVol: number = BGM_VOLUME_NORMAL) {
+export function playBGM(
+  src: string = "/audio/bgm/stars.mp3",
+  targetVol: number = BGM_VOLUME_NORMAL,
+  forceRestart: boolean = false
+) {
   if (typeof window === "undefined") return;
 
   currentTargetVolume = targetVol;
@@ -178,7 +182,7 @@ export function playBGM(src: string = "/audio/bgm/stars.mp3", targetVol: number 
   // Check if same track is already loaded
   const isSameTrack = currentTrackSrc === src && audio.src && audio.src.endsWith(src.replace(/^\//, ""));
 
-  if (isSameTrack) {
+  if (isSameTrack && !forceRestart) {
     if (audio.paused) {
       audio.play().catch(() => setupGestureListener());
     }
@@ -188,6 +192,24 @@ export function playBGM(src: string = "/audio/bgm/stars.mp3", targetVol: number 
 
   // Atomically set requested track
   currentTrackSrc = src;
+
+  if (isSameTrack && forceRestart) {
+    cancelFadeAnimation();
+    audio.currentTime = 0;
+    applyVolume(0);
+
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          fadeVolumeTo(targetVol, FADE_IN_DEFAULT_MS);
+        })
+        .catch(() => {
+          setupGestureListener();
+        });
+    }
+    return;
+  }
 
   // If paused or volume is practically 0, immediately swap src and play
   if (audio.paused || currentActualVolume <= 0.01) {
