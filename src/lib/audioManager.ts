@@ -7,6 +7,9 @@ let gestureListenerActive = false;
 export const BGM_VOLUME_NORMAL = 0.5;
 export const BGM_VOLUME_LOW = 0.3;
 
+const FADE_IN_DEFAULT_MS = 1200;
+const FADE_OUT_DEFAULT_MS = 800;
+
 let audioCtx: AudioContext | null = null;
 
 function getAudioContext(): AudioContext | null {
@@ -60,7 +63,7 @@ function setupGestureListener() {
       if (bgmAudio.paused) {
         bgmAudio.play().catch(() => {});
       }
-      fadeVolumeTo(currentTargetVolume, 800);
+      fadeVolumeTo(currentTargetVolume, FADE_IN_DEFAULT_MS);
     }
   };
 
@@ -72,8 +75,9 @@ function setupGestureListener() {
 
 /**
  * Smoothly fades `bgmAudio.volume` from its current level to `targetVol` over `durationMs`.
+ * Uses Cosine S-curve easing for ultra-smooth perceptual audio transitions.
  */
-function fadeVolumeTo(targetVol: number, durationMs: number = 800, onComplete?: () => void) {
+function fadeVolumeTo(targetVol: number, durationMs: number = FADE_IN_DEFAULT_MS, onComplete?: () => void) {
   cancelFadeAnimation();
 
   if (!bgmAudio) {
@@ -98,8 +102,8 @@ function fadeVolumeTo(targetVol: number, durationMs: number = 800, onComplete?: 
     const elapsed = now - startTime;
     const progress = Math.min(1, elapsed / durationMs);
 
-    // Smooth step (easeInOutQuad)
-    const eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+    // Cosine S-Curve Easing for natural logarithmic human volume perception
+    const eased = 0.5 * (1 - Math.cos(Math.PI * progress));
 
     const currentVol = startVol + (endVol - startVol) * eased;
     bgmAudio.volume = Math.max(0, Math.min(1, currentVol));
@@ -135,7 +139,7 @@ export function playBGM(src: string = "/audio/bgm/stars.mp3", targetVol: number 
     if (audio.paused) {
       audio.play().catch(() => setupGestureListener());
     }
-    fadeVolumeTo(targetVol, 800);
+    fadeVolumeTo(targetVol, FADE_IN_DEFAULT_MS);
     return;
   }
 
@@ -154,15 +158,15 @@ export function playBGM(src: string = "/audio/bgm/stars.mp3", targetVol: number 
     if (playPromise !== undefined) {
       playPromise
         .then(() => {
-          fadeVolumeTo(targetVol, 800);
+          fadeVolumeTo(targetVol, FADE_IN_DEFAULT_MS);
         })
         .catch(() => {
           setupGestureListener();
         });
     }
   } else {
-    // Cross-fade: fade out current track over 300ms, then swap src and fade in
-    fadeVolumeTo(0, 300, () => {
+    // Ultra-smooth Cross-fade: fade out current track over 800ms, then swap src and fade in over 1200ms
+    fadeVolumeTo(0, FADE_OUT_DEFAULT_MS, () => {
       // Check if track request changed again during fade-out
       if (currentTrackSrc !== src) {
         return;
@@ -176,7 +180,7 @@ export function playBGM(src: string = "/audio/bgm/stars.mp3", targetVol: number 
       if (playPromise !== undefined) {
         playPromise
           .then(() => {
-            fadeVolumeTo(currentTargetVolume, 800);
+            fadeVolumeTo(currentTargetVolume, FADE_IN_DEFAULT_MS);
           })
           .catch(() => {
             setupGestureListener();
@@ -186,7 +190,7 @@ export function playBGM(src: string = "/audio/bgm/stars.mp3", targetVol: number 
   }
 }
 
-export function setBGMVolume(targetVol: number = currentTargetVolume, durationMs: number = 800) {
+export function setBGMVolume(targetVol: number = currentTargetVolume, durationMs: number = FADE_IN_DEFAULT_MS) {
   if (typeof window === "undefined") return;
   currentTargetVolume = targetVol;
 
@@ -207,7 +211,7 @@ export function resumeBGM(targetVol: number = currentTargetVolume) {
     if (audio.paused) {
       audio.play().catch(() => setupGestureListener());
     }
-    fadeVolumeTo(targetVol, 800);
+    fadeVolumeTo(targetVol, FADE_IN_DEFAULT_MS);
   } else {
     playBGM("/audio/bgm/stars.mp3", targetVol);
   }
@@ -217,7 +221,7 @@ export function pauseBGM() {
   if (typeof window === "undefined") return;
   if (!bgmAudio) return;
 
-  fadeVolumeTo(0, 400, () => {
+  fadeVolumeTo(0, FADE_OUT_DEFAULT_MS, () => {
     if (bgmAudio) {
       bgmAudio.pause();
     }
