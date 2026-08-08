@@ -1,6 +1,7 @@
 let bgmAudio: HTMLAudioElement | null = null;
 let currentTrackSrc: string | null = null;
 let currentTargetVolume: number = 0.5;
+let currentActualVolume: number = 0;
 let fadeAnimationId: number | null = null;
 let gestureListenerActive = false;
 
@@ -11,6 +12,8 @@ const FADE_IN_DEFAULT_MS = 1200;
 const FADE_OUT_DEFAULT_MS = 800;
 
 let audioCtx: AudioContext | null = null;
+let bgmSourceNode: MediaElementAudioSourceNode | null = null;
+let bgmGainNode: GainNode | null = null;
 
 function getAudioContext(): AudioContext | null {
   if (typeof window === "undefined") return null;
@@ -27,11 +30,49 @@ function getAudioContext(): AudioContext | null {
   return audioCtx;
 }
 
+function setupBGMGainNode(): GainNode | null {
+  if (bgmGainNode) return bgmGainNode;
+  if (!bgmAudio) return null;
+  const ctx = getAudioContext();
+  if (!ctx) return null;
+
+  try {
+    if (!bgmSourceNode) {
+      bgmSourceNode = ctx.createMediaElementSource(bgmAudio);
+    }
+    bgmGainNode = ctx.createGain();
+    bgmGainNode.gain.value = currentActualVolume;
+    bgmSourceNode.connect(bgmGainNode);
+    bgmGainNode.connect(ctx.destination);
+    bgmAudio.volume = 1;
+    return bgmGainNode;
+  } catch (e) {
+    console.warn("Web Audio API BGM gain node setup error:", e);
+    return null;
+  }
+}
+
+function applyVolume(vol: number) {
+  const clampedVol = Math.max(0, Math.min(1, vol));
+  currentActualVolume = clampedVol;
+
+  const gainNode = setupBGMGainNode();
+  if (gainNode) {
+    gainNode.gain.value = clampedVol;
+    if (bgmAudio) bgmAudio.volume = 1;
+  } else if (bgmAudio) {
+    try {
+      bgmAudio.volume = clampedVol;
+    } catch (_) {}
+  }
+}
+
 function getBGMElement(): HTMLAudioElement {
   if (!bgmAudio) {
     bgmAudio = new Audio();
     bgmAudio.loop = true;
-    bgmAudio.volume = 0;
+    bgmAudio.volume = 1;
+    setupBGMGainNode();
   }
   return bgmAudio;
 }
@@ -58,6 +99,7 @@ function setupGestureListener() {
     if (ctx && ctx.state === "suspended") {
       ctx.resume().catch(() => {});
     }
+    setupBGMGainNode();
 
     if (bgmAudio && currentTrackSrc && isMusicEnabled()) {
       if (bgmAudio.paused) {
@@ -74,8 +116,9 @@ function setupGestureListener() {
 }
 
 /**
- * Smoothly fades `bgmAudio.volume` from its current level to `targetVol` over `durationMs`.
+ * Smoothly fades BGM volume from its current level to `targetVol` over `durationMs`.
  * Uses Cosine S-curve easing for ultra-smooth perceptual audio transitions.
+ * Supports Web Audio API GainNode so volume adjustment works on mobile browsers (iOS/Android).
  */
 function fadeVolumeTo(targetVol: number, durationMs: number = FADE_IN_DEFAULT_MS, onComplete?: () => void) {
   cancelFadeAnimation();
@@ -85,11 +128,11 @@ function fadeVolumeTo(targetVol: number, durationMs: number = FADE_IN_DEFAULT_MS
     return;
   }
 
-  const startVol = bgmAudio.volume;
+  const startVol = currentActualVolume;
   const endVol = Math.max(0, Math.min(1, targetVol));
 
   if (Math.abs(startVol - endVol) < 0.005 || durationMs <= 0) {
-    bgmAudio.volume = endVol;
+    applyVolume(endVol);
     if (onComplete) onComplete();
     return;
   }
@@ -106,12 +149,12 @@ function fadeVolumeTo(targetVol: number, durationMs: number = FADE_IN_DEFAULT_MS
     const eased = 0.5 * (1 - Math.cos(Math.PI * progress));
 
     const currentVol = startVol + (endVol - startVol) * eased;
-    bgmAudio.volume = Math.max(0, Math.min(1, currentVol));
+    applyVolume(currentVol);
 
     if (progress < 1) {
       fadeAnimationId = requestAnimationFrame(step);
     } else {
-      bgmAudio.volume = endVol;
+      applyVolume(endVol);
       fadeAnimationId = null;
       if (onComplete) onComplete();
     }
@@ -147,12 +190,12 @@ export function playBGM(src: string = "/audio/bgm/stars.mp3", targetVol: number 
   currentTrackSrc = src;
 
   // If paused or volume is practically 0, immediately swap src and play
-  if (audio.paused || audio.volume <= 0.01) {
+  if (audio.paused || currentActualVolume <= 0.01) {
     cancelFadeAnimation();
     audio.pause();
     audio.src = src;
     audio.currentTime = 0;
-    audio.volume = 0;
+    applyVolume(0);
 
     const playPromise = audio.play();
     if (playPromise !== undefined) {
@@ -174,7 +217,7 @@ export function playBGM(src: string = "/audio/bgm/stars.mp3", targetVol: number 
       audio.pause();
       audio.src = src;
       audio.currentTime = 0;
-      audio.volume = 0;
+      applyVolume(0);
 
       const playPromise = audio.play();
       if (playPromise !== undefined) {
