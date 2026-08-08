@@ -86,6 +86,7 @@ export function DoorClosedScene({
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [isEnteringScene, setIsEnteringScene] = useState(true);
+  const [isShaking, setIsShaking] = useState(false);
   const [timerRef, setTimerRef] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -101,6 +102,13 @@ export function DoorClosedScene({
   useEffect(() => {
     const currentDialogue = dialogueData[currentLineIndex];
     if (!currentDialogue) return;
+
+    if (currentDialogue.speaker === "NARATOR" && currentDialogue.text.includes("DUARRRrr")) {
+      setIsShaking(true);
+      setTimeout(() => {
+        setIsShaking(false);
+      }, 800);
+    }
 
     setDisplayedText("");
     setIsTypingComplete(false);
@@ -181,7 +189,7 @@ export function DoorClosedScene({
   const isFinalLine = currentLineIndex === dialogueData.length - 1;
 
   return (
-    <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-white">
+    <div className={`relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-white ${isShaking ? "animate-shake" : ""}`}>
       {/* Black transition overlay */}
       <div
         className={`pointer-events-none absolute inset-0 z-[70] bg-black transition-opacity duration-1000 ${
