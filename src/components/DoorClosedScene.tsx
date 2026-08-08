@@ -38,6 +38,12 @@ const dialogueData: DialogueLine[] = [
     expression: "/char/aii/nangis.png",
   },
   {
+    speaker: "NARATOR",
+    badgeBg: "bg-[#ffffba]",
+    text: "Terlihat sebuah layar kecil di ruangan itu...",
+    expression: "",
+  },
+  {
     speaker: "AII",
     badgeBg: "bg-[#ffb3ba]",
     text: "Kibo?! Apa itu kamu?!! Apa kamu denger aku?! Kiboo!!",

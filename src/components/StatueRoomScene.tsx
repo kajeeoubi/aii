@@ -16,6 +16,9 @@ interface DialogueLine {
   text: string;
   expression: string;
   typingExpression?: string;
+  hideCharacters?: boolean;
+  zoomBg?: boolean;
+  zoomPos?: "center" | "left" | "right";
 }
 
 const initialDialogue: DialogueLine[] = [
@@ -32,30 +35,55 @@ const initialDialogue: DialogueLine[] = [
   },
   {
     speaker: "AII",
-    text: "Iya.. Bentar deh.. Patung-patungnya kek punya simbol gitu ga sih?",
+    text: "Iya ya.. Eumm bentar deh.. Patung-patungnya kek punya simbol gitu ga sih?",
     expression: "/char/aii/bingung.png",
   },
   {
     speaker: "KIBO",
-    text: "Huum.. Patung yang kiri yang bentuk batu berduri itu artinya konflik dalam hubungan...",
-    expression: "/char/kibo/ngomong.png",
+    text: "......",
+    expression: "/char/kibo/bingung.png",
+    hideCharacters: true,
+    zoomBg: true,
+    zoomPos: "center",
   },
   {
     speaker: "KIBO",
-    text: "Yang kanan bentuk tangan saling genggam itu ikatan kedua pasangan...",
+    text: "Hmmm.. keknya simbolnya saling berhubungan deh..",
+    expression: "/char/kibo/bingung.png",
+    hideCharacters: true,
+    zoomBg: true,
+    zoomPos: "center",
+  },
+  {
+    speaker: "KIBO",
+    text: "Huum.. Patung yang kiri yang bentuk batu berduri itu simbol konflik",
     expression: "/char/kibo/ngomong.png",
+    hideCharacters: true,
+    zoomBg: true,
+    zoomPos: "left",
+  },
+  {
+    speaker: "KIBO",
+    text: "Yang kanan bentuk tangan itu simbol ikatan",
+    expression: "/char/kibo/ngomong.png",
+    hideCharacters: true,
+    zoomBg: true,
+    zoomPos: "right",
   },
   {
     speaker: "KIBO",
     text: "Dan yang tengah bentuk hati kristal itu...",
     expression: "/char/kibo/bingung.png",
+    hideCharacters: true,
+    zoomBg: true,
+    zoomPos: "center",
   },
 ];
 
 const option1Dialogue: DialogueLine[] = [
   {
     speaker: "KIBO",
-    text: "Yapp!! Jadi true love itu bakal tumbuh kalo keduanya memahami satu sama lain, tetap bareng-bareng menghadapi masalah yang muncul",
+    text: "Yapp tepat sekali!! Jadi True Love tumbuh kalo keduanya bareng-bareng menghadapi setiap konflik",
     typingExpression: "/char/kibo/ngomong_senyum.png",
     expression: "/char/kibo/senyum.png",
   },
@@ -67,7 +95,7 @@ const option1Dialogue: DialogueLine[] = [
   },
   {
     speaker: "AII",
-    text: "Bentar deh, kok ada yang aneh sama ketiga patung ini.. ada garis lintasannya, keknya patung ini bisa digeser",
+    text: "Bentar deh, aku ngerasa ada sesuatu deh.. garisnya saling terhubung gitu, keknya patung ini bisa digeser",
     expression: "/char/aii/bingung.png",
   },
 ];
@@ -75,8 +103,13 @@ const option1Dialogue: DialogueLine[] = [
 const option2Dialogue: DialogueLine[] = [
   {
     speaker: "KIBO",
-    text: "Kamu tu yang hopeless hahahah, itu simbol true love, tapi true love hanya tumbuh kalo keduanya saling memahami dan mau menghadapi setiap masalah yang datang bersama",
+    text: "Kamu tu yang hopeless hahahaha, itu simbol true love woii! Ada aja kamu..",
     expression: "/char/kibo/ketawa.png",
+  },
+  {
+    speaker: "KIBO",
+    text: "True Love tumbuh disimbolkan ketika keduanya tetep bareng-bareng menghadapi setiap konflik",
+    expression: "/char/kibo/senyum.png",
   },
   {
     speaker: "AII",
@@ -154,7 +187,7 @@ export function StatueRoomScene({
   }, [currentLineIndex, dialogueData]);
 
   const handleBoxClick = () => {
-    if (currentLineIndex === 5 && !hasChosenOption && isTypingComplete) {
+    if (currentLineIndex === initialDialogue.length - 1 && !hasChosenOption && isTypingComplete) {
       return;
     }
 
@@ -182,7 +215,7 @@ export function StatueRoomScene({
     setHasChosenOption(true);
     const chosenDialogue = option === 1 ? option1Dialogue : option2Dialogue;
     setDialogueData((prev) => [...prev, ...chosenDialogue]);
-    setCurrentLineIndex(6);
+    setCurrentLineIndex(initialDialogue.length);
   };
 
   const handleBackToMenu = (e?: React.MouseEvent) => {
@@ -211,7 +244,7 @@ export function StatueRoomScene({
 
   const currentDialogue = dialogueData[currentLineIndex];
   const isFinalLine = currentLineIndex === dialogueData.length - 1;
-  const isQuizTime = currentLineIndex === 5 && isTypingComplete && !hasChosenOption;
+  const isQuizTime = currentLineIndex === initialDialogue.length - 1 && isTypingComplete && !hasChosenOption;
 
   useEffect(() => {
     if (isTypingComplete && currentDialogue) {
@@ -248,6 +281,33 @@ export function StatueRoomScene({
   const isAii = currentDialogue.speaker === "AII";
   const isKibo = currentDialogue.speaker === "KIBO";
 
+  const getBgZoomStyle = () => {
+    if (!currentDialogue?.zoomBg) {
+      return {
+        transform: "scale(1)",
+        transformOrigin: "center center",
+      };
+    }
+    switch (currentDialogue.zoomPos) {
+      case "left":
+        return {
+          transform: "scale(2.4)",
+          transformOrigin: "8% 68%",
+        };
+      case "right":
+        return {
+          transform: "scale(2.4)",
+          transformOrigin: "92% 68%",
+        };
+      case "center":
+      default:
+        return {
+          transform: "scale(1.9)",
+          transformOrigin: "50% 65%",
+        };
+    }
+  };
+
   return (
     <div className="relative h-full w-full flex flex-col justify-between overflow-hidden select-none bg-[#faf7f2]">
       {/* Black transition overlay */}
@@ -262,7 +322,8 @@ export function StatueRoomScene({
       <img
         src="/asset/patung.png"
         alt="Statue Room Background"
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center transition-all duration-700 ease-out"
+        style={getBgZoomStyle()}
       />
 
       {/* Header Bar */}
@@ -281,7 +342,13 @@ export function StatueRoomScene({
       </div>
 
       {/* Characters Area */}
-      <div className="relative z-20 flex-1 flex items-end justify-center -mb-12 sm:-mb-14 px-4 pointer-events-none overflow-hidden">
+      <div
+        className={`relative z-20 flex-1 flex items-end justify-center -mb-12 sm:-mb-14 px-4 pointer-events-none overflow-hidden transition-all duration-500 ease-out ${
+          currentDialogue?.hideCharacters
+            ? "opacity-0 translate-y-10 pointer-events-none"
+            : "opacity-100 translate-y-0"
+        }`}
+      >
         <div className="relative flex items-end justify-center w-full max-w-sm h-76 sm:h-80">
           {/* AII Sprite */}
           <div

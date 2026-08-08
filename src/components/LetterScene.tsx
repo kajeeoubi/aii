@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowRight, Home as HomeIcon } from "@pxlkit/ui";
+import { ArrowRight, Home as HomeIcon, BouncingArrow } from "@pxlkit/ui";
 import { Button } from "@/components/ui/pixelact-ui/button";
-import { playButtonSound, playPopSound, pauseBGM, resumeBGM } from "@/lib/audioManager";
+import { playButtonSound, playPopSound, playTypewriterSound, pauseBGM, resumeBGM } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
 
 interface LetterSceneProps {
@@ -13,9 +13,13 @@ interface LetterSceneProps {
 
 const letterPart1 = `I miss you so much, Ai.
 
-Andai aja aku masih dikasih satu kesempatan itu, I swear I do everything differently. Aku bakal memperbaiki semuanya.
+Pertama tama makasih kamu udah main game ini dari awal sampe akhir di ending kedua game ini. I'm happy if you enjoy this game, sorry kalau surat ini bakal panjang, panjang banget malah..hahahah
 
-Aku minta maaf atas sikapku yang selama ini bikin kamu capek. Aku sadar banyak hal yang aku lakuin lahir dari rasa takut kehilangan kamu. I know that's not an excuse, and I know it was my mistake.
+I just wanna tell you..
+
+Andai aku dapat satu kesempatan itu, I swear I do everything differently. Aku bakal memperbaiki semuanya.
+
+Aku minta maaf atas sikapku yang selama ini bikin kamu capek. Aku sadar banyak hal yang aku lakuin lahir dari rasa takutku kehilangan kamu. I know that's not an excuse, and I know it was my mistake.
 
 Sekarang aku bahkan udah nggak tahu harus ngelakuin apa lagi supaya kamu bisa percaya dan tetap tinggal. Yang aku harapin cuma satu, semoga kita bisa belajar dari semua kesalahan yang pernah terjadi, bukan malah berakhir karena itu.
 
@@ -38,7 +42,7 @@ Foto-foto yang pengen aku ambil bareng kamu.
 Film-film yang pengen aku tonton sama kamu.
 Semuanya masih aku simpan rapi sampai sekarang. Tapi orang yang seharusnya ada di sampingku buat mewujudkan semuanya... udah nggak ada lagi.
 
-Aku udah tau scene ini pasti bakal keluar, aku ga kebayang bisa kuat menahan rasa sakitnya pas kamu disana.. karena aku juga merasakan hal yang sama, makanya aku memilih untuk gajadi ngajak kamu.`;
+Aku udah tau scene ini pasti bakal keluar, aku ga kebayang bisa kuat menahan rasa sakitnya pas kamu disana.. karena aku juga merasakan hal yang sama, makanya aku memilih untuk mengosongkan bangku punya kamu.`;
 
 const letterPart2 = `Sampai hari ini pun, aku masih sering keinget kamu lewat lagu-lagu.
 Setiap denger lagu itu, aku selalu keinget betapa sempurnanya kamu di mataku. Betapa beruntungnya dulu aku pernah punya seseorang kayak kamu.
@@ -73,6 +77,10 @@ export function LetterScene({ onBackToMenu, onNextScene }: LetterSceneProps) {
   const [isLetterExtracted, setIsLetterExtracted] = useState(false);
   const [isLetterFocused, setIsLetterFocused] = useState(false);
 
+  // Dialogue box states
+  const [displayedText, setDisplayedText] = useState("");
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+
   useEffect(() => {
     const enterTimer = setTimeout(() => {
       setIsEntering(false);
@@ -81,9 +89,41 @@ export function LetterScene({ onBackToMenu, onNextScene }: LetterSceneProps) {
     return () => clearTimeout(enterTimer);
   }, []);
 
+  useEffect(() => {
+    const text = "Kamu dapet sebuah surat..";
+    setDisplayedText("");
+    setIsTypingComplete(false);
+    let index = 0;
+
+    const timer = setInterval(() => {
+      if (index < text.length) {
+        const char = text[index];
+        setDisplayedText(text.slice(0, index + 1));
+        if (char && char !== " " && char !== "\n") {
+          playTypewriterSound();
+        }
+        index++;
+      } else {
+        setIsTypingComplete(true);
+        playPopSound();
+        clearInterval(timer);
+      }
+    }, 35);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
   const handleOpenEnvelope = () => {
     if (isEnvelopeOpen) return;
     playButtonSound();
+
+    if (!isTypingComplete) {
+      setDisplayedText("Kamu dapet sebuah surat..");
+      setIsTypingComplete(true);
+      return;
+    }
 
     setIsEnvelopeOpen(true);
 
@@ -154,7 +194,7 @@ export function LetterScene({ onBackToMenu, onNextScene }: LetterSceneProps) {
                 onClick={handleFinish}
                 className="w-full max-w-xs group h-9 sm:h-10 text-[9px] sm:text-[10px] flex items-center justify-center gap-2 border-2 border-[#2d2d2d] shadow-[3px_3px_0px_0px_#2d2d2d] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all cursor-pointer"
               >
-                <span>KEMBALI KE MENU</span>
+                <span>{onNextScene ? "SELESAI BACA SURAT" : "KEMBALI KE MENU"}</span>
                 <PxlIcon
                   icon={ArrowRight as unknown as PxlKitIconData}
                   className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
@@ -179,11 +219,7 @@ export function LetterScene({ onBackToMenu, onNextScene }: LetterSceneProps) {
                     : "top-4 opacity-0 scale-90 z-15"
                 }`}
               >
-                <div className="min-h-[130px] flex flex-col justify-between">
-                  <p className="text-[8.5px] sm:text-[9px] leading-relaxed text-[#2d2d2d] whitespace-pre-line text-left">
-                    {letterPart1}
-                  </p>
-                </div>
+                <div className="min-h-[130px]" />
               </div>
 
               <svg
@@ -219,6 +255,45 @@ export function LetterScene({ onBackToMenu, onNextScene }: LetterSceneProps) {
           </div>
         )}
       </div>
+
+      {/* Dialogue Box for Narrator */}
+      {!isLetterFocused && (
+        <div className="relative z-40 w-full px-3 pb-3">
+          <div
+            onClick={handleOpenEnvelope}
+            className="relative w-full border-4 border-[#2d2d2d] bg-[#faf7f2]/95 p-3.5 sm:p-4 shadow-[4px_4px_0px_0px_#2d2d2d] backdrop-blur-xs cursor-pointer min-h-[120px] sm:min-h-[135px] flex flex-col justify-between transition-all"
+          >
+            <div
+              className="absolute -top-4.5 left-3 border-2 border-[#2d2d2d] bg-[#ffffba] px-2.5 py-0.5 shadow-[2px_2px_0px_0px_#2d2d2d]"
+            >
+              <span className="font-press-start text-[9px] sm:text-[10px] font-bold text-[#2d2d2d]">
+                NARATOR
+              </span>
+            </div>
+
+            <div className="pt-3 text-left">
+              <p className="font-press-start text-[9px] sm:text-[10px] leading-relaxed text-[#2d2d2d]">
+                {displayedText}
+                {!isTypingComplete && (
+                  <span className="inline-block w-1.5 h-3 bg-[#2d2d2d] ml-1 animate-pulse align-middle">
+                    &nbsp;
+                  </span>
+                )}
+              </p>
+            </div>
+
+            <div className="mt-2 flex items-center justify-between pt-1">
+              <span className="text-[7.5px] sm:text-[8px] text-[#888888] font-press-start">
+                [Klik buat buka surat]
+              </span>
+              <PxlIcon
+                icon={BouncingArrow as unknown as PxlKitIconData}
+                className="h-4 w-4 shrink-0"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

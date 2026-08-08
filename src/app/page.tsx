@@ -117,8 +117,8 @@ export default function Home() {
       return;
     }
 
-    const starsNormalViews = ["menu", "chapterSelect", "settings", "diary"];
-    const starsLowViews = ["prologue", "ticket"];
+    const starsNormalViews = ["menu", "chapterSelect", "settings", "diary", "statueMinigame"];
+    const starsLowViews = ["prologue", "ticket", "statueRoom", "statueEnding"];
 
     const ollgLowViews = [
       "sneakNarrative",
@@ -135,19 +135,16 @@ export default function Home() {
     const mcimyLowViews = [
       "flowerGarden",
       "flowerGardenPart2",
-      "statueRoom",
-      "statueEnding",
-      "leave",
-      "look",
-      "doorClosed",
-      "badEndingNarrative",
-      "letter",
     ];
 
     const mcimyNormalViews = [
       "flowerNarrative",
       "flowerMinigame",
-      "statueMinigame",
+      "leave",
+      "look",
+      "doorClosed",
+      "badEndingNarrative",
+      "letter",
     ];
 
     const ilmlouNormalViews = [
@@ -309,16 +306,17 @@ export default function Home() {
           />
         ) : currentView === "doorClosed" ? (
           <DoorClosedScene
-            onNextScene={() => setCurrentView("badEndingNarrative")}
-            onBackToMenu={() => setCurrentView("badEndingNarrative")}
-          />
-        ) : currentView === "badEndingNarrative" ? (
-          <BadEndingNarrative
             onNextScene={() => setCurrentView("letter")}
             onBackToMenu={() => setCurrentView("letter")}
           />
         ) : currentView === "letter" ? (
           <LetterScene
+            onNextScene={() => setCurrentView("badEndingNarrative")}
+            onBackToMenu={() => setCurrentView("badEndingNarrative")}
+          />
+        ) : currentView === "badEndingNarrative" ? (
+          <BadEndingNarrative
+            onNextScene={() => setCurrentView("menu")}
             onBackToMenu={() => setCurrentView("menu")}
           />
         ) : currentView === "stay" ? (

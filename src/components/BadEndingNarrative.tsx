@@ -9,7 +9,7 @@ interface BadEndingNarrativeProps {
 }
 
 const narrativeText =
-  "[Ending 2]\n\nNgejar hati seseorang itu kek ngejar bayangan. Kita ga bisa memaksa orang yang kita sayang bisa ngerasain hal yang kita rasain kalo dia emang ga ngerti rasanya.\n\nMau sebanyak apapun kata-kata apa yang kita ucapin, orang ga bakal bisa rasain sakitnya.\n\nKarna kek musim kemarau yang tiba tiba ujan, kita gabisa tau dan gimana mencegahnya. Kalo komunikasi gak ada gimana kita tau jawabannya";
+  "[Ending 2]\n\nNgejar hati seseorang itu kek ngejar bayangan. Kita ga bisa memaksa orang yang kita sayang bisa ngerasain hal yang kita rasain kalo dia emang ga ngerti rasanya.\n\nMau sebanyak apapun kata-kata apa yang kita ucapin, orang ga bakal bisa rasain rasa capek dan sakit yang kita rasakan.\n\nKarna kek musim kemarau yang tiba tiba ujan, kita gabisa tau kapan datengnya dan gimana mencegahnya. Kalo payung gak ada gimana kita bisa melewati hujan itu.. \n\nJadi tetaplah berkomunikasi dan berikan ruang ke orang itu selagi bisa :)";
 
 export function BadEndingNarrative({ onBackToMenu, onNextScene }: BadEndingNarrativeProps) {
   const [displayedText, setDisplayedText] = useState("");

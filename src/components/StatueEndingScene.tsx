@@ -42,7 +42,7 @@ const dialogueData: DialogueLine[] = [
   {
     speaker: "KIBO",
     badgeBg: "bg-[#bae1ff]",
-    text: "Aii, kamu pergi saja, aku akan menyerahkan diri ke petugas, setelah itu kamu bisa keluar dengan aman tanpa ketahuan",
+    text: "Aii, kamu pergi aja, aku akan menyerahkan diri ke petugas, biar kamu bisa keluar dengan aman tanpa ketahuan",
     expression: "/char/kibo/marah.png",
   },
   {
@@ -74,6 +74,9 @@ export function StatueEndingScene({
   const [lastAiiExpr, setLastAiiExpr] = useState("/char/aii/kaget.png");
   const [lastKiboExpr, setLastKiboExpr] = useState("/char/kibo/kaget.png");
 
+  const [timeLeft, setTimeLeft] = useState(10);
+  const [isChoiceActive, setIsChoiceActive] = useState(false);
+
   useEffect(() => {
     const fadeTimer = setTimeout(() => {
       setIsEnteringScene(false);
@@ -83,6 +86,33 @@ export function StatueEndingScene({
       clearTimeout(fadeTimer);
     };
   }, []);
+
+  const currentDialogue = dialogueData[currentLineIndex];
+  const isFinalLine = currentLineIndex === dialogueData.length - 1;
+
+  useEffect(() => {
+    if (isFinalLine && isTypingComplete && !isExiting) {
+      setIsChoiceActive(true);
+    }
+  }, [isFinalLine, isTypingComplete, isExiting]);
+
+  useEffect(() => {
+    if (!isChoiceActive || isExiting) return;
+
+    if (timeLeft <= 0) {
+      setIsChoiceActive(false);
+      handleLeaveKibo();
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isChoiceActive, timeLeft, isExiting]);
 
   useEffect(() => {
     const currentDialogue = dialogueData[currentLineIndex];
@@ -121,6 +151,8 @@ export function StatueEndingScene({
   }, [currentLineIndex]);
 
   const handleBoxClick = () => {
+    if (isFinalLine && isTypingComplete) return;
+
     playButtonSound();
     const currentDialogue = dialogueData[currentLineIndex];
     if (!isTypingComplete) {
@@ -136,6 +168,7 @@ export function StatueEndingScene({
 
   const handleBackToMenu = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
+    setIsChoiceActive(false);
     playButtonSound();
     if (isExiting) return;
     setIsExiting(true);
@@ -146,6 +179,7 @@ export function StatueEndingScene({
 
   const handleNextScene = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
+    setIsChoiceActive(false);
     playButtonSound();
     if (isExiting) return;
     setIsExiting(true);
@@ -160,6 +194,7 @@ export function StatueEndingScene({
 
   const handleLeaveKibo = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
+    setIsChoiceActive(false);
     playButtonSound();
     if (isExiting) return;
     setIsExiting(true);
@@ -171,9 +206,6 @@ export function StatueEndingScene({
       }
     }, 1000);
   };
-
-  const currentDialogue = dialogueData[currentLineIndex];
-  const isFinalLine = currentLineIndex === dialogueData.length - 1;
 
   useEffect(() => {
     if (isTypingComplete && currentDialogue) {
@@ -322,6 +354,12 @@ export function StatueEndingScene({
 
           {isFinalLine && isTypingComplete && (
             <div className="mt-2.5 flex flex-col gap-2 w-full pt-1" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between px-1">
+                <span className="font-press-start text-[8px] sm:text-[9px] font-bold text-[#e63946] flex items-center gap-1.5 animate-pulse">
+                  <span>WAKTU MEMILIH: {timeLeft} DETIK</span>
+                </span>
+              </div>
+
               <Button
                 variant="mint"
                 onClick={onNextScene ? handleNextScene : handleBackToMenu}
