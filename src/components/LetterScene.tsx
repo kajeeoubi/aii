@@ -58,6 +58,14 @@ And I'm trying... really trying.
 Tapi kadang-kadang aku masih ngerasa ada lubang besar yang belum bisa aku isi.
 Lubang karena kehilangan seseorang yang dulu bikin aku bahagia, yang selalu jadi semangatku, dan yang tanpa sadar bikin aku ingin jadi pribadi yang lebih baik.
 
+Kalo kamu bertanya tanya padahal banyak wanita lain diluar sana, aku bisa jawab ini..
+
+I don't want to find better,
+I want us to be better.
+
+You are special for me.
+And nothing gonna change that.
+
 Maybe in another life...
 
 Aku berharap kita dipertemukan lagi dalam versi terbaik kita masing-masing. Tanpa rasa takut, tanpa ego, tanpa kesalahan yang sama.
