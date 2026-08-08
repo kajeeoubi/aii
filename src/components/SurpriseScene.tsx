@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Home as HomeIcon, BouncingArrow } from "@pxlkit/ui";
 import { playButtonSound, playTypewriterSound, playPopSound, setBGMVolume, BGM_VOLUME_NORMAL, BGM_VOLUME_LOW } from "@/lib/audioManager";
 import { PxlIcon, PxlKitIconData } from "@/components/PxlIcon";
+import confetti from "canvas-confetti";
 
 interface SurpriseSceneProps {
   onBackToMenu?: () => void;
@@ -133,6 +134,42 @@ export function SurpriseScene({ onBackToMenu, onNextScene }: SurpriseSceneProps)
 
     const currentDialogue = dialogueData[currentLineIndex];
     if (!currentDialogue) return;
+
+    if (currentDialogue.speaker === "KIBO" && currentDialogue.text.includes("SURPRISEEee")) {
+      confetti({
+        particleCount: 120,
+        spread: 100,
+        origin: { y: 0.6 },
+        colors: ["#ffb3ba", "#ffffba", "#b5ead7", "#c7ceea", "#e2f0cb", "#ffd166"],
+      });
+
+      const duration = 3500;
+      const end = Date.now() + duration;
+      const colors = ["#ffb3ba", "#ffffba", "#b5ead7", "#c7ceea", "#e2f0cb", "#ffd166"];
+
+      const frame = () => {
+        confetti({
+          particleCount: 3,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.7 },
+          colors,
+        });
+        confetti({
+          particleCount: 3,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.7 },
+          colors,
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      };
+
+      frame();
+    }
 
     const initialExpr = currentDialogue.typingExpression || currentDialogue.expression;
     if (currentDialogue.speaker === "AII" && initialExpr) {
