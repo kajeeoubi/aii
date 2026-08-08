@@ -1,14 +1,11 @@
 let bgmAudio: HTMLAudioElement | null = null;
-let bgmSourceNode: MediaElementAudioSourceNode | null = null;
-let bgmGainNode: GainNode | null = null;
 let currentTrackSrc: string | null = null;
-let fadeInterval: NodeJS.Timeout | null = null;
+let currentTargetVolume: number = 0.5;
+let fadeAnimationId: number | null = null;
 let gestureListenerActive = false;
 
 export const BGM_VOLUME_NORMAL = 0.5;
 export const BGM_VOLUME_LOW = 0.3;
-
-let currentTargetVolume = BGM_VOLUME_NORMAL;
 
 let audioCtx: AudioContext | null = null;
 
@@ -31,60 +28,15 @@ function getBGMElement(): HTMLAudioElement {
   if (!bgmAudio) {
     bgmAudio = new Audio();
     bgmAudio.loop = true;
-    bgmAudio.volume = 1;
+    bgmAudio.volume = 0;
   }
-  setupBGMWebAudio();
   return bgmAudio;
 }
 
-function setupBGMWebAudio(): GainNode | null {
-  if (bgmGainNode) return bgmGainNode;
-  const ctx = getAudioContext();
-  if (!ctx || !bgmAudio) return null;
-
-  try {
-    if (!bgmSourceNode) {
-      bgmSourceNode = ctx.createMediaElementSource(bgmAudio);
-      bgmGainNode = ctx.createGain();
-      bgmGainNode.gain.value = 0;
-      bgmSourceNode.connect(bgmGainNode);
-      bgmGainNode.connect(ctx.destination);
-    }
-  } catch {
-  }
-  return bgmGainNode;
-}
-
-function setBGMVolumeInternal(vol: number) {
-  const clamped = Math.max(0, Math.min(1, vol));
-  const gain = setupBGMWebAudio();
-  if (gain) {
-    gain.gain.value = clamped;
-    if (bgmAudio) {
-      try {
-        bgmAudio.volume = 1;
-      } catch {
-      }
-    }
-  } else if (bgmAudio) {
-    try {
-      bgmAudio.volume = clamped;
-    } catch {
-    }
-  }
-}
-
-function getBGMVolumeInternal(): number {
-  if (bgmGainNode) {
-    return bgmGainNode.gain.value;
-  }
-  return bgmAudio ? bgmAudio.volume : 0;
-}
-
-function clearFade() {
-  if (fadeInterval) {
-    clearInterval(fadeInterval);
-    fadeInterval = null;
+function cancelFadeAnimation() {
+  if (fadeAnimationId !== null) {
+    cancelAnimationFrame(fadeAnimationId);
+    fadeAnimationId = null;
   }
 }
 
@@ -105,7 +57,10 @@ function setupGestureListener() {
     }
 
     if (bgmAudio && currentTrackSrc && isMusicEnabled()) {
-      startFadeIn(bgmAudio, currentTargetVolume);
+      if (bgmAudio.paused) {
+        bgmAudio.play().catch(() => {});
+      }
+      fadeVolumeTo(currentTargetVolume, 800);
     }
   };
 
@@ -115,151 +70,164 @@ function setupGestureListener() {
   window.addEventListener("keydown", handleUserGesture);
 }
 
-function startFadeIn(audio: HTMLAudioElement, targetVol: number = currentTargetVolume) {
-  clearFade();
-  setBGMVolumeInternal(0);
+/**
+ * Smoothly fades `bgmAudio.volume` from its current level to `targetVol` over `durationMs`.
+ */
+function fadeVolumeTo(targetVol: number, durationMs: number = 800, onComplete?: () => void) {
+  cancelFadeAnimation();
 
-  if (!isMusicEnabled()) return;
-
-  const ctx = getAudioContext();
-  if (ctx && ctx.state === "suspended") {
-    ctx.resume().catch(() => {});
+  if (!bgmAudio) {
+    if (onComplete) onComplete();
+    return;
   }
 
-  const playPromise = audio.play();
-  if (playPromise !== undefined) {
-    playPromise
-      .then(() => {
-        let currentVol = 0;
-        const steps = 50;
-        const fadeInStep = targetVol / steps;
+  const startVol = bgmAudio.volume;
+  const endVol = Math.max(0, Math.min(1, targetVol));
 
-        fadeInterval = setInterval(() => {
-          currentVol = Math.min(targetVol, currentVol + fadeInStep);
-          setBGMVolumeInternal(currentVol);
-
-          if (currentVol >= targetVol) {
-            clearFade();
-            setBGMVolumeInternal(targetVol);
-          }
-        }, 30);
-      })
-      .catch(() => {
-        setupGestureListener();
-      });
+  if (Math.abs(startVol - endVol) < 0.005 || durationMs <= 0) {
+    bgmAudio.volume = endVol;
+    if (onComplete) onComplete();
+    return;
   }
+
+  const startTime = performance.now();
+
+  const step = (now: number) => {
+    if (!bgmAudio) return;
+
+    const elapsed = now - startTime;
+    const progress = Math.min(1, elapsed / durationMs);
+
+    // Smooth step (easeInOutQuad)
+    const eased = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+    const currentVol = startVol + (endVol - startVol) * eased;
+    bgmAudio.volume = Math.max(0, Math.min(1, currentVol));
+
+    if (progress < 1) {
+      fadeAnimationId = requestAnimationFrame(step);
+    } else {
+      bgmAudio.volume = endVol;
+      fadeAnimationId = null;
+      if (onComplete) onComplete();
+    }
+  };
+
+  fadeAnimationId = requestAnimationFrame(step);
 }
 
 export function playBGM(src: string = "/audio/bgm/stars.mp3", targetVol: number = BGM_VOLUME_NORMAL) {
   if (typeof window === "undefined") return;
 
   currentTargetVolume = targetVol;
-  const audio = getBGMElement();
 
-  // If already playing this track
-  if (currentTrackSrc === src && !audio.paused && getBGMVolumeInternal() > 0) {
-    setBGMVolume(targetVol, 1000);
-    return;
-  }
-
-  // If music is disabled
   if (!isMusicEnabled()) {
     pauseBGM();
     return;
   }
 
-  clearFade();
+  const audio = getBGMElement();
 
-  if (currentTrackSrc && currentTrackSrc !== src && !audio.paused && getBGMVolumeInternal() > 0) {
-    // Fade out current track over 50 steps, then switch src and fade in
-    let currentVol = getBGMVolumeInternal();
-    const fadeOutStep = currentVol / 50;
+  // Check if same track is already loaded
+  const isSameTrack = currentTrackSrc === src && audio.src && audio.src.endsWith(src.replace(/^\//, ""));
 
-    fadeInterval = setInterval(() => {
-      currentVol = Math.max(0, currentVol - fadeOutStep);
-      setBGMVolumeInternal(currentVol);
-
-      if (currentVol <= 0) {
-        clearFade();
-        audio.pause();
-        audio.src = src;
-        currentTrackSrc = src;
-        startFadeIn(audio, targetVol);
-      }
-    }, 40);
-  } else {
-    // Starting fresh or resuming
-    if (currentTrackSrc !== src || !audio.src) {
-      audio.src = src;
-      currentTrackSrc = src;
+  if (isSameTrack) {
+    if (audio.paused) {
+      audio.play().catch(() => setupGestureListener());
     }
-    startFadeIn(audio, targetVol);
+    fadeVolumeTo(targetVol, 800);
+    return;
   }
+
+  // Atomically set requested track
+  currentTrackSrc = src;
+
+  // If paused or volume is practically 0, immediately swap src and play
+  if (audio.paused || audio.volume <= 0.01) {
+    cancelFadeAnimation();
+    audio.pause();
+    audio.src = src;
+    audio.currentTime = 0;
+    audio.volume = 0;
+
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          fadeVolumeTo(targetVol, 800);
+        })
+        .catch(() => {
+          setupGestureListener();
+        });
+    }
+  } else {
+    // Cross-fade: fade out current track over 300ms, then swap src and fade in
+    fadeVolumeTo(0, 300, () => {
+      // Check if track request changed again during fade-out
+      if (currentTrackSrc !== src) {
+        return;
+      }
+      audio.pause();
+      audio.src = src;
+      audio.currentTime = 0;
+      audio.volume = 0;
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            fadeVolumeTo(currentTargetVolume, 800);
+          })
+          .catch(() => {
+            setupGestureListener();
+          });
+      }
+    });
+  }
+}
+
+export function setBGMVolume(targetVol: number = currentTargetVolume, durationMs: number = 800) {
+  if (typeof window === "undefined") return;
+  currentTargetVolume = targetVol;
+
+  if (!isMusicEnabled()) return;
+  if (!bgmAudio || bgmAudio.paused) return;
+
+  fadeVolumeTo(targetVol, durationMs);
 }
 
 export function resumeBGM(targetVol: number = currentTargetVolume) {
   if (typeof window === "undefined") return;
-  if (!bgmAudio) return;
   if (!isMusicEnabled()) return;
 
-  clearFade();
-  startFadeIn(bgmAudio, targetVol);
+  currentTargetVolume = targetVol;
+  const audio = getBGMElement();
+
+  if (currentTrackSrc) {
+    if (audio.paused) {
+      audio.play().catch(() => setupGestureListener());
+    }
+    fadeVolumeTo(targetVol, 800);
+  } else {
+    playBGM("/audio/bgm/stars.mp3", targetVol);
+  }
 }
 
 export function pauseBGM() {
   if (typeof window === "undefined") return;
-  if (!bgmAudio || bgmAudio.paused) return;
+  if (!bgmAudio) return;
 
-  clearFade();
-  let currentVol = getBGMVolumeInternal();
-  const fadeOutStep = currentVol / 50;
-
-  fadeInterval = setInterval(() => {
-    currentVol = Math.max(0, currentVol - fadeOutStep);
-    setBGMVolumeInternal(currentVol);
-
-    if (currentVol <= 0) {
-      clearFade();
-      if (bgmAudio) {
-        bgmAudio.pause();
-        setBGMVolumeInternal(0);
-      }
+  fadeVolumeTo(0, 400, () => {
+    if (bgmAudio) {
+      bgmAudio.pause();
     }
-  }, 40);
-}
-
-export function setBGMVolume(targetVol: number = currentTargetVolume, durationMs: number = 1000) {
-  if (typeof window === "undefined") return;
-  currentTargetVolume = targetVol;
-  if (!bgmAudio || bgmAudio.paused) return;
-
-  clearFade();
-  const startVol = getBGMVolumeInternal();
-  if (Math.abs(startVol - targetVol) < 0.01) {
-    setBGMVolumeInternal(targetVol);
-    return;
-  }
-
-  const steps = Math.max(1, Math.floor(durationMs / 30));
-  const stepAmount = (targetVol - startVol) / steps;
-  let currentStep = 0;
-
-  fadeInterval = setInterval(() => {
-    currentStep++;
-    const nextVol = startVol + stepAmount * currentStep;
-    setBGMVolumeInternal(nextVol);
-
-    if (currentStep >= steps) {
-      clearFade();
-      setBGMVolumeInternal(targetVol);
-    }
-  }, 30);
+  });
 }
 
 export function toggleBGM(enabled: boolean) {
   setMusicEnabledStorage(enabled);
   if (enabled) {
-    playBGM(currentTrackSrc || "/audio/bgm/stars.mp3");
+    playBGM(currentTrackSrc || "/audio/bgm/stars.mp3", currentTargetVolume);
   } else {
     pauseBGM();
   }
@@ -316,7 +284,6 @@ export function playButtonSound() {
     // ignore
   }
 }
-
 
 let footstepAudio: HTMLAudioElement | null = null;
 let footstepTimeout: NodeJS.Timeout | null = null;
@@ -385,4 +352,3 @@ export function stopFootstepSound() {
     footstepAudio.currentTime = 0;
   }
 }
-
